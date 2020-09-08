@@ -37,6 +37,22 @@
     </license>
   </licenses>
 
+  <distributionManagement>
+    <repository>
+      <id>aerius-nexus</id>
+      <url>https://nexus.aerius.nl/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>aerius-nexus</id>
+      <url>https://nexus.aerius.nl/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com:aerius/gwt-client-common.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com:aerius/gwt-client-common.git</developerConnection>
+  </scm>
+
   <repositories>
     <repository>
       <id>aerius-nexus-public</id>
@@ -60,10 +76,6 @@
     <autovalue-processors.version>1.0-SNAPSHOT</autovalue-processors.version>
     <common-json.version>1.0-SNAPSHOT</common-json.version>
   </properties>
-
-  <scm>
-    <developerConnection>scm:git:ssh://git@github.com:aerius/aerius-atlas.git</developerConnection>
-  </scm>
 
   <dependencyManagement>
     <dependencies>
@@ -137,6 +149,21 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
