@@ -44,7 +44,7 @@
         <artifactId>gwt-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <moduleName>nl.overheid.aerius.GeoOpenLayers3</moduleName>
+          <moduleName>nl.aerius.GeoOpenLayers3</moduleName>
         </configuration>
       </plugin>
     </plugins>

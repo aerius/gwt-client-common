@@ -18,7 +18,7 @@
 -->
 <module>
   <inherits name="com.google.gwt.user.User" />
-  <inherits name="nl.overheid.aerius.Common" />
+  <inherits name="nl.aerius.Common" />
 
   <source path="geo" />
 </module>

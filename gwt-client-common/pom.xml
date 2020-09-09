@@ -58,7 +58,7 @@
         <artifactId>gwt-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <moduleName>nl.overheid.aerius.Common</moduleName>
+          <moduleName>nl.aerius.Common</moduleName>
         </configuration>
       </plugin>
     </plugins>

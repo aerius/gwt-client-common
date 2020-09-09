@@ -51,7 +51,7 @@
         <artifactId>gwt-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <moduleName>nl.overheid.aerius.Geo</moduleName>
+          <moduleName>nl.aerius.Geo</moduleName>
         </configuration>
       </plugin>
     </plugins>

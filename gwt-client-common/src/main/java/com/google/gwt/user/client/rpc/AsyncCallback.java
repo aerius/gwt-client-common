@@ -15,7 +15,7 @@
  */
 package com.google.gwt.user.client.rpc;
 
-import nl.overheid.aerius.wui.dev.GWTProd;
+import nl.aerius.wui.dev.GWTProd;
 
 /**
  * The primary interface a caller must implement to receive a response from a
