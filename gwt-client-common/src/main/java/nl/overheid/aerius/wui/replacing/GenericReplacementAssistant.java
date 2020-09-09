@@ -40,7 +40,8 @@ public abstract class GenericReplacementAssistant extends BasicEventComponent im
     cleanSoftKeys(ret);
     final String returnString = ret.toString();
 
-    // TODO I'd prefer to do this with a regex, but the regex (above) seems to be broken in some cases
+    // TODO I'd prefer to do this with a regex, but the regex (above) seems to be
+    // broken in some cases
     if (returnString.contains("{") && returnString.contains("}") && returnString.indexOf("{") < returnString.indexOf("}")) {
       throw new IllegalStateException("Unreplaced tags were left in origin String: " + returnString);
     }

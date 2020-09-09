@@ -95,7 +95,7 @@
         <artifactId>gwt-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <moduleName>nl.overheid.aerius.Vue</moduleName>
+          <moduleName>nl.overheid.aerius.CommonVue</moduleName>
         </configuration>
       </plugin>
     </plugins>

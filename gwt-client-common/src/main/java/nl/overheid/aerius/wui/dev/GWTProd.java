@@ -16,7 +16,18 @@
  */
 package nl.overheid.aerius.wui.dev;
 
-public class GWTProd {
+public final class GWTProd {
+  private static boolean dev = true;
+
+  private GWTProd() {}
+
+  public static void setIsDev(final boolean dev) {
+    GWTProd.dev = dev;
+  }
+
+  public static boolean isDev() {
+    return dev;
+  }
 
   /**
    * Logs a message to the console. Calls are _not_ optimized out in Production Mode.

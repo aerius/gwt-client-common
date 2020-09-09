@@ -25,7 +25,7 @@ import nl.overheid.aerius.wui.event.BasicEventComponent;
 import nl.overheid.aerius.wui.event.HasEventBus;
 import nl.overheid.aerius.wui.vue.AcceptsOneComponent;
 
-public abstract class AbstractVueActivity<P extends Presenter, V extends IsVueComponent, F extends VueComponentFactory<V>>
+public abstract class AbstractVueActivity<P, V extends IsVueComponent, F extends VueComponentFactory<V>>
     extends BasicEventComponent implements Activity<P, AcceptsOneComponent>, HasEventBus {
   private final F factory;
 

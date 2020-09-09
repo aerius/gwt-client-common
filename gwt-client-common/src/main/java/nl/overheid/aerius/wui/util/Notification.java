@@ -18,43 +18,55 @@ package nl.overheid.aerius.wui.util;
 
 import java.util.Date;
 
+/**
+ * Represents a notification entry as in the NotificationPanel.
+ */
 public class Notification {
   public enum Type {
     MESSAGE, WARNING, ERROR;
   }
 
   private final String message;
+  private final String url;
   private final Throwable exception;
-
   private final Type type;
-
-  private final long reference;
+  private final Date dateTime;
 
   public Notification(final String msg) {
-    this(msg, (Throwable) null, Type.MESSAGE);
+    this(msg, null, null, Type.MESSAGE);
   }
 
   public Notification(final Throwable ex) {
-    this(null, ex, Type.ERROR);
+    this(null, null, ex, Type.ERROR);
+  }
+
+  public Notification(final String msg, final String url) {
+    this(msg, url, (Throwable) null, Type.MESSAGE);
+  }
+
+  @Deprecated
+  public Notification(final String msg, final boolean isError) {
+    this(msg, null, null, Type.ERROR);
   }
 
   public Notification(final String msg, final Throwable exception) {
-    this(msg, exception, Type.ERROR);
+    this(msg, null, exception, Type.ERROR);
   }
 
   public Notification(final Throwable ex, final Type type) {
-    this(null, ex, type);
+    this(null, null, ex, type);
   }
 
   public Notification(final String msg, final Type type) {
-    this(msg, (Throwable) null, type);
+    this(msg, null, (Throwable) null, type);
   }
 
-  private Notification(final String msg, final Throwable exception, final Type type) {
+  private Notification(final String msg, final String url, final Throwable exception, final Type type) {
     this.message = msg;
+    this.url = url;
     this.exception = exception;
     this.type = type;
-    this.reference = new Date().getTime();
+    dateTime = new Date();
   }
 
   public Throwable getException() {
@@ -62,7 +74,11 @@ public class Notification {
   }
 
   public String getMessage() {
-    return message == null ? exception == null ? "" : exception.getMessage() : message;
+    return message == null ? exception == null || exception.getMessage() == null ? "" : exception.getMessage() : message;
+  }
+
+  public String getUrl() {
+    return url;
   }
 
   public boolean isError() {
@@ -73,11 +89,20 @@ public class Notification {
     return type == Type.MESSAGE;
   }
 
+  public boolean hasMessage() {
+    return message != null;
+  }
+
   public boolean isWarning() {
     return type == Type.WARNING;
   }
 
-  public long getReference() {
-    return reference;
+  public Date getDateTime() {
+    return dateTime;
+  }
+
+  @Override
+  public String toString() {
+    return "Notification [message=" + message + ", exception=" + exception + ", type=" + type + "]";
   }
 }
