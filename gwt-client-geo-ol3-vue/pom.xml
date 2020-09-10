@@ -75,7 +75,6 @@
             <arg>-generateJsInteropExports</arg>
           </codeserverArgs>
           <skipModule>true</skipModule>
-          <moduleName>nl.overheid.aerius.GeoOL3Vue</moduleName>
         </configuration>
       </plugin>
 

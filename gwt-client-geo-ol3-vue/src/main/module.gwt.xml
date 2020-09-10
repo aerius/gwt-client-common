@@ -18,11 +18,11 @@
 -->
 <module>
   <inherits name="com.google.gwt.user.User" />
-  <inherits name="nl.overheid.aerius.Geo" />
+  <inherits name="nl.aerius.Geo" />
 
   <inherits name="ol.GwtOL" />
   
-  <extend-configuration-property name="aerius.ginModules" value="nl.overheid.aerius.geo.OpenLayers3ClientModule" />
+  <extend-configuration-property name="aerius.ginModules" value="nl.aerius.geo.OpenLayers3ClientModule" />
   
   <source path="geo" />
 </module>
