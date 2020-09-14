@@ -69,7 +69,6 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
     }
 
     // Remove event handlers
-    GWTProd.log("ActivityManager", "Removing handlers");
     activityEventBus.removeHandlers();
 
     // Start next activity
