@@ -2,5 +2,5 @@
 <module>
   <inherits name="com.google.web.bindery.event.EventBinder"/>
 
-  <source path="" />
+  <source path="wui" />
 </module>
