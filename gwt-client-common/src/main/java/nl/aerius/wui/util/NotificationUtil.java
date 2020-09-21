@@ -39,8 +39,19 @@ public final class NotificationUtil {
    * @param txt the message text to broadcast
    * @param url additional url
    */
-  public static void broadcastMessage(final EventBus eventBus, final String txt, final String url) {
-    broadcast(eventBus, new Notification(txt, url));
+  public static void broadcastMessage(final EventBus eventBus, final String title, final String txt) {
+    broadcast(eventBus, new Notification(title, txt));
+  }
+
+  /**
+   * Broadcasts a message. Text. Not an error.
+   *
+   * @param eventBus the bus to broadcast over
+   * @param txt the message text to broadcast
+   * @param url additional url
+   */
+  public static void broadcastMessage(final EventBus eventBus, final String title, final String txt, final String url) {
+    broadcast(eventBus, new Notification(title, txt, url));
   }
 
   /**
@@ -54,6 +65,16 @@ public final class NotificationUtil {
   }
 
   /**
+   * Broadcasts an error. Text. Not a message.
+   *
+   * @param eventBus the bus to broadcast over
+   * @param txt the error text to broadcast
+   */
+  public static void broadcastError(final EventBus eventBus, final String title, final String txt) {
+    broadcast(eventBus, new Notification(title, txt, Type.ERROR));
+  }
+
+  /**
    * Broadcasts an error. Exception.
    *
    * @param eventBusthe bus to broadcast over
@@ -61,6 +82,26 @@ public final class NotificationUtil {
    */
   public static void broadcastError(final EventBus eventBus, final Throwable error) {
     broadcast(eventBus, new Notification(error));
+  }
+
+  /**
+   * Broadcasts a warning. Exception.
+   *
+   * @param eventBus the bus to broadcast over
+   * @param error the error to broadcast
+   */
+  public static void broadcastWarning(final EventBus eventBus, final String message) {
+    broadcast(eventBus, new Notification(message, Type.WARNING));
+  }
+
+  /**
+   * Broadcasts a warning. Exception.
+   *
+   * @param eventBus the bus to broadcast over
+   * @param error the error to broadcast
+   */
+  public static void broadcastWarning(final EventBus eventBus, final String title, final String message) {
+    broadcast(eventBus, new Notification(title, message, Type.WARNING));
   }
 
   /**

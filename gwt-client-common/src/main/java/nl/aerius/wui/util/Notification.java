@@ -26,42 +26,51 @@ public class Notification {
     MESSAGE, WARNING, ERROR;
   }
 
+  private final String title;
   private final String message;
   private final String url;
   private final Throwable exception;
   private final Type type;
   private final Date dateTime;
 
+  public Notification(final String title, final String msg) {
+    this(title, msg, null, null, Type.MESSAGE);
+  }
+
   public Notification(final String msg) {
-    this(msg, null, null, Type.MESSAGE);
+    this(null, msg, null, null, Type.MESSAGE);
   }
 
   public Notification(final Throwable ex) {
-    this(null, null, ex, Type.ERROR);
+    this(null, null, null, ex, Type.ERROR);
   }
 
-  public Notification(final String msg, final String url) {
-    this(msg, url, (Throwable) null, Type.MESSAGE);
+  public Notification(final String title, final String msg, final String url) {
+    this(title, msg, url, (Throwable) null, Type.MESSAGE);
   }
 
-  @Deprecated
-  public Notification(final String msg, final boolean isError) {
-    this(msg, null, null, Type.ERROR);
+  public Notification(final String title, final String msg, final Throwable exception) {
+    this(title, msg, null, exception, Type.ERROR);
   }
 
   public Notification(final String msg, final Throwable exception) {
-    this(msg, null, exception, Type.ERROR);
+    this(null, msg, null, exception, Type.ERROR);
   }
 
   public Notification(final Throwable ex, final Type type) {
-    this(null, null, ex, type);
+    this(null, null, null, ex, type);
+  }
+
+  public Notification(final String title, final String msg, final Type type) {
+    this(title, msg, null, (Throwable) null, type);
   }
 
   public Notification(final String msg, final Type type) {
-    this(msg, null, (Throwable) null, type);
+    this(null, msg, null, (Throwable) null, type);
   }
 
-  private Notification(final String msg, final String url, final Throwable exception, final Type type) {
+  private Notification(final String title, final String msg, final String url, final Throwable exception, final Type type) {
+    this.title = title;
     this.message = msg;
     this.url = url;
     this.exception = exception;
@@ -104,5 +113,9 @@ public class Notification {
   @Override
   public String toString() {
     return "Notification [message=" + message + ", exception=" + exception + ", type=" + type + "]";
+  }
+
+  public String getTitle() {
+    return title;
   }
 }

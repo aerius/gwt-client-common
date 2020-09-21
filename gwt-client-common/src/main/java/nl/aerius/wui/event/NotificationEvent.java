@@ -18,7 +18,8 @@ package nl.aerius.wui.event;
 
 import nl.aerius.wui.util.Notification;
 
-public class NotificationEvent extends SimpleGenericEvent<Notification> { public NotificationEvent(final Notification notification) {
+public class NotificationEvent extends SimpleGenericEvent<Notification> {
+  public NotificationEvent(final Notification notification) {
     super(notification);
   }
 }
