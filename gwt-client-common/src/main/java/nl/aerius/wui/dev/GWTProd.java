@@ -16,8 +16,12 @@
  */
 package nl.aerius.wui.dev;
 
+import com.google.web.bindery.event.shared.EventBus;
+
 public final class GWTProd {
   private static boolean dev = true;
+
+  private static EventBus eventBus;
 
   private GWTProd() {}
 
@@ -25,44 +29,52 @@ public final class GWTProd {
     GWTProd.dev = dev;
   }
 
+  public static void setEventBus(final EventBus eventBus) {
+    GWTProd.eventBus = eventBus;
+  }
+
   public static boolean isDev() {
     return dev;
   }
 
   /**
-   * Logs a message to the console. Calls are _not_ optimized out in Production Mode.
+   * Logs a message to the console. Calls are _not_ optimized out in Production
+   * Mode.
    */
   public static native void log(String marker, Object message) /*-{
-    console.info(marker, message);
-  }-*/;
-  
+                                                               console.info(marker, message);
+                                                               }-*/;
+
   /**
-   * Logs a message to the console. Calls are _not_ optimized out in Production Mode.
+   * Logs a message to the console. Calls are _not_ optimized out in Production
+   * Mode.
    */
   public static native void log(Object message) /*-{
-    console.info(message );
-  }-*/;
+                                                console.info(message );
+                                                }-*/;
 
   /**
-   * Logs a message to the warn console. Calls are _not_ optimized out in Production Mode.
+   * Logs a message to the warn console. Calls are _not_ optimized out in
+   * Production Mode.
    */
   public static native void warn(Object message) /*-{
-    console.warn(message );
-  }-*/; 
+                                                 console.warn(message );
+                                                 }-*/;
 
   /**
-   * Logs a message to the warn console. Calls are _not_ optimized out in Production Mode.
+   * Logs a message to the warn console. Calls are _not_ optimized out in
+   * Production Mode.
    */
   public static native void error(Object message) /*-{
-    console.error(message);
-  }-*/;
+                                                  console.error(message);
+                                                  }-*/;
 
   public static void info(final String string) {
     log("INFO", string);
   }
 
   public static void error(final String marker, final String string) {
-    error("[" + marker + "] " + string); 
+    error("[" + marker + "] " + string);
   }
 
   public static void error(final String marker, final String string, final Exception e) {
@@ -70,19 +82,25 @@ public final class GWTProd {
   }
 
   public static void error(final String string, final Throwable e) {
-    error(string); 
+    error(string);
     e.printStackTrace();
   }
 
   public static void warn(final String marker, final String string) {
-    warn("[" + marker + "] " + string);
+    final String msg = "[" + marker + "] " + string;
+
+    warn(msg);
+
+    if (eventBus != null) {
+      eventBus.fireEvent(new WarningEvent(msg));
+    }
   }
-  
+
   public static native void time(String marker) /*-{
-    console.time(marker);
-  }-*/;
-  
+                                                console.time(marker);
+                                                }-*/;
+
   public static native void timeEnd(String marker) /*-{
-    console.timeEnd(marker);
-  }-*/;
+                                                   console.timeEnd(marker);
+                                                   }-*/;
 }
