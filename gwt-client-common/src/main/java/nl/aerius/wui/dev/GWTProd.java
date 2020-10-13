@@ -57,9 +57,9 @@ public final class GWTProd {
    * Logs a message to the warn console. Calls are _not_ optimized out in
    * Production Mode.
    */
-  public static native void warn(Object message) /*-{
-                                                 console.warn(message );
-                                                 }-*/;
+  public static native void warnInternal(Object message) /*-{
+                                                         console.warn(message );
+                                                         }-*/;
 
   /**
    * Logs a message to the warn console. Calls are _not_ optimized out in
@@ -86,14 +86,18 @@ public final class GWTProd {
     e.printStackTrace();
   }
 
+  public static void warn(final Object message) {
+    warnInternal(message);
+
+    if (eventBus != null) {
+      eventBus.fireEvent(new WarningEvent(String.valueOf(message)));
+    }
+  }
+
   public static void warn(final String marker, final String string) {
     final String msg = "[" + marker + "] " + string;
 
     warn(msg);
-
-    if (eventBus != null) {
-      eventBus.fireEvent(new WarningEvent(msg));
-    }
   }
 
   public static native void time(String marker) /*-{
