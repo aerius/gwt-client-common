@@ -1,0 +1,126 @@
+<!--
+
+    Copyright the State of the Netherlands
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see http://www.gnu.org/licenses/.
+
+-->
+<!-- Copyright the State of the Netherlands This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General 
+  Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed 
+  in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program. 
+  If not, see http://www.gnu.org/licenses/. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>nl.aerius</groupId>
+    <artifactId>gwt-vuelidate-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>gwt-vuelidate-demo-client</artifactId>
+  <name>Commons :: gwt-vuelidate :: demo :: client</name>
+  <packaging>gwt-app</packaging>
+
+  <properties>
+    <vue.version>1.0-beta-10-AERIUS</vue.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>vue-gwt-yogh-patch-repo</id>
+      <url>https://raw.github.com/JornC/vue-gwt/mvn-repo/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>nl.aerius</groupId>
+      <artifactId>gwt-vuelidate</artifactId>
+      <version>${project.version}</version>
+      <type>gwt-lib</type>
+    </dependency>
+
+    <!-- Don't quite understand why these have to be here.. since they should be bommed in (and are). -->
+    <dependency>
+      <groupId>com.axellience</groupId>
+      <artifactId>vue-gwt</artifactId>
+      <version>${vue.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.axellience</groupId>
+      <artifactId>vue-gwt-processors</artifactId>
+      <version>${vue.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgument>-parameters</compilerArgument>
+          <testCompilerArgument>-parameters</testCompilerArgument>
+          <useIncrementalCompilation>false</useIncrementalCompilation>
+
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>1.0-rc-9</version>
+        <extensions>true</extensions>
+        <configuration>
+          <skipModule>false</skipModule>
+          <codeserverArgs>
+            <arg>-generateJsInteropExports</arg>
+          </codeserverArgs>
+          <moduleName>nl.overheid.aerius.Demo</moduleName>
+          <moduleShortName>application</moduleShortName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>vue-gwt-resources</id>
+      <activation>
+        <property>
+          <name>!m2e.version</name>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/java</directory>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+  </profiles>
+</project>

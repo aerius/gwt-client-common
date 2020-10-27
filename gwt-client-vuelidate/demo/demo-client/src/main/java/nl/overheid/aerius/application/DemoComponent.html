@@ -1,0 +1,145 @@
+<div class="all">
+  <form @submit.prevent="submit()">
+    <p>The name validation model is 'touched' (made 'dirty') on input (when user changes the value). Its validations are: required, alpha</p>
+    <label>Name
+      <input v-validate:name.input v-model="name" placeholder="Name (required validation)" >
+    </label>
+    <div v-show="!v.name.required && v.name.dirty">This field is required!</div>
+    <div v-show="!v.name.alpha && v.name.dirty">This field can consist only of alphabetical characters!</div>
+    
+    <p>The email validation model is 'touched' (made 'dirty') on blur (when focus leaves). Its validations are: required, email</p>
+    <label>Email
+      <input v-validate:email.blur v-model="email" placeholder="Email (email validation)" >
+    </label>
+    <div v-show="!v.email.required && v.email.dirty">This field is required!</div>
+    <div v-show="!v.email.email && v.email.dirty">This field must be a valid email address!</div>
+    
+    
+    <p>The secondary email is conditionally required if the checkmark is active</p>
+    <Label>Email is required
+      <input type="checkbox" v-model="secondaryEmailRequired">
+    </Label>
+    <label>Secondary Email
+      <input v-validate:secondaryEmail.blur v-model="secondaryEmail" placeholder="Email (email validation)">
+    </label>
+    <div v-show='!isSecondaryEmailValid() && v.secondaryEmail.dirty'>This field is required!</div>
+    <div v-show='(!v.secondaryEmail.email && v.secondaryEmail.dirty)'>This field must be a valid email address!</div>
+      
+    <pre class="result" :class='map("error", v.invalid || !isSecondaryEmailValid())'>Form valid: {{ !v.invalid && isSecondaryEmailValid() }}</pre>
+    
+    <input type="submit"> 
+    <p>Submitted: {{ submitted }}</p>
+  </form>
+
+  <div class="tree">
+    <div class="blue">"$v":</div>
+    
+    <div class="indent1 blue">"name":</div>
+    <div class="indent2 blue">"$model": "{{ v.name.model }}"</div>
+    <div class="indent2 bool" :class='map("green", !v.name.invalid)'>"$invalid": {{ v.name.invalid }}</div>
+    <div class="indent2 bool" :class='map("green", v.name.dirty)'>"$dirty": {{ v.name.dirty }}</div>
+    <div class="indent2 bool" :class='map("green", v.name.anyDirty)'>"$anyDirty": {{ v.name.anyDirty }}</div>
+    <div class="indent2 bool" :class='map("green", !v.name.error)'>"$error": {{ v.name.error }}</div>
+    <div class="indent2 bool" :class='map("green", !v.name.anyError)'>"$anyError": {{ v.name.anyError }}</div>
+    <div class="indent2 bool" :class='map("green", !v.name.pending)'>"$pending": {{ v.name.pending }}</div>
+    <div class="indent2 bool" :class='map("green", v.name.alpha)'>"alpha": {{ v.name.alpha }}</div>
+    <div class="indent2 bool" :class='map("green", v.name.required)'>"required": {{ v.name.required }}</div>
+    
+    <div class="indent1 blue">"email":</div>
+    <div class="indent2 blue">"$model": "{{ v.email.model }}"</div>
+    <div class="indent2 bool" :class='map("green", !v.email.invalid)'>"$invalid": {{ v.email.invalid }}</div>
+    <div class="indent2 bool" :class='map("green", v.email.dirty)'>"$dirty": {{ v.email.dirty }}</div>
+    <div class="indent2 bool" :class='map("green", v.email.anyDirty)'>"$anyDirty": {{ v.email.anyDirty }}</div>
+    <div class="indent2 bool" :class='map("green", !v.email.error)'>"$error": {{ v.email.error }}</div>
+    <div class="indent2 bool" :class='map("green", !v.email.anyError)'>"$anyError": {{ v.email.anyError }}</div>
+    <div class="indent2 bool" :class='map("green", !v.email.pending)'>"$pending": {{ v.email.pending }}</div>
+    <div class="indent2 bool" :class='map("green", v.email.email)'>"email": {{ v.email.email }}</div>
+    <div class="indent2 bool" :class='map("green", v.email.required)'>"required": {{ v.email.required }}</div>
+    
+    <div class="indent1 blue">"secondary email":</div>
+    <div class="indent2 blue">"$model": "{{ v.secondaryEmail.model }}"</div>
+    <div class="indent2 bool" :class='map("green", !v.secondaryEmail.invalid)'>"$invalid": {{ v.secondaryEmail.invalid }}</div>
+    <div class="indent2 bool" :class='map("green", v.secondaryEmail.dirty)'>"$dirty": {{ v.secondaryEmail.dirty }}</div>
+    <div class="indent2 bool" :class='map("green", v.secondaryEmail.anyDirty)'>"$anyDirty": {{ v.secondaryEmail.anyDirty }}</div>
+    <div class="indent2 bool" :class='map("green", !v.secondaryEmail.error)'>"$error": {{ v.secondaryEmail.error }}</div>
+    <div class="indent2 bool" :class='map("green", !v.secondaryEmail.anyError)'>"$anyError": {{ v.secondaryEmail.anyError }}</div>
+    <div class="indent2 bool" :class='map("green", !v.secondaryEmail.pending)'>"$pending": {{ v.secondaryEmail.pending }}</div>
+    <div class="indent2 bool" :class='map("green", v.secondaryEmail.email)'>"email": {{ v.secondaryEmail.email }}</div>
+    <div class="indent2 bool" :class='map("green", v.secondaryEmail.required)'>"required": {{ v.secondaryEmail.required }}</div>
+    
+    <div class="indent1 blue">"$model": {{ v.model }}</div>
+    <div class="indent1 bool" :class='map("green", !v.invalid)'>"$invalid": {{ v.invalid }}</div>
+    <div class="indent1 bool" :class='map("green", v.anyDirty)'>"$anyDirty": {{ v.anyDirty }}</div>
+    <div class="indent1 bool" :class='map("green", !v.error)'>"$error": {{ v.error }}</div>
+    <div class="indent1 bool" :class='map("green", !v.anyError)'>"$anyError": {{ v.anyError }}</div>
+    <div class="indent1 bool" :class='map("green", !v.pending)'>"$pending": {{ v.pending }}</div>
+    
+  </div>
+</div>
+
+<style scoped lang="scss">
+
+.tree {
+  background: #333;
+  color: white;
+  flex-basis: 400px;
+
+  div {
+    padding: 3px;
+    margin: 2px;
+    transition: all 0.15s ease-out;
+  }
+  .blue {
+   background: cyan;
+   color: black;
+  }
+  .green {
+   background: #0a0;
+   color: white;
+  }
+  .bool:not(.green) {
+   background: #a00;
+  }
+  
+  .indent1 {
+    padding-left: 15px;
+  }
+  .indent2 {
+    padding-left: 30px;
+  }
+}
+
+.all {
+  display: flex;
+  flex-wrap: wrap;
+  
+  >* {
+    padding: 20px;
+  }
+}
+
+.error {
+  background: #a00 !important;
+}
+
+.result {
+  background: #0a0;
+  color: white;
+  transition: background 0.1s ease-out;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 400px;
+}
+
+form > * {
+  padding: 10px;
+}
+form > * > * {
+  padding: 5px;
+  margin: 5px;
+}
+</style>

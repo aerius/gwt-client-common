@@ -1,0 +1,138 @@
+<!--
+
+    Copyright the State of the Netherlands
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see http://www.gnu.org/licenses/.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>nl.aerius</groupId>
+    <artifactId>gwt-vuelidate-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>gwt-vuelidate-demo-server</artifactId>
+  <name>Commons :: gwt-vuelidate :: demo :: server</name>
+  <packaging>war</packaging>
+
+  <properties>
+    <application.root>${project.basedir}/../..</application.root>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>javax.servlet.jsp-api</artifactId>
+      <version>2.3.3</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <configuration>
+            <scanIntervalSeconds>1</scanIntervalSeconds>
+            <contextXml>${basedir}/src/main/jettyconf/context.xml</contextXml>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <configuration>
+            <addWarDependenciesInClassloader>false</addWarDependenciesInClassloader>
+            <path>/</path>
+            <uriEncoding>UTF-8</uriEncoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <!-- XXX: We want to exclude aerius-calculator-wui-client from 'env-dev' profile, Maven forces us to make a 'env-prod' profile -->
+      <id>env-prod</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>gwt-vuelidate-demo-client</artifactId>
+          <version>${project.version}</version>
+          <type>war</type>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    
+    <profile>
+      <id>env-dev</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>dev</value>
+        </property>
+      </activation>
+
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.jetty</groupId>
+              <artifactId>jetty-maven-plugin</artifactId>
+              <configuration>
+                <unpackOverlays>true</unpackOverlays>
+                <webApp>
+                  <resourceBases>
+                    <resourceBase>${basedir}/src/main/webapp</resourceBase>
+                    <resourceBase>${application.root}/target/gwt/launcherDir/</resourceBase>
+                  </resourceBases>
+                  <overrideDescriptor>${basedir}/src/main/webapp/WEB-INF/web_dev.xml</overrideDescriptor>
+                </webApp>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <configuration>
+                <contextFile>${basedir}/src/main/tomcatconf/context.xml</contextFile>
+                <descriptor>src/main/webapp/WEB-INF/web_dev.xml</descriptor>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+</project>
