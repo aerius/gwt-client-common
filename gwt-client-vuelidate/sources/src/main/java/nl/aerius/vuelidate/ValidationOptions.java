@@ -32,7 +32,8 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
   public static interface ValidatorInstaller {
     /**
      * <p>
-     * Install a validator under the given field name, marked by the given field marker.
+     * Install a validator under the given field name, marked by the given field
+     * marker.
      * </p>
      *
      * <p>
@@ -43,13 +44,12 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
      * install("name", () -> instance.name = null, ValidatorBuilder.create().required());
      * </pre>
      *
-     * @param key
-     *   The key, in plain text, that this field should be available under in the template (usually the same as the field name)
-     * @param marker
-     *   A marker runnable, used to figure out what the runtime name for the validation field is. This runnable should set the instance field to null
-     *   (or 0 or false, depending on type)
-     * @param validator
-     *   The validator object to validate against.
+     * @param key       The key, in plain text, that this field should be available
+     *                  under in the template (usually the same as the field name)
+     * @param marker    A marker runnable, used to figure out what the runtime name
+     *                  for the validation field is. This runnable should set the
+     *                  instance field to null (or 0 or false, depending on type)
+     * @param validator The validator object to validate against.
      */
     void install(String key, Runnable marker, Object validator);
   }
@@ -62,8 +62,9 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
     final T instance = Js.cast(options);
     final JsPropertyMap<Object> validations = new JsPropertyMap<Object>() {};
     final Map<String, String> mappings = new HashMap<>();
-
+    
     constructValidators(instance, (name, marker, validator) -> {
+      log("Installing validator: " + name);
       final String fieldName = VueGWTTools.getFieldName(instance, marker);
       validations.set(fieldName, validator);
       mappings.put(name, fieldName);
@@ -73,9 +74,14 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
     options.set("mappings", mappings);
   }
 
+  public static native void log(Object message) /*-{
+    console.info(message);
+  }-*/;
+
   /**
    * <p>
-   * Construct the validators for the given instance. Cast the instance to the correctly typed component instance like so:
+   * Construct the validators for the given instance. Cast the instance to the
+   * correctly typed component instance like so:
    * </p>
    *
    * <pre>
@@ -83,7 +89,8 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
    * </pre>
    *
    * <p>
-   * Use the {@link installer} to install one or multiple validators for the component's data fields
+   * Use the {@link installer} to install one or multiple validators for the
+   * component's data fields
    * </p>
    *
    * @param instance

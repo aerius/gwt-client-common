@@ -16,13 +16,14 @@
  */
 package nl.aerius.vuelidate;
 
-import elemental2.core.JsObject;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
+
+import elemental2.core.JsObject;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class Validations implements JsPropertyMap<Object> {
@@ -71,27 +72,27 @@ public class Validations implements JsPropertyMap<Object> {
    */
 
   @JsProperty public boolean alpha;
-  public static boolean alphaNum;
-  public static boolean and;
-  public static boolean between;
+  @JsProperty public boolean alphaNum;
+  @JsProperty public boolean and;
+  @JsProperty public boolean between;
 
   @JsProperty public boolean email;
-  public static boolean decimal;
-  public static boolean helpers;
-  public static boolean integer;
-  public static boolean ipAddress;
-  public static boolean macAddress;
-  public static boolean maxLength;
-  public static boolean maxValue;
-  public static boolean minLength;
-  public static boolean minValue;
-  public static boolean not;
-  public static boolean numeric;
-  public static boolean or;
+  @JsProperty public boolean decimal;
+  @JsProperty public boolean helpers;
+  @JsProperty public boolean integer;
+  @JsProperty public boolean ipAddress;
+  @JsProperty public boolean macAddress;
+  @JsProperty public boolean maxLength;
+  @JsProperty public boolean maxValue;
+  @JsProperty public boolean minLength;
+  @JsProperty public boolean minValue;
+  @JsProperty public boolean not;
+  @JsProperty public boolean numeric;
+  @JsProperty public boolean or;
 
   @JsProperty public boolean required;
-  public static boolean requiredIf;
-  public static boolean requiredUnless;
-  public static boolean sameAs;
-  public static boolean url;
+  @JsProperty public boolean requiredIf;
+  @JsProperty public boolean requiredUnless;
+  @JsProperty public boolean sameAs;
+  @JsProperty public boolean url;
 }

@@ -16,9 +16,11 @@
  */
 package nl.aerius.vuelidate;
 
-import elemental2.core.JsObject;
+import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
+
+import elemental2.core.JsObject;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "validators")
 public class DefaultValidators {
@@ -33,7 +35,14 @@ public class DefaultValidators {
   public static JsObject ipAddress;
   public static JsObject macAddress;
   public static JsObject maxLength;
-  public static JsObject maxValue;
+
+  @JsOverlay
+  public static JsObject maxValue() {
+    return maxValue(Integer.MAX_VALUE);
+  }
+
+  public static native JsObject maxValue(int num);
+
   public static JsObject minLength;
   public static JsObject minValue;
   public static JsObject not;
