@@ -82,7 +82,11 @@ public class ValidatorBuilder implements JsPropertyMap<Object> {
   }
 
   public ValidatorBuilder minValue() {
-    return set("minValue", DefaultValidators.minValue);
+    return set("minValue", DefaultValidators.minValue());
+  }
+
+  public ValidatorBuilder minValue(final int num) {
+    return set("minValue", DefaultValidators.minValue(num));
   }
 
   public ValidatorBuilder not() {

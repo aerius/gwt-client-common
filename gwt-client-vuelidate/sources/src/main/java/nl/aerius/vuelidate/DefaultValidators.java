@@ -44,7 +44,14 @@ public class DefaultValidators {
   public static native JsObject maxValue(int num);
 
   public static JsObject minLength;
-  public static JsObject minValue;
+
+  @JsOverlay
+  public static JsObject minValue() {
+    return minValue(Integer.MIN_VALUE);
+  }
+
+  public static native JsObject minValue(int num);
+  
   public static JsObject not;
   public static JsObject numeric;
   public static JsObject or;
