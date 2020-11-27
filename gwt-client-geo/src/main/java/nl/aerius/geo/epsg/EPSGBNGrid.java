@@ -1,5 +1,5 @@
 /*
- * Copyright Dutch Ministry of Agriculture, Nature and Food Quality
+ * Copyright the State of the Netherlands
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -24,7 +24,7 @@ import nl.aerius.geo.BBox;
 public class EPSGBNGrid extends EPSG {
   public static final int SRID = 27700;
 
-  private static final double[] RESOLUTIONS = { 2500, 1000, 500, 200, 100, 50, 25, 10, 5, 2, 1, 0.5, 0.25 };
+  private static final double[] RESOLUTIONS = {2500, 1000, 500, 200, 100, 50, 25, 10, 5, 2, 1, 0.5, 0.25};
   private static final float MAX_RESOLUTION = 0;
   private static final int ZOOM_LEVEL = 13;
   private static final String UNIT = "km";

@@ -1,5 +1,5 @@
 /*
- * Copyright Dutch Ministry of Agriculture, Nature and Food Quality
+ * Copyright the State of the Netherlands
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -40,8 +40,8 @@ public class HexagonZoomLevel {
   public static final int HEXAGON_CORNERS = 6;
 
   // Maps the route of a single hexagon, starting from the most-right corner
-  private static final double[] HORIZONTAL_HEXAGON_MODS = {0.5, 1.0, 0.5, -0.5, -1, -0.5 };
-  private static final double[] VERTICAL_HEXAGON_MODS = {1.0, 0.0, -1.0, -1.0, 0.0, 1.0 };
+  private static final double[] HORIZONTAL_HEXAGON_MODS = {0.5, 1.0, 0.5, -0.5, -1, -0.5};
+  private static final double[] VERTICAL_HEXAGON_MODS = {1.0, 0.0, -1.0, -1.0, 0.0, 1.0};
 
   private int level;
   private int surfaceLevel1;
@@ -187,10 +187,11 @@ public class HexagonZoomLevel {
   private void fillCorners(final double hexagonRadius, final double hexagonHeight) {
     final double halfHexagonHeight = hexagonHeight / 2;
     for (int i = 0; i < HEXAGON_CORNERS; i++) {
-      horizontal[i] =  HORIZONTAL_HEXAGON_MODS[i] * hexagonRadius;
+      horizontal[i] = HORIZONTAL_HEXAGON_MODS[i] * hexagonRadius;
       vertical[i] = VERTICAL_HEXAGON_MODS[i] * halfHexagonHeight;
     }
   }
+
   /**
    * <pre>
    *       a (radius * 0.5)

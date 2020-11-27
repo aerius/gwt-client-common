@@ -17,6 +17,7 @@
 package nl.aerius.vuelidate;
 
 import elemental2.core.JsObject;
+
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 

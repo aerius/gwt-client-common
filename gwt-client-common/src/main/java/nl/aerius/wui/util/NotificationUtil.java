@@ -1,5 +1,5 @@
 /*
- * Copyright Dutch Ministry of Agriculture, Nature and Food Quality
+ * Copyright the State of the Netherlands
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -25,8 +25,7 @@ import nl.aerius.wui.util.Notification.Type;
  * Sugar for broadcasting Notification objects.
  */
 public final class NotificationUtil {
-  private NotificationUtil() {
-  }
+  private NotificationUtil() {}
 
   public static void broadcastMessage(final EventBus eventBus, final String txt) {
     broadcast(eventBus, new Notification(txt));

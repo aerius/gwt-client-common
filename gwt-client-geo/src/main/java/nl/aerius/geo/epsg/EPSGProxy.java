@@ -1,5 +1,5 @@
 /*
- * Copyright Dutch Ministry of Agriculture, Nature and Food Quality
+ * Copyright the State of the Netherlands
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,6 @@ package nl.aerius.geo.epsg;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 
 /**
  * Proxy class to get an EPSG object.
