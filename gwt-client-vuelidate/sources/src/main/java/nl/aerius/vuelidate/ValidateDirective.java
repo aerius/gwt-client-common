@@ -26,6 +26,7 @@ import com.axellience.vuegwt.core.client.vnode.VNodeDirective;
 
 import elemental2.core.JsObject;
 import elemental2.dom.Element;
+
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 

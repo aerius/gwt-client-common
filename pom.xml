@@ -1,28 +1,29 @@
 <!--
-  Copyright Dutch Ministry of Economic Affairs
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Affero General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    Copyright the State of the Netherlands
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU Affero General Public License for more details.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU Affero General Public License
-  along with this program. If not, see http://www.gnu.org/licenses/.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see http://www.gnu.org/licenses/.
+
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>nl.aerius</groupId>
   <artifactId>gwt-client-common-parent</artifactId>
   <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>AERIUS Common parent</name>
+  <name>AERIUS :: Common GWT Client Parent</name>
   <url>https://www.aerius.nl</url>
 
   <organization>
@@ -65,16 +66,23 @@
     </repository>
   </repositories>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>aerius-nexus-public</id>
+      <name>AERIUS Nexus Repository</name>
+      <url>https://nexus.aerius.nl/repository/maven-public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <properties>
-    <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <com.google.gwt.version>2.8.2</com.google.gwt.version>
-    <logback.version>1.2.3</logback.version>
-    <auto-value.version>1.7.2</auto-value.version>
-    <junit.version>4.12</junit.version>
     <java.version>8</java.version>
-    <autovalue-processors.version>1.0-SNAPSHOT</autovalue-processors.version>
-    <common-json.version>1.0-SNAPSHOT</common-json.version>
+
+    <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+    <com.google.gwt.version>2.8.2</com.google.gwt.version>
+
+    <aerius-tools.version>1.0.0</aerius-tools.version>
+    <spotless.version>2.5.0</spotless.version>
   </properties>
 
   <dependencyManagement>
@@ -112,7 +120,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>${maven.compiler.plugin.version}</version>
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
@@ -147,8 +155,59 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless.version}</version>
+          <configuration>
+<!-- Enable when aerius-tools version with pom.xml support is released.
+              <formats>
+              <format>
+                <includes>
+                  <include>pom.xml</include>
+                </includes>
+                <licenseHeader>
+                  <file>pom-xml-header.txt</file>
+                  <delimiter>&lt;project</delimiter>
+                </licenseHeader>
+                <trimTrailingWhitespace />
+                <endWithNewline />
+                <eclipseWtp>
+                  <type>XML</type>
+                  <files>
+                    <file>pom-xml.prefs</file>
+                  </files>
+                </eclipseWtp>
+              </format>
+            </formats>
+-->
+            <java>
+              <includes>
+                <include>src/*/java/nl/aerius/**/*.java</include>
+              </includes>
+              <licenseHeader>
+                <file>checkstyle-header.txt</file>
+              </licenseHeader>
+              <eclipse>
+                <file>eclipse_code_formatter_profile.xml</file>
+              </eclipse>
+              <importOrder>
+                <file>eclipse.importorder</file>
+              </importOrder>
+            </java>
+          </configuration>
+
+          <dependencies>
+            <dependency>
+              <groupId>nl.aerius</groupId>
+              <artifactId>tools</artifactId>
+              <version>${aerius-tools.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -183,4 +242,3 @@
     </profile>
   </profiles>
 </project>
-

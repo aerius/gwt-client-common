@@ -16,11 +16,11 @@
  */
 package nl.aerius.vuelidate;
 
+import elemental2.core.JsObject;
+
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
-
-import elemental2.core.JsObject;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "validators")
 public class DefaultValidators {
@@ -51,7 +51,7 @@ public class DefaultValidators {
   }
 
   public static native JsObject minValue(int num);
-  
+
   public static JsObject not;
   public static JsObject numeric;
   public static JsObject or;

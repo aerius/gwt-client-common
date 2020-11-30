@@ -54,7 +54,7 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
     void install(String key, Runnable marker, Object validator);
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public void customizeOptions(final VueComponentOptions options) {
     options.addMixin(Vuelidate.validationMixin);
@@ -62,7 +62,7 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
     final T instance = Js.cast(options);
     final JsPropertyMap<Object> validations = new JsPropertyMap<Object>() {};
     final Map<String, String> mappings = new HashMap<>();
-    
+
     constructValidators(instance, (name, marker, validator) -> {
       log("Installing validator: " + name);
       final String fieldName = VueGWTTools.getFieldName(instance, marker);

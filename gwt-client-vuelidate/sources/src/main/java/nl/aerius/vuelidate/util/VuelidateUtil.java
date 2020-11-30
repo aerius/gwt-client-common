@@ -21,6 +21,7 @@ import java.util.Map;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 
 import elemental2.core.JsObject;
+
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 

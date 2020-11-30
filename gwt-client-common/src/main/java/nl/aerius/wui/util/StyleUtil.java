@@ -1,5 +1,5 @@
 /*
- * Copyright Dutch Ministry of Agriculture, Nature and Food Quality
+ * Copyright the State of the Netherlands
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -32,6 +32,7 @@ public class StyleUtil {
   public static void setPlaceHolder(final ValueBoxBase<?> vbb, final String text) {
     vbb.getElement().setAttribute("placeholder", text);
   }
+
   /**
    * Set the text as placeholder property on a html element.
    *

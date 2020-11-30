@@ -16,9 +16,9 @@
  */
 package nl.aerius.vuelidate;
 
-import jsinterop.base.JsPropertyMap;
-
 import elemental2.core.JsObject;
+
+import jsinterop.base.JsPropertyMap;
 
 public class ValidatorBuilder implements JsPropertyMap<Object> {
   public static ValidatorBuilder create() {

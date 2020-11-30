@@ -26,7 +26,7 @@ import jsinterop.base.Js;
  * Work-around util that can force a DOM element to render even if the JS event loop isn't complete yet.
  */
 public final class ComputedStyleUtil {
-  private ComputedStyleUtil() { }
+  private ComputedStyleUtil() {}
 
   private static final String DUMMY_PROP = "height";
 

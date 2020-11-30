@@ -1,5 +1,5 @@
 /*
- * Copyright Dutch Ministry of Agriculture, Nature and Food Quality
+ * Copyright the State of the Netherlands
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -56,7 +56,7 @@ public class GWTAtomicInteger {
    * @return Incremented value
    */
   public int incrementAndGet(final int delta) {
-    value+=delta;
+    value += delta;
     return value;
   }
 
