@@ -111,7 +111,7 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
     }
   }
 
-  private boolean delegateToActivity(final Activity<?, ?> activity, final EventBus eventBus, final PlaceChangeCommand c) {
+  private boolean delegateToActivity(final Activity<?, ?> activity, final ResettableEventBus eventBus, final PlaceChangeCommand c) {
     if (activity instanceof DelegableActivity) {
       final DelegableActivity act = (DelegableActivity) activity;
 

@@ -16,13 +16,13 @@
  */
 package nl.aerius.wui.activity;
 
-import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.ResettableEventBus;
 
 import nl.aerius.wui.command.PlaceChangeCommand;
 import nl.aerius.wui.place.Place;
 
 public interface DelegableActivity {
-  default boolean delegate(final EventBus eventBus, final PlaceChangeCommand c) {
+  default boolean delegate(final ResettableEventBus eventBus, final PlaceChangeCommand c) {
     return false;
   }
 
