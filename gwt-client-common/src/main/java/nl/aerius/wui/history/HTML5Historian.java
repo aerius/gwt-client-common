@@ -48,7 +48,7 @@ public class HTML5Historian implements Historian, HasValueChangeHandlers<String>
 
   @Override
   public String getToken() {
-    final String token = Window.Location.getPath() + Window.Location.getQueryString();
+    final String token = Window.Location.getPath() + Window.Location.getQueryString() + Window.Location.getHash();
 
     return token.substring(WebUtil.getAbsoluteRoot().length());
   }
