@@ -24,6 +24,7 @@ import com.google.web.bindery.event.shared.Event;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
 import nl.aerius.wui.command.Command;
+import nl.aerius.wui.dev.GWTProd;
 
 public class CommandEventBus extends SimpleEventBus {
   private static final boolean DEBUG;
@@ -128,7 +129,7 @@ public class CommandEventBus extends SimpleEventBus {
   private boolean checkDefer(final Event<?> event) {
     final boolean command = isCommand(event);
     if (command && commandInProgress) {
-      GWT.log("Deferring command. " + event);
+      GWTProd.log("Deferring command. ", event);
       defferredCommands.add(new CommandSourceHandle(event));
       return true;
     }
@@ -139,7 +140,7 @@ public class CommandEventBus extends SimpleEventBus {
   private boolean checkDeferFromSource(final Event<?> event, final Object source) {
     final boolean command = isCommand(event);
     if (command && commandInProgress) {
-      GWT.log("Deferring command. " + event);
+      GWTProd.log("Deferring command. ", event);
       defferredCommands.add(new CommandSourceHandle(event, source));
       return true;
     }
