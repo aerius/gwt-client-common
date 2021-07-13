@@ -1,0 +1,8 @@
+.fake-enter-active,
+.fake-leave-active {
+  transition: opacity .15s ease-out;
+}
+.fake-enter,
+.fake-leave-to {
+  opacity: 1;
+}
