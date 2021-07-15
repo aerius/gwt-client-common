@@ -16,6 +16,8 @@
  */
 package nl.aerius.wui.util;
 
+import java.util.function.Supplier;
+
 import com.google.gwt.core.client.Scheduler;
 
 public class SchedulerUtil {
@@ -28,5 +30,18 @@ public class SchedulerUtil {
 
   public static void delay(final Runnable runner) {
     Scheduler.get().scheduleDeferred(runner::run);
+  }
+
+  public static void repeatUntil(final Supplier<Boolean> condition, final int delay) {
+    Scheduler.get().scheduleFixedDelay(() -> {
+      return condition.get();
+    }, delay);
+  }
+
+  public static void repeatUntil(final Runnable runner, final Supplier<Boolean> condition, final int delay) {
+    Scheduler.get().scheduleFixedDelay(() -> {
+      runner.run();
+      return condition.get();
+    }, delay);
   }
 }
