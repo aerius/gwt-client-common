@@ -16,9 +16,9 @@
  */
 package nl.aerius.vuelidate;
 
-import elemental2.core.JsObject;
-
 import jsinterop.base.JsPropertyMap;
+
+import elemental2.core.JsObject;
 
 public class ValidatorBuilder implements JsPropertyMap<Object> {
   public static ValidatorBuilder create() {
@@ -77,6 +77,10 @@ public class ValidatorBuilder implements JsPropertyMap<Object> {
     return set("maxValue", DefaultValidators.maxValue(num));
   }
 
+  public ValidatorBuilder maxValue(final double num) {
+    return set("maxValue", DefaultValidators.maxValue(num));
+  }
+
   public ValidatorBuilder minLength() {
     return set("minLength", DefaultValidators.minLength);
   }
@@ -86,6 +90,10 @@ public class ValidatorBuilder implements JsPropertyMap<Object> {
   }
 
   public ValidatorBuilder minValue(final int num) {
+    return set("minValue", DefaultValidators.minValue(num));
+  }
+
+  public ValidatorBuilder minValue(final double num) {
     return set("minValue", DefaultValidators.minValue(num));
   }
 
