@@ -16,10 +16,10 @@
  */
 package nl.aerius.wui.util;
 
-public class TemplatedString {
+public class BracketedTemplatedString {
   private String replacer;
 
-  public TemplatedString(final String origin) {
+  public BracketedTemplatedString(final String origin) {
     this.replacer = origin;
   }
 

@@ -16,6 +16,4 @@
  */
 package nl.aerius.wui.dev;
 
-import nl.aerius.wui.event.HasEventBus;
-
-public interface DevelopmentObserver extends HasEventBus {}
+public interface DevelopmentObserver {}

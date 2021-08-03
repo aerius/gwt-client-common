@@ -19,15 +19,16 @@ package nl.aerius.wui.place;
 import java.util.function.Supplier;
 
 public abstract class ApplicationPlace implements TokenizedPlace {
-  private final PlaceTokenizer<? extends TokenizedPlace> tokenizer;
+  private static final String TOKEN_SEPARATOR = "/";
 
-  public static class Tokenizer<P extends ApplicationPlace> extends SequenceTokenizer<P> {
+  public static class Tokenizer<P extends ApplicationPlace> extends CompositeTokenizer<P> {
+    
     private final Supplier<P> supplier;
     private final String prefix;
 
     public Tokenizer(final Supplier<P> supplier, final String... parts) {
       this.supplier = supplier;
-      this.prefix = String.join("/", parts);
+      this.prefix = String.join(TOKEN_SEPARATOR, parts);
     }
 
     public static <P extends ApplicationPlace> Tokenizer<P> create(final Supplier<P> supplier, final String... parts) {
@@ -52,6 +53,8 @@ public abstract class ApplicationPlace implements TokenizedPlace {
     }
   }
 
+  private final PlaceTokenizer<? extends TokenizedPlace> tokenizer;
+
   public ApplicationPlace(final PlaceTokenizer<? extends TokenizedPlace> tokenizer) {
     this.tokenizer = tokenizer;
   }
@@ -64,7 +67,7 @@ public abstract class ApplicationPlace implements TokenizedPlace {
 
   @Override
   public String getToken() {
-    return tokenizer.getPrefix() + "/" + TokenizedPlace.super.getToken();
+    return tokenizer.getPrefix() + TOKEN_SEPARATOR + TokenizedPlace.super.getToken();
   }
 
   public <E extends ApplicationPlace> E copyTo(final E copy) {

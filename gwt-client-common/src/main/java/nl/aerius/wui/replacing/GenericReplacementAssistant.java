@@ -21,13 +21,13 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import nl.aerius.wui.event.BasicEventComponent;
-import nl.aerius.wui.util.TemplatedString;
+import nl.aerius.wui.util.BracketedTemplatedString;
 
 public abstract class GenericReplacementAssistant extends BasicEventComponent implements ReplacementAssistant {
   @Inject
   public GenericReplacementAssistant() {}
 
-  protected TemplatedString replaceIndistinct(final Map<String, String> replacements, final TemplatedString ret) {
+  protected BracketedTemplatedString replaceIndistinct(final Map<String, String> replacements, final BracketedTemplatedString ret) {
     replacements.forEach(ret::replace);
 
     return ret;
@@ -35,7 +35,7 @@ public abstract class GenericReplacementAssistant extends BasicEventComponent im
 
   @Override
   public String replace(final String origin) {
-    final TemplatedString ret = new TemplatedString(origin);
+    final BracketedTemplatedString ret = new BracketedTemplatedString(origin);
 
     final Map<String, String> replacements = createReplacements();
     replaceIndistinct(replacements, ret);
@@ -48,7 +48,7 @@ public abstract class GenericReplacementAssistant extends BasicEventComponent im
 
   @Override
   public String replaceStrict(final String origin) {
-    final TemplatedString ret = new TemplatedString(origin);
+    final BracketedTemplatedString ret = new BracketedTemplatedString(origin);
 
     final Map<String, String> hardReplacements = createReplacements();
     replaceIndistinct(hardReplacements, ret);
@@ -65,7 +65,7 @@ public abstract class GenericReplacementAssistant extends BasicEventComponent im
     return returnString;
   }
 
-  protected abstract void cleanSoftKeys(TemplatedString string);
+  protected abstract void cleanSoftKeys(BracketedTemplatedString string);
 
   protected abstract Map<String, String> createReplacements();
 }
