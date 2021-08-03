@@ -26,10 +26,10 @@ import com.google.gwt.resources.client.DataResource;
 
 import jsinterop.base.Js;
 
+import nl.aerius.wui.util.Base64Util;
+
 import elemental2.dom.Attr;
 import elemental2.dom.Element;
-
-import nl.aerius.wui.util.Base64Util;
 
 /**
  * Example usage:

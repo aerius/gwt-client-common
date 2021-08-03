@@ -34,7 +34,6 @@ import jsinterop.base.Js;
 
 import nl.aerius.geo.domain.IsMapCohort;
 import nl.aerius.geo.event.MapEventBus;
-import nl.aerius.geo.wui.Map;
 
 @Component(name = "ol3-map")
 public class OL3MapComponent implements Map, HasMounted, IsVueComponent {

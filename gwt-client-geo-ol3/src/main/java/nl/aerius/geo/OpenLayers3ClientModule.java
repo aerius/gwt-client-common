@@ -20,7 +20,6 @@ import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.gwt.inject.client.assistedinject.GinFactoryModuleBuilder;
 import com.google.inject.TypeLiteral;
 
-import nl.aerius.geo.MapBuilder;
 import nl.aerius.geo.epsg.EPSG;
 import nl.aerius.geo.epsg.EPSGRDNew;
 import nl.aerius.geo.epsg.RDNewReceptorGridSettings;

@@ -25,10 +25,10 @@ import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
 
 import jsinterop.annotations.JsMethod;
 
+import nl.aerius.wui.util.ComputedStyleUtil;
+
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
-
-import nl.aerius.wui.util.ComputedStyleUtil;
 
 @Component
 public class HorizontalCollapseGroup implements IsVueComponent, HasCreated {

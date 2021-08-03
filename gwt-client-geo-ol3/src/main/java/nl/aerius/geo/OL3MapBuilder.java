@@ -18,7 +18,6 @@ package nl.aerius.geo;
 
 import com.google.inject.Inject;
 
-import nl.aerius.geo.MapBuilder;
 import nl.aerius.geo.wui.OL3Map;
 
 public class OL3MapBuilder implements MapBuilder {

@@ -32,7 +32,6 @@ import jsinterop.base.Js;
 
 import nl.aerius.geo.domain.IsMapCohort;
 import nl.aerius.geo.event.MapEventBus;
-import nl.aerius.geo.wui.Map;
 
 public class OL3Map extends Composite implements Map {
   private String uniqueId;
