@@ -18,6 +18,11 @@ package nl.aerius.wui.command;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
+/**
+ * Simple Command triggering a command action without providing additional information.
+ *
+ * @param <E> Event class corresponding with this command
+ */
 public abstract class SimpleCommand<E extends GenericEvent> extends GenericEvent implements Command<E> {
   private E event;
   private boolean silent;

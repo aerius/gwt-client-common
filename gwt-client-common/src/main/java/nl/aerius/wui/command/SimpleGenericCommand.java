@@ -18,6 +18,12 @@ package nl.aerius.wui.command;
 
 import nl.aerius.wui.event.SimpleGenericEvent;
 
+/**
+ * Simple Command triggering a command action providing additional information.
+ *
+ * @param <T> Data passed in this command
+ * @param <E> Event class corresponding with this command
+ */
 public abstract class SimpleGenericCommand<T, E extends SimpleGenericEvent<T>> extends SimpleGenericEvent<T> implements Command<E> {
   private boolean silent;
 
