@@ -18,4 +18,14 @@ package nl.aerius.wui.command;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
+/**
+ * A command that is in fact a GenericEvent, and exists solely to make the
+ * semantics of the command pattern continue to make sense. This command is used
+ * when no corresponding Event is (currently) necessary, but the semantics of
+ * the pattern still dictate something is being "commanded". i.e. this command
+ * is fired as a result of user action but no UI reaction is expected.
+ *
+ * It is expected that most commands are of this type. Note: Extending a
+ * GenericEvent instead of a StatelessCommand is also completely acceptable.
+ */
 public class StatelessCommand extends GenericEvent {}

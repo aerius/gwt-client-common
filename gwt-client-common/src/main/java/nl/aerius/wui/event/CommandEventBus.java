@@ -52,6 +52,15 @@ public class CommandEventBus extends SimpleEventBus {
 
   @Override
   public void fireEvent(final Event<?> event) {
+    doInnerFire(event, null);
+  }
+
+  @Override
+  public void fireEventFromSource(final Event<?> event, final Object source) {
+    doInnerFire(event, source);
+  }
+
+  private void doInnerFire(final Event<?> event, final Object source) {
     final boolean deferred = checkDefer(event);
     if (deferred) {
       return;
@@ -64,7 +73,11 @@ public class CommandEventBus extends SimpleEventBus {
       GWT.log("Beginning command execution: " + event.getClass().getSimpleName());
     }
 
-    super.fireEvent(event);
+    if (source == null) {
+      tryInnerFire(enforce, event);
+    } else {
+      tryInnerFireFromSource(enforce, event, source);
+    }
 
     if (enforce && DEBUG) {
       GWT.log("Command execution complete.");
@@ -80,34 +93,22 @@ public class CommandEventBus extends SimpleEventBus {
     executeDeferred(enforce);
   }
 
-  @Override
-  public void fireEventFromSource(final Event<?> event, final Object source) {
-    final boolean defer = checkDeferFromSource(event, source);
-    if (defer) {
-      return;
+  protected void tryInnerFire(final boolean enforce, final Event<?> event) {
+    try {
+      super.fireEvent(event);
+    } catch (final Exception e) {
+      executeDeferred(enforce);
+      throw e; // Rethrow to have the error handled up top
     }
+  }
 
-    final boolean enforce = prefire(event);
-
-    if (enforce && DEBUG) {
-      GWT.log("Beginning command execution: " + event.getClass().getSimpleName());
+  protected void tryInnerFireFromSource(final boolean enforce, final Event<?> event, final Object source) {
+    try {
+      super.fireEventFromSource(event, source);
+    } catch (final Exception e) {
+      executeDeferred(enforce);
+      throw e; // Rethrow to have the error handled up top
     }
-
-    super.fireEventFromSource(event, source);
-
-    if (enforce && DEBUG) {
-      GWT.log("Command execution complete.");
-    }
-
-    postCommand(enforce, event, source);
-
-    if (enforce && DEBUG) {
-      GWT.log("Finishing command: " + event.getClass().getSimpleName());
-      GWT.log("");
-    }
-
-    executeDeferred(enforce);
-
   }
 
   private void executeDeferred(final boolean enforce) {
@@ -115,7 +116,7 @@ public class CommandEventBus extends SimpleEventBus {
       return;
     }
 
-    GWT.log("Executing deferred commands.");
+    GWT.log("Executing deferred commands. (" + defferredCommands.size() + ")");
 
     final CommandSourceHandle handle = defferredCommands.remove(0);
 
