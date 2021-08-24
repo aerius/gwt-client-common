@@ -61,7 +61,7 @@ public class CommandEventBus extends SimpleEventBus {
   }
 
   private void doInnerFire(final Event<?> event, final Object source) {
-    final boolean deferred = checkDefer(event);
+    final boolean deferred = source == null ? checkDefer(event) : checkDeferFromSource(event, source);
     if (deferred) {
       return;
     }
