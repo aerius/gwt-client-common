@@ -62,7 +62,15 @@ public final class GWTProd {
                                                          }-*/;
 
   /**
-   * Logs a message to the warn console. Calls are _not_ optimized out in
+   * Logs a message to the error console. Calls are _not_ optimized out in
+   * Production Mode.
+   */
+  public static native void error(String txt, Object obj) /*-{
+                                                  console.error(message, obj);
+                                                  }-*/;
+
+  /**
+   * Logs a message to the error console. Calls are _not_ optimized out in
    * Production Mode.
    */
   public static native void error(Object message) /*-{
@@ -71,10 +79,6 @@ public final class GWTProd {
 
   public static void info(final String string) {
     log("INFO", string);
-  }
-
-  public static void error(final String marker, final String string) {
-    error("[" + marker + "] " + string);
   }
 
   public static void error(final String marker, final String string, final Exception e) {
