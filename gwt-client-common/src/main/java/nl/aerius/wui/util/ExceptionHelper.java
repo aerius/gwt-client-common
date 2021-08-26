@@ -57,7 +57,7 @@ public final class ExceptionHelper {
   public static void reportUncaughtException(final EventBus eventBus, final Throwable cause) {
     // Print the stacktrace
     cause.printStackTrace(); // This does not work sometimes.
-    GWTProd.error("Uncaught exception", cause.getMessage());
+    GWTProd.error("Uncaught exception", cause);
 
     // Also log to GWT.log because it has special behaviour for umbrella exceptions
     // and stack trace deobfuscation

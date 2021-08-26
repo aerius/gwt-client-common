@@ -65,7 +65,7 @@ public final class GWTProd {
    * Logs a message to the error console. Calls are _not_ optimized out in
    * Production Mode.
    */
-  public static native void error(String txt, Object obj) /*-{
+  public static native void errorObj(String txt, Object obj) /*-{
                                                   console.error(message, obj);
                                                   }-*/;
 
@@ -83,6 +83,10 @@ public final class GWTProd {
 
   public static void error(final String marker, final String string, final Exception e) {
     error("[" + marker + "] " + string, e);
+  }
+
+  public static void error(final String marker, final String string) {
+    error("[" + marker + "] " + string);
   }
 
   public static void error(final String string, final Throwable e) {
