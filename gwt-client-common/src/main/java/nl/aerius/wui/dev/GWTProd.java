@@ -50,7 +50,7 @@ public final class GWTProd {
    * Mode.
    */
   public static native void log(Object message) /*-{
-                                                console.info(message );
+                                                console.info(message);
                                                 }-*/;
 
   /**
@@ -58,7 +58,7 @@ public final class GWTProd {
    * Production Mode.
    */
   public static native void warnInternal(Object message) /*-{
-                                                         console.warn(message );
+                                                         console.warn(message);
                                                          }-*/;
 
   /**
@@ -74,7 +74,7 @@ public final class GWTProd {
    * Production Mode.
    */
   public static native void warnObj(String txt, Object obj) /*-{
-                                                  console.warn(message, obj);
+                                                  console.warn(txt, obj);
                                                   }-*/;
 
   /**
@@ -115,12 +115,4 @@ public final class GWTProd {
 
     warn(msg);
   }
-
-  public static native void time(String marker) /*-{
-                                                console.time(marker);
-                                                }-*/;
-
-  public static native void timeEnd(String marker) /*-{
-                                                   console.timeEnd(marker);
-                                                   }-*/;
 }
