@@ -16,12 +16,13 @@
  */
 package nl.aerius.wui.dev;
 
-import com.google.web.bindery.event.shared.EventBus;
+import elemental2.dom.DomGlobal;
 
+/**
+ * Apparently varargs don't work swimmingly, so implement a bunch of overloads instead.
+ */
 public final class GWTProd {
   private static boolean dev = true;
-
-  private static EventBus eventBus;
 
   private GWTProd() {}
 
@@ -29,90 +30,67 @@ public final class GWTProd {
     GWTProd.dev = dev;
   }
 
-  public static void setEventBus(final EventBus eventBus) {
-    GWTProd.eventBus = eventBus;
-  }
-
   public static boolean isDev() {
     return dev;
   }
 
-  /**
-   * Logs a message to the console. Calls are _not_ optimized out in Production
-   * Mode.
-   */
-  public static native void log(String marker, Object message) /*-{
-                                                               console.info(marker, message);
-                                                               }-*/;
-
-  /**
-   * Logs a message to the console. Calls are _not_ optimized out in Production
-   * Mode.
-   */
-  public static native void log(Object message) /*-{
-                                                console.info(message);
-                                                }-*/;
-
-  /**
-   * Logs a message to the warn console. Calls are _not_ optimized out in
-   * Production Mode.
-   */
-  public static native void warnInternal(Object message) /*-{
-                                                         console.warn(message);
-                                                         }-*/;
-
-  /**
-   * Logs a message to the error console. Calls are _not_ optimized out in
-   * Production Mode.
-   */
-  public static native void errorObj(String txt, Object obj) /*-{
-                                                  console.error(txt, obj);
-                                                  }-*/;
-
-  /**
-   * Logs a message to the warn console. Calls are _not_ optimized out in
-   * Production Mode.
-   */
-  public static native void warnObj(String txt, Object obj) /*-{
-                                                  console.warn(txt, obj);
-                                                  }-*/;
-
-  /**
-   * Logs a message to the error console. Calls are _not_ optimized out in
-   * Production Mode.
-   */
-  public static native void error(Object message) /*-{
-                                                  console.error(message);
-                                                  }-*/;
-
-  public static void info(final String string) {
-    log("INFO", string);
+  public static void log(final Object msg) {
+    DomGlobal.console.log(msg);
   }
 
-  public static void error(final String marker, final String string, final Exception e) {
-    error("[" + marker + "] " + string, e);
+  public static void log(final Object a, final Object b) {
+    DomGlobal.console.log(a, b);
   }
 
-  public static void error(final String marker, final String string) {
-    error("[" + marker + "] " + string);
+  public static void log(final Object a, final Object b, final Object c) {
+    DomGlobal.console.log(a, b, c);
   }
 
-  public static void error(final String string, final Throwable e) {
-    error(string);
-    e.printStackTrace();
+  public static void info(final Object msg) {
+    DomGlobal.console.info(msg);
   }
 
-  public static void warn(final Object message) {
-    warnInternal(message);
+  public static void info(final Object a, final Object b) {
+    DomGlobal.console.info(a, b);
+  }
 
-    if (eventBus != null) {
-      eventBus.fireEvent(new WarningEvent(String.valueOf(message)));
+  public static void info(final Object a, final Object b, final Object c) {
+    DomGlobal.console.info(a, b, c);
+  }
+
+  public static void warn(final Object msg) {
+    DomGlobal.console.warn(msg);
+  }
+
+  public static void warn(final Object a, final Object b) {
+    DomGlobal.console.warn(a, b);
+  }
+
+  public static void warn(final Object a, final Object b, final Object c) {
+    DomGlobal.console.warn(a, b, c);
+  }
+
+  public static void error(final Object msg) {
+    DomGlobal.console.warn(msg);
+    tryReport(msg);
+  }
+
+  public static void error(final Object a, final Object b) {
+    DomGlobal.console.error(a, b);
+    tryReport(a);
+    tryReport(b);
+  }
+
+  public static void error(final Object a, final Object b, final Object c) {
+    DomGlobal.console.error(a, b, c);
+    tryReport(a);
+    tryReport(b);
+    tryReport(c);
+  }
+
+  private static void tryReport(final Object ex) {
+    if (ex instanceof Throwable) {
+      ((Throwable) ex).printStackTrace();
     }
-  }
-
-  public static void warn(final String marker, final String string) {
-    final String msg = "[" + marker + "] " + string;
-
-    warn(msg);
   }
 }
