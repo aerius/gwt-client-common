@@ -70,6 +70,14 @@ public final class GWTProd {
                                                   }-*/;
 
   /**
+   * Logs a message to the warn console. Calls are _not_ optimized out in
+   * Production Mode.
+   */
+  public static native void warnObj(String txt, Object obj) /*-{
+                                                  console.warn(message, obj);
+                                                  }-*/;
+
+  /**
    * Logs a message to the error console. Calls are _not_ optimized out in
    * Production Mode.
    */
