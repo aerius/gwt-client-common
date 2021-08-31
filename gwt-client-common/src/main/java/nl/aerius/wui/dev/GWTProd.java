@@ -66,7 +66,7 @@ public final class GWTProd {
    * Production Mode.
    */
   public static native void errorObj(String txt, Object obj) /*-{
-                                                  console.error(message, obj);
+                                                  console.error(txt, obj);
                                                   }-*/;
 
   /**
