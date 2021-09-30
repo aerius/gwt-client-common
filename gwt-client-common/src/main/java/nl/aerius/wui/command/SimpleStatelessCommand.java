@@ -16,6 +16,7 @@
  */
 package nl.aerius.wui.command;
 
+import com.google.gwt.user.client.TakesValue;
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
 /**
@@ -24,7 +25,15 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  * "commanded". i.e. this command is fired as a result of user action but no UI
  * reaction is expected.
  */
-public class StatelessCommand extends GenericEvent implements Command<GenericEvent> {
+public class SimpleStatelessCommand<V> extends GenericEvent implements Command<GenericEvent>, TakesValue<V> {
+  private V object;
+
+  public SimpleStatelessCommand() {}
+
+  public SimpleStatelessCommand(final V object) {
+    this.object = object;
+  }
+
   @Override
   public void setSilent(final boolean silent) {
     // Do nothing
@@ -38,5 +47,15 @@ public class StatelessCommand extends GenericEvent implements Command<GenericEve
   @Override
   public GenericEvent getEvent() {
     return null;
+  }
+
+  @Override
+  public V getValue() {
+    return object;
+  }
+
+  @Override
+  public void setValue(final V current) {
+    object = current;
   }
 }
