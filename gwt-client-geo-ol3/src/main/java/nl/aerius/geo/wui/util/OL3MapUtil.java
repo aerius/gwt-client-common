@@ -114,9 +114,8 @@ public final class OL3MapUtil {
 
   public static IsLayer<Layer> prepareBaseLayerDefault(final Map map, final Projection projection, final EPSG epsg) {
     final WmtsOptions wmtsOptions = OLFactory.createOptions();
-    // https://geodata.nationaalgeoregister.nl/tiles/service/wmts?request=GetCapabilities&service=WMTS
-    wmtsOptions.setUrl("https://geodata.nationaalgeoregister.nl/tiles/service/wmts/");
-    wmtsOptions.setLayer("brtachtergrondkaartgrijs");
+    wmtsOptions.setUrl("https://pdok.aerius.nl/v2/brt/achtergrondkaart/wmts/v2_0");
+    wmtsOptions.setLayer("grijs");
     wmtsOptions.setFormat("image/png8");
     wmtsOptions.setMatrixSet(epsg.getEpsgCode());
     wmtsOptions.setStyle("default");
@@ -143,9 +142,8 @@ public final class OL3MapUtil {
 
   public static IsLayer<Layer> prepareBaseLayerColoured(final Map map, final Projection projection, final EPSG epsg) {
     final WmtsOptions wmtsOptions = OLFactory.createOptions();
-    // https://geodata.nationaalgeoregister.nl/tiles/service/wmts?request=GetCapabilities&service=WMTS
-    wmtsOptions.setUrl("https://geodata.nationaalgeoregister.nl/tiles/service/wmts/");
-    wmtsOptions.setLayer("brtachtergrondkaart");
+    wmtsOptions.setUrl("https://pdok.aerius.nl/v2/brt/achtergrondkaart/wmts/v2_0");
+    wmtsOptions.setLayer("standaard");
     wmtsOptions.setFormat("image/png8");
     wmtsOptions.setMatrixSet(epsg.getEpsgCode());
     wmtsOptions.setStyle("default");
@@ -172,9 +170,8 @@ public final class OL3MapUtil {
 
   public static IsLayer<Layer> prepareBaseLayerWater(final Map map, final Projection projection, final EPSG epsg) {
     final WmtsOptions wmtsOptions = OLFactory.createOptions();
-    // https://geodata.nationaalgeoregister.nl/tiles/service/wmts?request=GetCapabilities&service=WMTS
-    wmtsOptions.setUrl("https://geodata.nationaalgeoregister.nl/tiles/service/wmts/");
-    wmtsOptions.setLayer("brtachtergrondkaartwater");
+    wmtsOptions.setUrl("https://pdok.aerius.nl/v2/brt/achtergrondkaart/wmts/v2_0");
+    wmtsOptions.setLayer("water");
     wmtsOptions.setFormat("image/png8");
     wmtsOptions.setMatrixSet(epsg.getEpsgCode());
     wmtsOptions.setStyle("default");
@@ -201,9 +198,8 @@ public final class OL3MapUtil {
 
   public static IsLayer<Layer> prepareBaseLayerPastel(final Map map, final Projection projection, final EPSG epsg) {
     final WmtsOptions wmtsOptions = OLFactory.createOptions();
-    // https://geodata.nationaalgeoregister.nl/tiles/service/wmts?request=GetCapabilities&service=WMTS
-    wmtsOptions.setUrl("https://geodata.nationaalgeoregister.nl/tiles/service/wmts/");
-    wmtsOptions.setLayer("brtachtergrondkaartpastel");
+    wmtsOptions.setUrl("https://pdok.aerius.nl/v2/brt/achtergrondkaart/wmts/v2_0");
+    wmtsOptions.setLayer("pastel");
     wmtsOptions.setFormat("image/png8");
     wmtsOptions.setMatrixSet(epsg.getEpsgCode());
     wmtsOptions.setStyle("default");
@@ -230,7 +226,7 @@ public final class OL3MapUtil {
 
   public static final IsLayer<Layer> prepareBasePhotoLayer(final Map map, final Projection projection, final EPSG epsg) {
     final WmtsOptions wmtsOptions = OLFactory.createOptions();
-    wmtsOptions.setUrl("https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts");
+    wmtsOptions.setUrl("https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0");
     wmtsOptions.setLayer("Actueel_ortho25");
     wmtsOptions.setFormat("image/png");
     wmtsOptions.setMatrixSet(epsg.getEpsgCode());
