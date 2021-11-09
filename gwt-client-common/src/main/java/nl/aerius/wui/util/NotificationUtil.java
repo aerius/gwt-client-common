@@ -31,12 +31,16 @@ public final class NotificationUtil {
     broadcast(eventBus, new Notification(txt));
   }
 
+  public static void broadcastMessage(final EventBus eventBus, final String txt, final boolean silent) {
+    broadcast(eventBus, new Notification(txt, silent));
+  }
+
   /**
    * Broadcasts a message. Text. Not an error.
    *
    * @param eventBus the bus to broadcast over
-   * @param txt the message text to broadcast
-   * @param url additional url
+   * @param txt      the message text to broadcast
+   * @param url      additional url
    */
   public static void broadcastMessage(final EventBus eventBus, final String title, final String txt) {
     broadcast(eventBus, new Notification(title, txt));
@@ -46,8 +50,20 @@ public final class NotificationUtil {
    * Broadcasts a message. Text. Not an error.
    *
    * @param eventBus the bus to broadcast over
-   * @param txt the message text to broadcast
-   * @param url additional url
+   * @param txt      the message text to broadcast
+   * @param url      additional url
+   * @param silent   whether this message is silent
+   */
+  public static void broadcastMessage(final EventBus eventBus, final String title, final String txt, final boolean silent) {
+    broadcast(eventBus, new Notification(title, txt, silent));
+  }
+
+  /**
+   * Broadcasts a message. Text. Not an error.
+   *
+   * @param eventBus the bus to broadcast over
+   * @param txt      the message text to broadcast
+   * @param url      additional url
    */
   public static void broadcastMessage(final EventBus eventBus, final String title, final String txt, final String url) {
     broadcast(eventBus, new Notification(title, txt, url));
@@ -57,7 +73,7 @@ public final class NotificationUtil {
    * Broadcasts an error. Text. Not a message.
    *
    * @param eventBus the bus to broadcast over
-   * @param txt the error text to broadcast
+   * @param txt      the error text to broadcast
    */
   public static void broadcastError(final EventBus eventBus, final String txt) {
     broadcast(eventBus, new Notification(txt, Type.ERROR));
@@ -67,7 +83,7 @@ public final class NotificationUtil {
    * Broadcasts an error. Text. Not a message.
    *
    * @param eventBus the bus to broadcast over
-   * @param txt the error text to broadcast
+   * @param txt      the error text to broadcast
    */
   public static void broadcastError(final EventBus eventBus, final String title, final String txt) {
     broadcast(eventBus, new Notification(title, txt, Type.ERROR));
@@ -77,7 +93,7 @@ public final class NotificationUtil {
    * Broadcasts an error. Exception.
    *
    * @param eventBusthe bus to broadcast over
-   * @param error the error to broadcast
+   * @param error       the error to broadcast
    */
   public static void broadcastError(final EventBus eventBus, final Throwable error) {
     broadcast(eventBus, new Notification(error));
@@ -87,7 +103,7 @@ public final class NotificationUtil {
    * Broadcasts a warning. Exception.
    *
    * @param eventBus the bus to broadcast over
-   * @param error the error to broadcast
+   * @param error    the error to broadcast
    */
   public static void broadcastWarning(final EventBus eventBus, final String message) {
     broadcast(eventBus, new Notification(message, Type.WARNING));
@@ -97,7 +113,7 @@ public final class NotificationUtil {
    * Broadcasts a warning. Exception.
    *
    * @param eventBus the bus to broadcast over
-   * @param error the error to broadcast
+   * @param error    the error to broadcast
    */
   public static void broadcastWarning(final EventBus eventBus, final String title, final String message) {
     broadcast(eventBus, new Notification(title, message, Type.WARNING));
@@ -107,7 +123,7 @@ public final class NotificationUtil {
    * Broadcasts a warning. Exception.
    *
    * @param eventBus the bus to broadcast over
-   * @param error the error to broadcast
+   * @param error    the error to broadcast
    */
   public static void broadcastWarning(final EventBus eventBus, final Throwable error) {
     broadcast(eventBus, new Notification(error, Type.WARNING));
@@ -116,7 +132,7 @@ public final class NotificationUtil {
   /**
    * Broadcasts a {@link Notification}.
    *
-   * @param eventBus the bus to broadcast over
+   * @param eventBus     the bus to broadcast over
    * @param notification the object to broadcast
    */
   public static void broadcast(final EventBus eventBus, final Notification notification) {

@@ -29,6 +29,9 @@ public class Notification {
   private final String title;
   private final String message;
   private final String url;
+
+  // Whether this notification should pop out or be silent
+  private final boolean silent;
   private final Throwable exception;
   private final Type type;
   private final Date dateTime;
@@ -37,8 +40,16 @@ public class Notification {
     this(title, msg, null, null, Type.MESSAGE);
   }
 
+  public Notification(final String title, final String msg, final boolean silent) {
+    this(title, msg, null, null, Type.MESSAGE, silent);
+  }
+
   public Notification(final String msg) {
     this(null, msg, null, null, Type.MESSAGE);
+  }
+
+  public Notification(final String msg, final boolean silent) {
+    this(null, msg, null, null, Type.MESSAGE, silent);
   }
 
   public Notification(final Throwable ex) {
@@ -70,11 +81,16 @@ public class Notification {
   }
 
   private Notification(final String title, final String msg, final String url, final Throwable exception, final Type type) {
+    this(title, msg, url, exception, type, false);
+  }
+
+  private Notification(final String title, final String msg, final String url, final Throwable exception, final Type type, final boolean silent) {
     this.title = title;
     this.message = msg;
     this.url = url;
     this.exception = exception;
     this.type = type;
+    this.silent = silent;
     dateTime = new Date();
   }
 
@@ -117,5 +133,9 @@ public class Notification {
 
   public String getTitle() {
     return title;
+  }
+
+  public boolean isSilent() {
+    return silent;
   }
 }
