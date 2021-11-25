@@ -23,12 +23,12 @@ import com.axellience.vuegwt.core.client.Vue;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.component.hooks.HasCreated;
 
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+
 import jsinterop.annotations.JsMethod;
 
 import nl.aerius.wui.util.ComputedStyleUtil;
-
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
 
 @Component
 public class HorizontalCollapseGroup implements IsVueComponent, HasCreated {

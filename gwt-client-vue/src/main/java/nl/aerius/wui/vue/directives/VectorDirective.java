@@ -24,12 +24,12 @@ import com.axellience.vuegwt.core.client.vnode.VNode;
 import com.axellience.vuegwt.core.client.vnode.VNodeDirective;
 import com.google.gwt.resources.client.DataResource;
 
+import elemental2.dom.Attr;
+import elemental2.dom.Element;
+
 import jsinterop.base.Js;
 
 import nl.aerius.wui.util.Base64Util;
-
-import elemental2.dom.Attr;
-import elemental2.dom.Element;
 
 /**
  * Example usage:

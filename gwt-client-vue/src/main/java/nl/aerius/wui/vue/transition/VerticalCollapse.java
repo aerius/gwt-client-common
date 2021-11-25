@@ -21,12 +21,12 @@ import com.axellience.vuegwt.core.annotations.component.Prop;
 import com.axellience.vuegwt.core.client.Vue;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+
 import jsinterop.annotations.JsMethod;
 
 import nl.aerius.wui.util.ComputedStyleUtil;
-
-import elemental2.dom.Element;
-import elemental2.dom.HTMLElement;
 
 @Component
 public class VerticalCollapse implements IsVueComponent {

@@ -19,9 +19,9 @@ package nl.aerius.wui.vue.transition;
 import com.axellience.vuegwt.core.annotations.component.Component;
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 
-import jsinterop.annotations.JsMethod;
-
 import elemental2.dom.Element;
+
+import jsinterop.annotations.JsMethod;
 
 @Component
 public class FakeTransitionGroup implements IsVueComponent {
