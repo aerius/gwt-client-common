@@ -21,7 +21,7 @@
 
   <groupId>nl.aerius</groupId>
   <artifactId>gwt-client-common-parent</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
   <name>AERIUS :: Common GWT Client Parent</name>
   <url>https://www.aerius.nl</url>
@@ -42,6 +42,7 @@
     <connection>scm:git:ssh://git@github.com/aerius/gwt-client-common.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/aerius/gwt-client-common.git</developerConnection>
     <url>https://www.github.com/aerius/gwt-client-common</url>
+    <tag>1.2.0</tag>
   </scm>
 
   <distributionManagement>
