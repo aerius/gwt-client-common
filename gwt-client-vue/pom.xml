@@ -30,17 +30,6 @@
   <name>AERIUS :: GWT library for GWTVue</name>
   <description>Simple wrapper to easier use VueGwt in conjunction with typical GWT setups.</description>
 
-  <properties>
-    <vue.version>1.0-beta-10-YOGH</vue.version>
-  </properties>
-
-  <repositories>
-    <repository>
-      <id>vue-gwt-yogh-patch-repo</id>
-      <url>https://raw.github.com/JornC/vue-gwt/mvn-repo/</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>nl.aerius</groupId>

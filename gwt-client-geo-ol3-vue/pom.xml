@@ -27,22 +27,6 @@
   <name>AERIUS :: geo GWT client for OL3 Vue</name>
   <packaging>gwt-lib</packaging>
 
-  <properties>
-    <vue.version>1.0-beta-10-AERIUS</vue.version>
-  </properties>
-
-  <repositories>
-    <!-- Using a patch repo on github containing unreleased patches, can be removed when release with patches is available -->
-    <repository>
-      <id>vue-gwt-aerius-patch-repo</id>
-      <url>https://raw.github.com/JornC/vue-gwt/aerius-patch-repo/</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>nl.aerius</groupId>

@@ -60,6 +60,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>8</java.version>
 
+    <vue.version>1.0-beta-10-AERIUS</vue.version>
+
     <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     <com.google.gwt.version>2.8.2</com.google.gwt.version>
 
