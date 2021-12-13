@@ -20,11 +20,12 @@ import com.axellience.vuegwt.core.client.component.IsVueComponent;
 import com.axellience.vuegwt.core.client.vue.VueComponentFactory;
 
 import nl.aerius.wui.activity.Activity;
+import nl.aerius.wui.activity.Presenter;
 import nl.aerius.wui.event.BasicEventComponent;
 import nl.aerius.wui.event.HasEventBus;
 import nl.aerius.wui.vue.AcceptsOneComponent;
 
-public abstract class AbstractVueActivity<P, V extends IsVueComponent, F extends VueComponentFactory<V>>
+public abstract class AbstractVueActivity<P extends Presenter, V extends IsVueComponent, F extends VueComponentFactory<V>>
     extends BasicEventComponent implements Activity<P, AcceptsOneComponent>, HasEventBus {
   private final F factory;
 
