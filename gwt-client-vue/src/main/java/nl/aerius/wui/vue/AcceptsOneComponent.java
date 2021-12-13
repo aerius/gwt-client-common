@@ -18,6 +18,8 @@ package nl.aerius.wui.vue;
 
 import com.axellience.vuegwt.core.client.vue.VueComponentFactory;
 
+import nl.aerius.wui.activity.Presenter;
+
 public interface AcceptsOneComponent {
-  <P> void setComponent(VueComponentFactory<?> factory, P presenter);
+  <P extends Presenter> void setComponent(VueComponentFactory<?> factory, P presenter);
 }
