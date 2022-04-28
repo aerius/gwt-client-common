@@ -1,0 +1,23 @@
+name: pull_request-opened-synchronize-reopened-event
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out github-actions repo
+        uses: actions/checkout@v2
+        with:
+          repository: aerius/github-actions
+          path: aerius-github-actions
+          ref: v1
+
+      - uses: aerius/github-actions/events/pull_request-event-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JDK_VERSION: 1.8
+
