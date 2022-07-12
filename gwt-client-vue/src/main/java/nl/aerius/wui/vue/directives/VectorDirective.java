@@ -26,9 +26,11 @@ import com.google.gwt.resources.client.DataResource;
 
 import elemental2.dom.Attr;
 import elemental2.dom.Element;
+import elemental2.dom.Node;
 
 import jsinterop.base.Js;
 
+import nl.aerius.wui.dev.GWTProd;
 import nl.aerius.wui.util.Base64Util;
 
 /**
@@ -58,7 +60,17 @@ public class VectorDirective extends VueDirective {
         .forEach(v -> {
           final Attr attr = Js.cast(el.attributes.get(v).cloneNode(true));
 
-          el.childNodes.getAt(0).attributes.setNamedItem(attr);
+          final Node node = el.childNodes.getAt(0);
+          if (node.hasAttributes()) {
+            node.attributes.setNamedItem(attr);
+
+            final Element elem = Js.uncheckedCast(node);
+            elem.setAttribute("aria-hidden", true);
+            elem.setAttribute("focusable", false);
+          } else {
+            GWTProd.warn("VectorDirective", "Could not set attribute of node:");
+            GWTProd.log(el);
+          }
         });
   }
 }
