@@ -2,6 +2,13 @@
       v-on:enter="enter"
       v-on:after-enter="afterEnter"
       v-on:leave="leave"
-      v-on:after-leave="afterLeave">
+      v-on:after-leave="afterLeave"
+      class="transitionGroup">
   <slot></slot>
 </transition-group>
+
+<style lang="scss" scoped>
+.transitionGroup {
+  display: contents;
+}
+</style>
