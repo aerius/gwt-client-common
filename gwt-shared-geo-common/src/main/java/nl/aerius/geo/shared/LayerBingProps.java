@@ -14,25 +14,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.legend;
 
-public enum LegendType {
+package nl.aerius.geo.shared;
 
-  CIRCLE(true),
-  HEXAGON(true),
-  LINE(true),
-  LINEDASH(true),
-  ROAD(true),
-  TEXT(false);
+import java.io.Serializable;
 
-  private final boolean colorLegend;
+/**
+ * Layer properties for a Bing map.
+ */
+public class LayerBingProps extends LayerProps implements Serializable {
+  private static final long serialVersionUID = 1L;
 
-  LegendType(final boolean colorLegend) {
-    this.colorLegend = colorLegend;
+  /**
+   * The API key to use for map requests
+   */
+  private String key;
+  /**
+   * The imagery set to use, one of ['RoadOnDemand', 'Aerial', 'AerialWithLabelsOnDemand', 'CanvasDark', 'OrdnanceSurvey']
+   */
+  private String imagerySet;
+
+  public String getKey() {
+    return key;
   }
 
-  public boolean hasColorLegend() {
-    return colorLegend;
+  public void setKey(final String key) {
+    this.key = key;
   }
 
+  public void setImagerySet(final String imagerySet) {
+    this.imagerySet = imagerySet;
+  }
+
+  public String getImagerySet() {
+    return imagerySet;
+  }
 }

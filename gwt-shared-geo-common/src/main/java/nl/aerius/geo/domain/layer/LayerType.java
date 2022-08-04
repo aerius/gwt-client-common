@@ -14,11 +14,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.legend;
+package nl.aerius.geo.domain.layer;
 
-import java.io.Serializable;
+import java.util.stream.Stream;
 
-/**
- * Data class for properties of a layer legend with only a name.
- */
-public interface Legend extends Serializable {}
+public enum LayerType {
+  WMS("wms"),
+  WMTS("wmts");
+
+  private final String name;
+
+  private LayerType(final String name) {
+    this.name = name;
+  }
+
+  public static LayerType fromName(final String name) {
+    return Stream.of(values())
+        .filter(v -> v.getName().equals(name))
+        .findFirst().orElseThrow(() -> new NullPointerException("No LayerType for name"));
+  }
+
+  public String getName() {
+    return name;
+  }
+}

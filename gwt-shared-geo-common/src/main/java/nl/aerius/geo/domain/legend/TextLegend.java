@@ -14,11 +14,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.shared;
+package nl.aerius.geo.domain.legend;
 
-/**
- * AERIUS layer. Among possibly others will get year event changes and such.
- */
-public class LayerAeriusWMSProps extends LayerWMSProps {
-  private static final long serialVersionUID = -6616711677483571167L;
+public class TextLegend implements Legend {
+  private static final long serialVersionUID = 1L;
+
+  private String text;
+
+  public TextLegend() {}
+
+  public TextLegend(final String text) {
+    this.text = text;
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public void setText(final String text) {
+    this.text = text;
+  }
+
+  @Override
+  public String toString() {
+    return "TextLegend [text=" + text + "]" + super.toString();
+  }
 }

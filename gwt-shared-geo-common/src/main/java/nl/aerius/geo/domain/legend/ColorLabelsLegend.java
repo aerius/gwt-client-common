@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.legend;
+package nl.aerius.geo.domain.legend;
 
 import java.util.Arrays;
 

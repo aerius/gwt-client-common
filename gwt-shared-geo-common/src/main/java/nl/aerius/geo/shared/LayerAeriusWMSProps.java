@@ -14,31 +14,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.shared;
+package nl.aerius.geo.shared;
 
-import java.util.LinkedHashMap;
-
-public class LayerMultiWMSProps<T> extends LayerWMSProps {
-  private static final long serialVersionUID = -5981232816812071542L;
-
-  // key = type, value = title
-  private LinkedHashMap<? extends Object, T> types;
-
-  private boolean useRangeFilter;
-
-  public LinkedHashMap<? extends Object, T> getTypes() {
-    return types;
-  }
-
-  public void setTypes(final LinkedHashMap<? extends Object, T> types) {
-    this.types = types;
-  }
-
-  public boolean isUseRangeFilter() {
-    return useRangeFilter;
-  }
-
-  public void setUseRangeFilter(final boolean useRangeFilter) {
-    this.useRangeFilter = useRangeFilter;
-  }
+/**
+ * AERIUS layer. Among possibly others will get year event changes and such.
+ */
+public class LayerAeriusWMSProps extends LayerWMSProps {
+  private static final long serialVersionUID = -6616711677483571167L;
 }

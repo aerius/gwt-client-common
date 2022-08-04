@@ -14,39 +14,37 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
+package nl.aerius.geo.domain.legend;
 
-package nl.overheid.aerius.geo.shared;
-
-import java.io.Serializable;
+import java.util.Arrays;
 
 /**
- * Layer properties for a Bing map.
+ * Data class for legend with a list of makers icons and names.
  */
-public class LayerBingProps extends LayerProps implements Serializable {
+public class MarkerLabelsLegend implements Legend {
   private static final long serialVersionUID = 1L;
 
-  /**
-   * The API key to use for map requests
-   */
-  private String key;
-  /**
-   * The imagery set to use, one of ['RoadOnDemand', 'Aerial', 'AerialWithLabelsOnDemand', 'CanvasDark', 'OrdnanceSurvey']
-   */
-  private String imagerySet;
+  private String[] markers;
 
-  public String getKey() {
-    return key;
+  // Needed for GWT.
+  public MarkerLabelsLegend() {}
+
+  public MarkerLabelsLegend(final String[] markers) {
+    this.markers = markers;
   }
 
-  public void setKey(final String key) {
-    this.key = key;
+  public String[] getMarkers() {
+    return markers;
   }
 
-  public void setImagerySet(final String imagerySet) {
-    this.imagerySet = imagerySet;
+  public void setMarkers(final String[] markers) {
+    this.markers = markers;
   }
 
-  public String getImagerySet() {
-    return imagerySet;
+  @Override
+  public String toString() {
+    return "MarkerLabelsLegend[" +
+        ", markers=" + Arrays.toString(markers) +
+        ']';
   }
 }

@@ -14,12 +14,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.shared;
+package nl.aerius.geo.domain.layer;
 
-/**
- * AERIUS layer. Among possibly others will get year event changes and such.
- * @param <T> Param that goes into {@link LayerMultiWMSProps}.
- */
-public class LayerAeriusMultiWMSProps<T> extends LayerMultiWMSProps<T> {
-  private static final long serialVersionUID = -7600586901979895297L;
+public interface IsLayerConfiguration {
+  LayerConfiguration layer();
 }

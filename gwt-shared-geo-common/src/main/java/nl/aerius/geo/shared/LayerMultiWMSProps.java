@@ -14,37 +14,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.legend;
+package nl.aerius.geo.shared;
 
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 
-/**
- * Data class for legend with a list of makers icons and names.
- */
-public class MarkerLabelsLegend implements Legend {
-  private static final long serialVersionUID = 1L;
+public class LayerMultiWMSProps<T> extends LayerWMSProps {
+  private static final long serialVersionUID = -5981232816812071542L;
 
-  private String[] markers;
+  // key = type, value = title
+  private LinkedHashMap<? extends Object, T> types;
 
-  // Needed for GWT.
-  public MarkerLabelsLegend() {}
+  private boolean useRangeFilter;
 
-  public MarkerLabelsLegend(final String[] markers) {
-    this.markers = markers;
+  public LinkedHashMap<? extends Object, T> getTypes() {
+    return types;
   }
 
-  public String[] getMarkers() {
-    return markers;
+  public void setTypes(final LinkedHashMap<? extends Object, T> types) {
+    this.types = types;
   }
 
-  public void setMarkers(final String[] markers) {
-    this.markers = markers;
+  public boolean isUseRangeFilter() {
+    return useRangeFilter;
   }
 
-  @Override
-  public String toString() {
-    return "MarkerLabelsLegend[" +
-        ", markers=" + Arrays.toString(markers) +
-        ']';
+  public void setUseRangeFilter(final boolean useRangeFilter) {
+    this.useRangeFilter = useRangeFilter;
   }
 }

@@ -14,8 +14,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.layer;
+package nl.aerius.geo.domain.legend;
 
-public interface IsLayerConfiguration {
-  LayerConfiguration layer();
+public enum LegendType {
+
+  CIRCLE(true),
+  HEXAGON(true),
+  LINE(true),
+  LINEDASH(true),
+  ROAD(true),
+  TEXT(false);
+
+  private final boolean colorLegend;
+
+  LegendType(final boolean colorLegend) {
+    this.colorLegend = colorLegend;
+  }
+
+  public boolean hasColorLegend() {
+    return colorLegend;
+  }
+
 }

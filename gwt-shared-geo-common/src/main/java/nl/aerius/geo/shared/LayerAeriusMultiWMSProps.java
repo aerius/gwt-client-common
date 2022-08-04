@@ -14,27 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.layer;
+package nl.aerius.geo.shared;
 
-import java.util.stream.Stream;
-
-public enum LayerType {
-  WMS("wms"),
-  WMTS("wmts");
-
-  private final String name;
-
-  private LayerType(final String name) {
-    this.name = name;
-  }
-
-  public static LayerType fromName(final String name) {
-    return Stream.of(values())
-        .filter(v -> v.getName().equals(name))
-        .findFirst().orElseThrow(() -> new NullPointerException("No LayerType for name"));
-  }
-
-  public String getName() {
-    return name;
-  }
+/**
+ * AERIUS layer. Among possibly others will get year event changes and such.
+ * @param <T> Param that goes into {@link LayerMultiWMSProps}.
+ */
+public class LayerAeriusMultiWMSProps<T> extends LayerMultiWMSProps<T> {
+  private static final long serialVersionUID = -7600586901979895297L;
 }

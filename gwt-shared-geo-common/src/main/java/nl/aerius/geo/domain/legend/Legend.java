@@ -14,29 +14,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.domain.legend;
+package nl.aerius.geo.domain.legend;
 
-public class TextLegend implements Legend {
-  private static final long serialVersionUID = 1L;
+import java.io.Serializable;
 
-  private String text;
-
-  public TextLegend() {}
-
-  public TextLegend(final String text) {
-    this.text = text;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public void setText(final String text) {
-    this.text = text;
-  }
-
-  @Override
-  public String toString() {
-    return "TextLegend [text=" + text + "]" + super.toString();
-  }
-}
+/**
+ * Data class for properties of a layer legend with only a name.
+ */
+public interface Legend extends Serializable {}

@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses/.
  */
-package nl.overheid.aerius.geo.shared;
+package nl.aerius.geo.shared;
 
 import java.io.Serializable;
 
-import nl.overheid.aerius.geo.domain.legend.Legend;
+import nl.aerius.geo.domain.legend.Legend;
 
 /**
  * Properties for a specific Layer. The properties contain additional configuration settings not available in other data.
