@@ -17,14 +17,23 @@ Library containing base GWT infrastructure such as PlaceController and ActivityM
 
 ## Geo utilities
 
-Library containing basic geo utilities to be used easily in conjunction with a typical GWT setup (with events).
-
-To depend on the `vue` variant of this library, which contains some vue-specific adaptors:
+Library containing shared geo utilities.
 
 ```xml
     <dependency>
       <groupId>nl.aerius</groupId>
-      <artifactId>gwt-client-geo-ol3-vue</artifactId>
+      <artifactId>gwt-shared-geo-common</artifactId>
+      <version>${gwt-client-common.version}</version>
+      <type>gwt-lib</type>
+    </dependency>
+```
+
+Library containing basic geo utilities to be used easily in conjunction with a typical Vue-GWT setup (with events):
+
+```xml
+    <dependency>
+      <groupId>nl.aerius</groupId>
+      <artifactId>gwt-client-geo-ol3</artifactId>
       <version>${gwt-client-common.version}</version>
       <type>gwt-lib</type>
     </dependency>
