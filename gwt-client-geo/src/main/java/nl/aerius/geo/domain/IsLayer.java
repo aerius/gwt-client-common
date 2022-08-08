@@ -21,7 +21,15 @@ import java.util.Optional;
 public interface IsLayer<L> {
   L asLayer();
 
-  default Optional<LayerInfo> getInfo() {
-    return Optional.empty();
+  default LayerInfo getInfo() {
+    return null;
+  }
+
+  default LayerInfo info() {
+    return getInfo();
+  }
+
+  default Optional<LayerInfo> getInfoOptional() {
+    return Optional.ofNullable(getInfo());
   }
 }

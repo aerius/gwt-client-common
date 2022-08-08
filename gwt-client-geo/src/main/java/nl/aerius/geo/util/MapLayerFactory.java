@@ -17,8 +17,8 @@
 package nl.aerius.geo.util;
 
 import nl.aerius.geo.domain.IsLayer;
-import nl.aerius.geo.domain.layer.LayerConfig;
+import nl.aerius.geo.shared.LayerProps;
 
 public interface MapLayerFactory<L> {
-  IsLayer<L> prepareLayer(LayerConfig c);
+  IsLayer<L> prepareLayer(LayerProps props);
 }

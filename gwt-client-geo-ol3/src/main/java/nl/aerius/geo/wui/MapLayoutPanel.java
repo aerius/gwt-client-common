@@ -16,136 +16,144 @@
  */
 package nl.aerius.geo.wui;
 
+import java.util.stream.IntStream;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Timer;
-import com.google.inject.Inject;
+import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 
+import ol.Coordinate;
 import ol.Extent;
 import ol.Map;
+import ol.OLFactory;
+import ol.Overlay;
+import ol.ViewFitOptions;
+import ol.animation.AnimationOptions;
+import ol.easing.Easing;
 import ol.format.Wkt;
 import ol.geom.Geometry;
-import ol.geom.Polygon;
-import ol.layer.Layer;
-import ol.proj.Projection;
+import ol.interaction.Interaction;
+import ol.layer.Base;
 
-import nl.aerius.geo.BBox;
-import nl.aerius.geo.command.InformationLayerActiveCommand;
+import nl.aerius.geo.command.InteractionAddedCommand;
+import nl.aerius.geo.command.InteractionRemoveCommand;
 import nl.aerius.geo.command.LayerAddedCommand;
 import nl.aerius.geo.command.LayerHiddenCommand;
 import nl.aerius.geo.command.LayerOpacityCommand;
 import nl.aerius.geo.command.LayerRemovedCommand;
+import nl.aerius.geo.command.LayerVisibilityToggleCommand;
 import nl.aerius.geo.command.LayerVisibleCommand;
+import nl.aerius.geo.command.MapAttachCommand;
+import nl.aerius.geo.command.MapCenterChangeCommand;
+import nl.aerius.geo.command.MapDetachCommand;
+import nl.aerius.geo.command.MapPanDownCommand;
+import nl.aerius.geo.command.MapPanLeftCommand;
+import nl.aerius.geo.command.MapPanRightCommand;
+import nl.aerius.geo.command.MapPanUpCommand;
 import nl.aerius.geo.command.MapResizeCommand;
+import nl.aerius.geo.command.MapResizeSequenceCommand;
 import nl.aerius.geo.command.MapSetExtentCommand;
+import nl.aerius.geo.command.MapZoomInCommand;
+import nl.aerius.geo.command.MapZoomOutCommand;
+import nl.aerius.geo.command.OverlayAddedCommand;
+import nl.aerius.geo.command.OverlayRemoveCommand;
+import nl.aerius.geo.command.RenderSyncCommand;
+import nl.aerius.geo.domain.IsInteraction;
 import nl.aerius.geo.domain.IsLayer;
-import nl.aerius.geo.epsg.EPSG;
+import nl.aerius.geo.domain.IsOverlay;
 import nl.aerius.geo.event.LayerHiddenEvent;
 import nl.aerius.geo.event.LayerOpacityEvent;
 import nl.aerius.geo.event.LayerVisibleEvent;
+import nl.aerius.geo.event.MapCenterChangeEvent;
+import nl.aerius.geo.event.MapChangeEvent;
+import nl.aerius.geo.event.MapRenderCompleteEvent;
 import nl.aerius.geo.event.MapSetExtentEvent;
-import nl.aerius.geo.event.MapSetShortcircuitedExtentEvent;
-import nl.aerius.geo.event.RequestExtentCorrectionEvent;
-import nl.aerius.geo.util.ReceptorUtil;
 import nl.aerius.geo.wui.util.OL3MapUtil;
 import nl.aerius.wui.command.Command;
 import nl.aerius.wui.event.HasEventBus;
+import nl.aerius.wui.util.SchedulerUtil;
+import nl.overheid.aerius.geo.shared.EPSG;
 
+/**
+ * Manages the events to a Openlayers map.
+ */
 public class MapLayoutPanel implements HasEventBus {
+  private static final int PAN_AMOUNT = 100;
+  private static final int ZOOM_ANIMATION_DURATION = 400;
+
   interface MapLayoutPanelEventBinder extends EventBinder<MapLayoutPanel> {}
 
   private final MapLayoutPanelEventBinder EVENT_BINDER = GWT.create(MapLayoutPanelEventBinder.class);
 
-  private final EPSG epsg;
   private Map map;
   private EventBus eventBus;
-  private final ReceptorUtil receptorUtil;
-
   private String deferredExtent;
 
   private boolean deferredZoomScheduled;
-  private boolean defferedSizeUpdateScheduled;
+  private HandlerRegistration handlers;
 
-  private final Timer userInitiatedExtentPersistTimer = new Timer() {
-    @Override
-    public void run() {
-      final Wkt wkt = new Wkt();
-      final Polygon poly = Polygon.fromExtent(map.getView().calculateExtent(map.getSize()));
-      final String wktString = wkt.writeGeometry(poly);
-
-      eventBus.fireEvent(new MapSetExtentCommand(wktString, false, true, true));
-    }
-  };
-
-  private boolean attachInformationLayer;
-
-  @Inject
-  public MapLayoutPanel(final EPSG epsg, final ReceptorUtil receptorUtil) {
-    this.epsg = epsg;
-    this.receptorUtil = receptorUtil;
-
-    OL3MapUtil.prepareEPSG(epsg);
+  /**
+   * Constructs the map for the given projection.
+   *
+   * This method should be called once and would have done in the constructor if
+   * epsg would not be dynamic. If epsg will be made static, as in available at
+   * startup, this code could be moved to a constructor.
+   *
+   * @param epsg projection.
+   */
+  public void init(final EPSG epsg) {
+    map = OL3MapUtil.prepareMap(epsg);
+    Window.addResizeHandler(v -> updateSize());
+    map.on("precompose", event -> eventBus.fireEvent(new MapChangeEvent()));
+    map.on("rendercomplete", event -> eventBus.fireEvent(new MapRenderCompleteEvent()));
   }
 
   @Override
   public void setEventBus(final EventBus eventBus) {
     this.eventBus = eventBus;
 
-    EVENT_BINDER.bindEventHandlers(this, eventBus);
-  }
-
-  public void setTarget(final String uniqueId) {
-    final Projection projection = Projection.get(epsg.getEpsgCode());
-    if (projection == null) {
-      throw new RuntimeException("Projection not available while this is mandatory. " + epsg.getEpsgCode());
+    if (handlers != null) {
+      handlers.removeHandler();
     }
-
-    map = OL3MapUtil.prepareMap(uniqueId, projection);
-    OL3MapUtil.prepareControls(map);
-
-    map.getView().addChangeListener(e -> notifyUserInitiatedChangeExtent());
-
-    // Base layer preparation.
-    final IsLayer<Layer> baseLayer = OL3MapUtil.prepareBaseLayerDefault(map, projection, epsg);
-    final IsLayer<Layer> baseLayerColoured = OL3MapUtil.prepareBaseLayerColoured(map, projection, epsg);
-    final IsLayer<Layer> baseLayerWater = OL3MapUtil.prepareBaseLayerWater(map, projection, epsg);
-    final IsLayer<Layer> baseLayerPastel = OL3MapUtil.prepareBaseLayerPastel(map, projection, epsg);
-    final IsLayer<Layer> photoLayer = OL3MapUtil.prepareBasePhotoLayer(map, projection, epsg);
-
-    Scheduler.get().scheduleDeferred(() -> {
-      eventBus.fireEvent(new LayerAddedCommand(baseLayer));
-      eventBus.fireEvent(new LayerAddedCommand(baseLayerColoured));
-      eventBus.fireEvent(new LayerAddedCommand(baseLayerWater));
-      eventBus.fireEvent(new LayerAddedCommand(baseLayerPastel));
-      eventBus.fireEvent(new LayerAddedCommand(photoLayer));
-      if (attachInformationLayer) {
-        attachInformationLayer();
-      }
-
-      updateSize();
-    });
-  }
-
-  private void notifyUserInitiatedChangeExtent() {
-    userInitiatedExtentPersistTimer.schedule(350);
+    handlers = EVENT_BINDER.bindEventHandlers(this, eventBus);
   }
 
   @EventHandler
-  void onInformationLayerActiveCommand(final InformationLayerActiveCommand c) {
-    if (map != null) {
-      attachInformationLayer();
-    } else {
-      attachInformationLayer = true;
+  void onMapAttachCommand(final MapAttachCommand c) {
+    map.setTarget(c.getValue());
+    updateSize();
+
+    SchedulerUtil.delay(() -> {
+      final Coordinate center = map.getView().getCenter();
+
+      eventBus.fireEvent(new MapCenterChangeCommand(center.getX(), center.getY()));
+    });
+  }
+
+  @EventHandler
+  void onMapDetachCommand(final MapDetachCommand c) {
+    map.setTarget((String) null);
+  }
+
+  @EventHandler
+  void onMapCenterChangeEvent(final MapCenterChangeEvent e) {
+    map.getView().setCenter(new Coordinate(e.getX(), e.getY()));
+    if (e.getZoomLevel() > 0) {
+      map.getView().setZoom(e.getZoomLevel());
     }
   }
 
-  private void attachInformationLayer() {
-    final IsLayer<Layer> infoLayer = OL3MapUtil.prepareInformationLayer(map, Projection.get(epsg.getEpsgCode()), eventBus, receptorUtil);
-    eventBus.fireEvent(new LayerAddedCommand(infoLayer));
-
+  @EventHandler
+  void onMapResizeSequenceCommand(final MapResizeSequenceCommand c) {
+    updateSize();
+    final int totalTime = 500;
+    final int interval = 5;
+    IntStream.range(0, totalTime / interval)
+        .forEach(i -> SchedulerUtil.delay(() -> updateSize(), i * interval));
   }
 
   @EventHandler
@@ -154,65 +162,11 @@ public class MapLayoutPanel implements HasEventBus {
   }
 
   @EventHandler
-  void onMapSetShortcircuitedExtentEvent(final MapSetShortcircuitedExtentEvent e) {
-    final String wkt = e.getValue().replaceAll("BOX", "LINESTRING");
+  void onMapSetExtentCommand(final MapSetExtentCommand c) {
+    c.silence();
+    final String wkt = c.getValue().replace("BOX", "LINESTRING");
 
-    deferZoomToExtent(wkt, true);
-  }
-
-  @EventHandler
-  void onMapSetExtentEvent(final MapSetExtentEvent e) {
-    final String wkt = e.getValue().replaceAll("BOX", "LINESTRING");
-
-    deferZoomToExtent(wkt, false);
-  }
-
-  private void deferZoomToExtent(final String wkt, final boolean shortCircuit) {
-    deferredExtent = wkt;
-    if (deferredZoomScheduled) {
-      return;
-    }
-
-    deferredZoomScheduled = true;
-    Scheduler.get().scheduleDeferred(() -> {
-      if (map == null) {
-        return;
-      }
-
-      final Wkt format = new Wkt();
-      final Geometry geom = format.readGeometry(deferredExtent);
-      final Extent extent = geom.getExtent();
-
-      if (shortCircuit) {
-//        GWTProd.log("MAP", "Setting extent to (via shortcircuit): " + extent);
-        map.getView().fit(extent);
-      } else {
-        final Extent result = fitCorrectedExtent(extent);
-
-        final Wkt wktLocal = new Wkt();
-        final Polygon poly = Polygon.fromExtent(result);
-        final String wktString = wktLocal.writeGeometry(poly);
-
-//        GWTProd.log("MAP", "Persisting extent: " + wktString);
-        eventBus.fireEvent(new MapSetExtentCommand(wktString, false, true, true));
-      }
-
-      deferredZoomScheduled = false;
-    });
-  }
-
-  private Extent fitCorrectedExtent(final Extent extent) {
-    final BBox box = new BBox(extent.getLowerLeftX(), extent.getLowerLeftY(), extent.getUpperRightX(), extent.getUpperRightY());
-
-    final RequestExtentCorrectionEvent ev = new RequestExtentCorrectionEvent(box, map.getViewport());
-    eventBus.fireEvent(ev);
-
-    final BBox correctedBox = ev.getCorrectedBox();
-    final Extent correctedExtent = new Extent(correctedBox.getMinX(), correctedBox.getMinY(), correctedBox.getMaxX(), correctedBox.getMaxY());
-
-//    GWTProd.log("MAP", "Setting extent to: " + correctedExtent);
-    map.getView().fit(correctedExtent);
-    return correctedExtent;
+    deferZoomToExtent(wkt, c.getValue(), c.isAnimated());
   }
 
   @EventHandler
@@ -236,8 +190,98 @@ public class MapLayoutPanel implements HasEventBus {
   }
 
   @EventHandler
+  void onLayerVisibilityToggleCommand(final LayerVisibilityToggleCommand c) {
+    eventBus.fireEvent(isLayerVisible(c.getIsLayer())
+        ? new LayerHiddenCommand(c.getValue())
+        : new LayerVisibleCommand(c.getValue()));
+  }
+
+  @EventHandler
   void onLayerOpacityCommand(final LayerOpacityCommand c) {
     setLayerOpacity(c.getIsLayer(), c.getOpacity());
+  }
+
+  @EventHandler
+  void onOverlayAddedCommand(final OverlayAddedCommand c) {
+    finishCommand(c, addOverlay(c.getIsOverlay()));
+  }
+
+  @EventHandler
+  void onOverlayRemovedCommand(final OverlayRemoveCommand c) {
+    finishCommand(c, removeOverlay(c.getIsOverlay()));
+  }
+
+  @EventHandler
+  void onInteractionAddedCommand(final InteractionAddedCommand c) {
+    finishCommand(c, addInteraction(c.getIsInteraction()));
+  }
+
+  @EventHandler
+  void onInteractionRemovedCommand(final InteractionRemoveCommand c) {
+    finishCommand(c, removeInteraction(c.getIsInteraction()));
+  }
+
+  @EventHandler
+  void onMapZoomInCommand(final MapZoomInCommand c) {
+    final AnimationOptions options = OLFactory.createOptions();
+    options.setCenter(map.getView().getCenter());
+    options.setZoom(map.getView().getZoom() + 1);
+    defaultAnimate(options);
+  }
+
+  @EventHandler
+  void onMapZoomOutCommand(final MapZoomOutCommand c) {
+    final AnimationOptions options = OLFactory.createOptions();
+    options.setCenter(map.getView().getCenter());
+    options.setZoom(map.getView().getZoom() - 1);
+    defaultAnimate(options);
+  }
+
+  @EventHandler
+  void onMapPanRightCommand(final MapPanRightCommand c) {
+    onMapPanCommand(PAN_AMOUNT, 0);
+  }
+
+  @EventHandler
+  void onMapPanLeftCommand(final MapPanLeftCommand c) {
+    onMapPanCommand(-PAN_AMOUNT, 0);
+  }
+
+  @EventHandler
+  void onMapPanUpCommand(final MapPanUpCommand c) {
+    onMapPanCommand(0, PAN_AMOUNT);
+  }
+
+  @EventHandler
+  void onMapPanDownCommand(final MapPanDownCommand c) {
+    onMapPanCommand(0, -PAN_AMOUNT);
+  }
+
+  void onMapPanCommand(final int deltaX, final int deltaY) {
+    final Coordinate center = map.getView().getCenter();
+    final double resolution = map.getView().getResolution();
+
+    final Coordinate newCenter = new Coordinate(center.getX() + deltaX * resolution, center.getY() + deltaY * resolution);
+    final AnimationOptions options = OLFactory.createOptions();
+    options.setCenter(newCenter);
+
+    defaultAnimate(options);
+  }
+
+  @EventHandler
+  public void onRenderSyncCommand(final RenderSyncCommand c) {
+    map.renderSync();
+    if (c.getValue() != null) {
+      map.once("rendercomplete", event -> {
+        c.getValue().run();
+      });
+    }
+  }
+
+  private void defaultAnimate(final AnimationOptions options) {
+    options.setEasing(Easing.easeOut());
+    options.setDuration(200);
+    map.getView().animate(options);
   }
 
   private void finishCommand(final Command<?> c, final boolean success) {
@@ -249,7 +293,35 @@ public class MapLayoutPanel implements HasEventBus {
   /**
    * To be used only as a delegate method from a command handler and not directly.
    */
-  private boolean addLayer(final IsLayer<Layer> layer) {
+  private boolean addInteraction(final IsInteraction<Interaction> interaction) {
+    return addInteraction(interaction.asInteraction());
+  }
+
+  /**
+   * To be used only as a delegate method from a command handler and not directly.
+   */
+  private boolean removeInteraction(final IsInteraction<Interaction> interaction) {
+    return removeInteraction(interaction.asInteraction());
+  }
+
+  /**
+   * To be used only as a delegate method from a command handler and not directly.
+   */
+  private boolean addOverlay(final IsOverlay<Overlay> interaction) {
+    return addOverlay(interaction.asOverlay());
+  }
+
+  /**
+   * To be used only as a delegate method from a command handler and not directly.
+   */
+  private boolean removeOverlay(final IsOverlay<Overlay> interaction) {
+    return removeOverlay(interaction.asOverlay());
+  }
+
+  /**
+   * To be used only as a delegate method from a command handler and not directly.
+   */
+  private boolean addLayer(final IsLayer<Base> layer) {
     final boolean visible = layer.asLayer().getVisible();
     Scheduler.get().scheduleDeferred(() -> {
       eventBus.fireEvent(visible ? new LayerVisibleEvent(layer) : new LayerHiddenEvent(layer));
@@ -262,14 +334,18 @@ public class MapLayoutPanel implements HasEventBus {
   /**
    * To be used only as a delegate method from a command handler and not directly.
    */
-  private boolean removeLayer(final IsLayer<Layer> layer) {
+  private boolean removeLayer(final IsLayer<Base> layer) {
     return removeLayer(layer.asLayer());
+  }
+
+  private boolean isLayerVisible(final IsLayer<Base> isLayer) {
+    return isLayer.asLayer().getVisible();
   }
 
   /**
    * To be used only as a delegate method from a command handler and not directly.
    */
-  private boolean setLayerVisible(final IsLayer<Layer> isLayer, final boolean visible) {
+  private boolean setLayerVisible(final IsLayer<Base> isLayer, final boolean visible) {
     if (isLayer.asLayer().getVisible() == visible) {
       return false;
     }
@@ -279,7 +355,7 @@ public class MapLayoutPanel implements HasEventBus {
     return true;
   }
 
-  private void setLayerOpacity(final IsLayer<Layer> isLayer, final double opacity) {
+  private void setLayerOpacity(final IsLayer<Base> isLayer, final double opacity) {
     isLayer.asLayer().setOpacity(opacity);
   }
 
@@ -287,7 +363,7 @@ public class MapLayoutPanel implements HasEventBus {
    * To be used only as a delegate method from an command handler and not
    * directly.
    */
-  private boolean addLayer(final Layer layer) {
+  private boolean addLayer(final Base layer) {
     map.addLayer(layer);
 
     // TODO Implement action indication
@@ -298,30 +374,84 @@ public class MapLayoutPanel implements HasEventBus {
    * To be used only as a delegate method from an command handler and not
    * directly.
    */
-  private boolean removeLayer(final Layer layer) {
+  private boolean removeLayer(final Base layer) {
     map.removeLayer(layer);
 
     // TODO Implement action indication
     return true;
   }
 
-  public void updateSize() {
-    if (defferedSizeUpdateScheduled) {
+  /**
+   * To be used only as a delegate method from an command handler and not
+   * directly.
+   */
+  private boolean addInteraction(final Interaction interaction) {
+    map.addInteraction(interaction);
+    return true;
+  }
+
+  /**
+   * To be used only as a delegate method from an command handler and not
+   * directly.
+   */
+  private boolean removeInteraction(final Interaction interaction) {
+    map.removeInteraction(interaction);
+    return true;
+  }
+
+  /**
+   * To be used only as a delegate method from an command handler and not
+   * directly.
+   */
+  private boolean addOverlay(final Overlay overlay) {
+    map.addOverlay(overlay);
+    return true;
+  }
+
+  /**
+   * To be used only as a delegate method from an command handler and not
+   * directly.
+   */
+  private boolean removeOverlay(final Overlay overlay) {
+    map.removeOverlay(overlay);
+    return true;
+  }
+
+  private void deferZoomToExtent(final String wkt, final String originalWkt, final boolean isAnimated) {
+    deferredExtent = wkt;
+    if (deferredZoomScheduled) {
       return;
     }
 
-    defferedSizeUpdateScheduled = true;
+    deferredZoomScheduled = true;
     Scheduler.get().scheduleDeferred(() -> {
       if (map == null) {
         return;
       }
 
-      map.updateSize();
-      defferedSizeUpdateScheduled = false;
+      final Wkt format = new Wkt();
+      final Geometry geom = format.readGeometry(deferredExtent);
+      final Extent extent = geom.getExtent();
+
+      final ViewFitOptions options = OLFactory.createOptions();
+      if (isAnimated) {
+        options.setDuration(ZOOM_ANIMATION_DURATION);
+      }
+      options.setMaxZoom(10);
+
+      map.getView().fit(extent, options);
+
+      deferredZoomScheduled = false;
+
+      SchedulerUtil.delay(() -> eventBus.fireEvent(new MapSetExtentEvent(originalWkt)), isAnimated ? ZOOM_ANIMATION_DURATION : 0);
     });
   }
 
-  public Map getMap() {
+  public Map getInnerMap() {
     return map;
+  }
+
+  public void updateSize() {
+    map.updateSize();
   }
 }

@@ -16,11 +16,11 @@
  */
 package nl.aerius.geo.command;
 
+import nl.aerius.wui.command.SimpleGenericCommand;
 import nl.aerius.geo.domain.IsLayer;
 import nl.aerius.geo.event.HasLayerChange;
 import nl.aerius.geo.event.LayerChangeEvent;
 import nl.aerius.geo.event.LayerChangeEvent.CHANGE;
-import nl.aerius.wui.command.SimpleGenericCommand;
 
 public abstract class LayerChangeCommand<E extends LayerChangeEvent> extends SimpleGenericCommand<IsLayer<?>, E> implements HasLayerChange {
   private final CHANGE change;

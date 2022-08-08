@@ -17,8 +17,4 @@
   along with this program.  If not, see http://www.gnu.org/licenses/.
 -->
 <module>
-  <inherits name="com.google.gwt.user.User" />
-  <inherits name="nl.aerius.Common" />
-
-  <source path="geo" />
 </module>

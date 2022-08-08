@@ -16,31 +16,34 @@
  */
 package nl.aerius.geo.command;
 
-import nl.aerius.geo.event.MapSetExtentEvent;
 import nl.aerius.wui.command.SimpleGenericCommand;
+import nl.aerius.geo.event.MapSetExtentEvent;
 
 public class MapSetExtentCommand extends SimpleGenericCommand<String, MapSetExtentEvent> {
   private boolean userInitiated;
   private boolean fromMap;
-  private boolean persistOnly;
+  private boolean animated = true;
 
   public MapSetExtentCommand(final String extent) {
-    this(extent, false, false, false);
+    super(extent);
   }
 
   public MapSetExtentCommand(final String extent, final boolean userInitiated) {
-    this(extent, userInitiated, false, false);
+    super(extent);
+    this.userInitiated = userInitiated;
   }
 
   public MapSetExtentCommand(final String extent, final boolean userInitiated, final boolean fromMap) {
-    this(extent, userInitiated, fromMap, false);
-  }
-
-  public MapSetExtentCommand(final String extent, final boolean userInitiated, final boolean fromMap, final boolean persistOnly) {
     super(extent);
     this.userInitiated = userInitiated;
     this.fromMap = fromMap;
-    this.persistOnly = persistOnly;
+  }
+
+  public MapSetExtentCommand(final String extent, final boolean userInitiated, final boolean fromMap, final boolean animated) {
+    super(extent);
+    this.userInitiated = userInitiated;
+    this.fromMap = fromMap;
+    this.animated = animated;
   }
 
   @Override
@@ -64,11 +67,11 @@ public class MapSetExtentCommand extends SimpleGenericCommand<String, MapSetExte
     this.fromMap = fromMap;
   }
 
-  public boolean isPersistOnly() {
-    return persistOnly;
+  public boolean isAnimated() {
+    return animated;
   }
 
-  public void setPersistOnly(final boolean persistOnly) {
-    this.persistOnly = persistOnly;
+  public void setAnimated(final boolean animated) {
+    this.animated = animated;
   }
 }
