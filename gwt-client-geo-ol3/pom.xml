@@ -25,9 +25,16 @@
   </parent>
 
   <artifactId>gwt-client-geo-ol3</artifactId>
+  <packaging>gwt-lib</packaging>
   <name>AERIUS :: geo GWT client for OL3</name>
 
   <dependencies>
+    <dependency>
+      <groupId>nl.aerius</groupId>
+      <artifactId>imaer-shared</artifactId>
+      <version>5.0.1-2-SNAPSHOT</version>
+    </dependency>
+
     <dependency>
       <groupId>nl.aerius</groupId>
       <artifactId>gwt-client-geo</artifactId>
@@ -42,8 +49,18 @@
     <dependency>
       <groupId>com.github.tdesjardins</groupId>
       <artifactId>gwt-ol3</artifactId>
-      <version>7.2.0</version>
+      <version>8.0.0</version>
       <type>gwt-lib</type>
+    </dependency>
+    <dependency>
+      <groupId>com.axellience</groupId>
+      <artifactId>vue-gwt</artifactId>
+      <version>${vue.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.axellience</groupId>
+      <artifactId>vue-gwt-processors</artifactId>
+      <version>${vue.version}</version>
     </dependency>
   </dependencies>
 
@@ -63,6 +80,10 @@
         <artifactId>gwt-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
+          <skipModule>true</skipModule>
+          <codeserverArgs>
+            <arg>-generateJsInteropExports</arg>
+          </codeserverArgs>
           <moduleName>nl.aerius.GeoOpenLayers3</moduleName>
         </configuration>
       </plugin>

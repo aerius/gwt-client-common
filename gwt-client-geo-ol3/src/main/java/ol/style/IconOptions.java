@@ -26,8 +26,20 @@ public class IconOptions implements Options {
      * AERIUS FIX: This property was missing in the original
      */
     @JsProperty
+    public native void setAnchorXUnits(String units);
+
+    /**
+     * AERIUS FIX: This property was missing in the original
+     */
+    @JsProperty
+    public native void setAnchorYUnits(String units);
+
+    /**
+     * AERIUS FIX: This property was missing in the original
+     */
+    @JsProperty
     public native void setAnchor(double[] anchor);
-    
+
     /**
      * @param imgSize Image size in pixels. Only required if img is set and src is not, and
      * for SVG images in Internet Explorer 11. The provided imgSize needs to match the actual
@@ -47,13 +59,13 @@ public class IconOptions implements Options {
      */
     @JsProperty
     public native void setRotation(double rotation);
-    
+
     /**
      * @param rotateWithView Whether to rotate the icon with the view. Default is false.
      */
     @JsProperty
     public native void setRotateWithView(boolean rotateWithView);
-    
+
     /**
      * @param scale Scale.
      */
@@ -66,7 +78,7 @@ public class IconOptions implements Options {
      */
     @JsProperty
     public native void setSize(Size size);
-    
+
     /**
      * @param snapToPixel If true integral numbers of pixels are used as the X and Y pixel
      * coordinate when drawing the icon in the output canvas. If false fractional numbers
@@ -76,7 +88,7 @@ public class IconOptions implements Options {
      */
     @JsProperty
     public native void setSnapToPixel(boolean snapToPixel);
-    
+
     /**
      * @param imageUri Image source URI
      */
@@ -87,6 +99,6 @@ public class IconOptions implements Options {
      * AERIUS FIX: This property was missing in the original
      */
     @JsProperty
-    public native void setImg(String src);
+    public native void setImg(Object src);
 
 }

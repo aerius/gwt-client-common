@@ -26,24 +26,18 @@ import nl.aerius.geo.domain.LayerInfo;
 public class OL3Layer implements IsLayer<Layer> {
   private final Layer layer;
   private final LayerInfo info;
-  private final Runnable retirement;
 
   public OL3Layer(final Layer layer) {
-    this(layer, null, null);
+    this(layer, null);
   }
 
   public OL3Layer(final Layer layer, final LayerInfo info) {
-    this(layer, info, null);
-  }
-
-  public OL3Layer(final Layer layer, final LayerInfo info, final Runnable retirement) {
     if (layer == null) {
       throw new RuntimeException("Layer is null.");
     }
 
     this.layer = layer;
     this.info = info;
-    this.retirement = retirement;
   }
 
   @Override
@@ -52,18 +46,17 @@ public class OL3Layer implements IsLayer<Layer> {
   }
 
   @Override
-  public Optional<LayerInfo> getInfo() {
+  public Optional<LayerInfo> getInfoOptional() {
     return Optional.of(info);
   }
 
-  public void retire() {
-    if (retirement != null) {
-      retirement.run();
-    }
+  @Override
+  public LayerInfo getInfo() {
+    return info;
   }
 
   @Override
   public String toString() {
-    return "OL3Layer " + (info == null ? "" : info.getTitle()) + "]";
+    return "OL3Layer " + (info == null ? "" : info.getTitle());
   }
 }

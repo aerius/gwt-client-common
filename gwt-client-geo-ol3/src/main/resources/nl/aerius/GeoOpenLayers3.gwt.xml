@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.1//EN" "http://www.gwtproject.org/doctype/2.8.1/gwt-module.dtd">
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.9.0//EN" "http://www.gwtproject.org/doctype/2.9.0/gwt-module.dtd">
 <!--
-  Copyright Dutch Ministry of Agriculture, Nature and Food Quality 
+  Copyright the State of the Netherlands
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Affero General Public License as published by
@@ -17,12 +17,7 @@
   along with this program.  If not, see http://www.gnu.org/licenses/.
 -->
 <module>
-  <inherits name="com.google.gwt.user.User" />
-  <inherits name="nl.aerius.Geo" />
-
-  <inherits name="ol.GwtOL" />
+  <inherits name="nl.aerius.BareOL3" />
   
-  <extend-configuration-property name="aerius.ginModules" value="nl.aerius.geo.OpenLayers3ClientModule" />
-  
-  <source path="geo" />
+  <extend-configuration-property name="application.ginModules" value="nl.overheid.aerius.geo.OpenLayers3ClientModule" />
 </module>

@@ -16,24 +16,20 @@
  */
 package nl.aerius.geo.domain;
 
-import java.util.List;
 import java.util.Optional;
 
-import nl.aerius.geo.domain.legend.LegendConfig;
+import nl.aerius.geo.domain.legend.Legend;
 
 public class LayerInfo {
-  private String bundle;
-  private String cluster;
-  private String friendlyName;
+  private String bundle = null;
+  private String cluster = null;
+  private String friendlyName = null;
 
-  private String name;
-  private String title;
+  private String name = null;
+  private String title = null;
 
-  private LegendConfig legendConfig;
-
-  private List<String> selectables;
-
-  public LayerInfo() {}
+  private LayerOptions[] options = null;
+  private Legend legend = null;
 
   public String getName() {
     return name;
@@ -51,20 +47,20 @@ public class LayerInfo {
     this.title = title;
   }
 
-  public LegendConfig getLegendConfig() {
-    return legendConfig;
+  public LayerOptions[] getOptions() {
+    return options;
   }
 
-  public void setLegendConfig(final LegendConfig legendConfig) {
-    this.legendConfig = legendConfig;
+  public void setOptions(final LayerOptions[] options) {
+    this.options = options;
   }
 
-  public List<String> getSelectables() {
-    return selectables;
+  public Legend getLegend() {
+    return legend;
   }
 
-  public void setSelectables(final List<String> selectables) {
-    this.selectables = selectables;
+  public void setLegend(final Legend legend) {
+    this.legend = legend;
   }
 
   public boolean isBundle() {

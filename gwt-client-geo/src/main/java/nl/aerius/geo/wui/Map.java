@@ -16,22 +16,16 @@
  */
 package nl.aerius.geo.wui;
 
-import nl.aerius.geo.domain.HasMapCohort;
-import nl.aerius.geo.domain.IsMapCohort;
 import nl.aerius.wui.event.HasEventBus;
 
 public interface Map extends HasEventBus {
   void attach();
 
-  void registerEventCohort(IsMapCohort mapCohort);
-
-  default void registerEventCohort(final HasMapCohort mapCohort) {
-    registerEventCohort(mapCohort.asMapCohort());
-  }
+  void detach();
 
   String getUniqueId();
 
   void setUniqueId(String uniqueId);
 
-  <T> T getMap();
+  Object getInnerMap();
 }
