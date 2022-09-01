@@ -76,7 +76,7 @@ import nl.aerius.geo.wui.util.OL3MapUtil;
 import nl.aerius.wui.command.Command;
 import nl.aerius.wui.event.HasEventBus;
 import nl.aerius.wui.util.SchedulerUtil;
-import nl.aerius.shared.domain.geo.EPSG;
+import nl.aerius.shared.geo.EPSG;
 
 /**
  * Manages the events to a Openlayers map.
