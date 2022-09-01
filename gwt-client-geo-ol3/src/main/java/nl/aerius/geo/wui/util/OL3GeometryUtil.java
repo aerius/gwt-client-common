@@ -32,7 +32,7 @@ import ol.geom.LineString;
 import ol.geom.Point;
 import ol.geom.Polygon;
 
-import nl.aerius.shared.geo.BBox;
+import nl.overheid.aerius.geo.shared.BBox;
 
 public final class OL3GeometryUtil {
 

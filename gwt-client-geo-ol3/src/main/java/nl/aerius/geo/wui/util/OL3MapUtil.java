@@ -41,8 +41,8 @@ import nl.aerius.geo.domain.IsLayer;
 import nl.aerius.geo.domain.LayerInfo;
 import nl.aerius.geo.shared.LayerProps;
 import nl.aerius.geo.wui.layers.OL3Layer;
-import nl.aerius.shared.geo.BBox;
-import nl.aerius.shared.geo.EPSG;
+import nl.overheid.aerius.geo.shared.BBox;
+import nl.overheid.aerius.geo.shared.EPSG;
 
 /**
  * Utility class to initialize map.
