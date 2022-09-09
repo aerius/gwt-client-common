@@ -72,6 +72,7 @@ import nl.aerius.geo.event.MapCenterChangeEvent;
 import nl.aerius.geo.event.MapChangeEvent;
 import nl.aerius.geo.event.MapRenderCompleteEvent;
 import nl.aerius.geo.event.MapSetExtentEvent;
+import nl.aerius.geo.shared.MapProps;
 import nl.aerius.geo.wui.util.OL3MapUtil;
 import nl.aerius.wui.command.Command;
 import nl.aerius.wui.event.HasEventBus;
@@ -79,7 +80,7 @@ import nl.aerius.wui.util.SchedulerUtil;
 import nl.overheid.aerius.geo.shared.EPSG;
 
 /**
- * Manages the events to a Openlayers map.
+ * Manages the events to a OpenLayers map.
  */
 public class MapLayoutPanel implements HasEventBus {
   private static final int PAN_AMOUNT = 100;
@@ -104,9 +105,24 @@ public class MapLayoutPanel implements HasEventBus {
    * startup, this code could be moved to a constructor.
    *
    * @param epsg projection.
+   * @deprecated use {@link #init(MapProps)} to avoid using the deprecated EPSG class
    */
+  @Deprecated
   public void init(final EPSG epsg) {
-    map = OL3MapUtil.prepareMap(epsg);
+    init(new MapProps(epsg.getEpsgCode(), epsg.getBounds(), epsg.getCenter().getX(), epsg.getCenter().getY(), epsg.getZoomLevel()));
+  }
+
+  /**
+   * Constructs the map for the given projection.
+   *
+   * This method should be called once and would have done in the constructor if
+   * epsg would not be dynamic. If epsg will be made static, as in available at
+   * startup, this code could be moved to a constructor.
+   *
+   * @param mapProps map properties
+   */
+  public void init(final MapProps mapProps) {
+    map = OL3MapUtil.prepareMap(mapProps);
     Window.addResizeHandler(v -> updateSize());
     map.on("precompose", event -> eventBus.fireEvent(new MapChangeEvent()));
     map.on("rendercomplete", event -> eventBus.fireEvent(new MapRenderCompleteEvent()));
