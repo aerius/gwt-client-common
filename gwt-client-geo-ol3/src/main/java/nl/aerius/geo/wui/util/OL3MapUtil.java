@@ -40,9 +40,9 @@ import ol.proj.Projection;
 import nl.aerius.geo.domain.IsLayer;
 import nl.aerius.geo.domain.LayerInfo;
 import nl.aerius.geo.shared.LayerProps;
+import nl.aerius.geo.shared.MapProperties;
 import nl.aerius.geo.wui.layers.OL3Layer;
 import nl.overheid.aerius.geo.shared.BBox;
-import nl.overheid.aerius.geo.shared.EPSG;
 
 /**
  * Utility class to initialize map.
@@ -50,22 +50,21 @@ import nl.overheid.aerius.geo.shared.EPSG;
 public final class OL3MapUtil {
   private static final int INITIAL_ZOOM = 3;
 
-  private OL3MapUtil() {
-  }
+  private OL3MapUtil() {}
 
-  public static Map prepareMap(final EPSG epsg) {
-    final Projection projection = supplementEPSG(epsg);
+  public static Map prepareMap(final MapProperties mapProps) {
+    final Projection projection = supplementEPSG(mapProps);
     // create a view
     final ViewOptions viewOptions = OLFactory.createOptions();
     viewOptions.setProjection(projection);
     final View view = new View(viewOptions);
 
-    final Coordinate centerCoordinate = OLFactory.createCoordinate(epsg.getCenter().getX(), epsg.getCenter().getY());
+    final Coordinate centerCoordinate = OLFactory.createCoordinate(mapProps.getCenterX(), mapProps.getCenterY());
 
     view.setCenter(centerCoordinate);
     view.setZoom(INITIAL_ZOOM);
     view.setMinZoom(1);
-    view.setMaxZoom(epsg.getZoomLevel());
+    view.setMaxZoom(mapProps.getMaxZoomLevel());
 
     // create the map
     final MapOptions mapOptions = OLFactory.createOptions();
@@ -88,14 +87,14 @@ public final class OL3MapUtil {
     map.addControl(mousePosition);
   }
 
-  private static Projection supplementEPSG(final EPSG epsg) {
+  private static Projection supplementEPSG(final MapProperties mapProps) {
     // NOTE: The given epsg must be defined elsewhere through proj4
-    final Projection projection = Projection.get(epsg.getEpsgCode());
+    final Projection projection = Projection.get(mapProps.getEpsg());
     if (projection == null) {
-      throw new RuntimeException("Unknown EPSG encountered: " + epsg.getEpsgCode());
+      throw new RuntimeException("Unknown EPSG encountered: " + mapProps.getEpsg());
     }
 
-    final BBox bnds = epsg.getBounds();
+    final BBox bnds = mapProps.getBounds();
     projection.setExtent(new Extent(bnds.getMinX(), bnds.getMinY(), bnds.getMaxX(), bnds.getMaxY()));
 
     return projection;
