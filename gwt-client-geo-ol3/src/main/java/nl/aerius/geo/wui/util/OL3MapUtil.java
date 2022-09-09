@@ -40,7 +40,7 @@ import ol.proj.Projection;
 import nl.aerius.geo.domain.IsLayer;
 import nl.aerius.geo.domain.LayerInfo;
 import nl.aerius.geo.shared.LayerProps;
-import nl.aerius.geo.shared.MapProps;
+import nl.aerius.geo.shared.MapProperties;
 import nl.aerius.geo.wui.layers.OL3Layer;
 import nl.overheid.aerius.geo.shared.BBox;
 
@@ -52,7 +52,7 @@ public final class OL3MapUtil {
 
   private OL3MapUtil() {}
 
-  public static Map prepareMap(final MapProps mapProps) {
+  public static Map prepareMap(final MapProperties mapProps) {
     final Projection projection = supplementEPSG(mapProps);
     // create a view
     final ViewOptions viewOptions = OLFactory.createOptions();
@@ -87,7 +87,7 @@ public final class OL3MapUtil {
     map.addControl(mousePosition);
   }
 
-  private static Projection supplementEPSG(final MapProps mapProps) {
+  private static Projection supplementEPSG(final MapProperties mapProps) {
     // NOTE: The given epsg must be defined elsewhere through proj4
     final Projection projection = Projection.get(mapProps.getEpsg());
     if (projection == null) {

@@ -72,7 +72,7 @@ import nl.aerius.geo.event.MapCenterChangeEvent;
 import nl.aerius.geo.event.MapChangeEvent;
 import nl.aerius.geo.event.MapRenderCompleteEvent;
 import nl.aerius.geo.event.MapSetExtentEvent;
-import nl.aerius.geo.shared.MapProps;
+import nl.aerius.geo.shared.MapProperties;
 import nl.aerius.geo.wui.util.OL3MapUtil;
 import nl.aerius.wui.command.Command;
 import nl.aerius.wui.event.HasEventBus;
@@ -105,11 +105,11 @@ public class MapLayoutPanel implements HasEventBus {
    * startup, this code could be moved to a constructor.
    *
    * @param epsg projection.
-   * @deprecated use {@link #init(MapProps)} to avoid using the deprecated EPSG class
+   * @deprecated use {@link #init(MapProperties)} to avoid using the deprecated EPSG class
    */
   @Deprecated
   public void init(final EPSG epsg) {
-    init(new MapProps(epsg.getEpsgCode(), epsg.getBounds(), epsg.getCenter().getX(), epsg.getCenter().getY(), epsg.getZoomLevel()));
+    init(new MapProperties(epsg.getEpsgCode(), epsg.getBounds(), epsg.getCenter().getX(), epsg.getCenter().getY(), epsg.getZoomLevel()));
   }
 
   /**
@@ -121,7 +121,7 @@ public class MapLayoutPanel implements HasEventBus {
    *
    * @param mapProps map properties
    */
-  public void init(final MapProps mapProps) {
+  public void init(final MapProperties mapProps) {
     map = OL3MapUtil.prepareMap(mapProps);
     Window.addResizeHandler(v -> updateSize());
     map.on("precompose", event -> eventBus.fireEvent(new MapChangeEvent()));

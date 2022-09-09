@@ -21,7 +21,7 @@ import nl.overheid.aerius.geo.shared.BBox;
 /**
  * Data class properties to initialize a OpenLayers map.
  */
-public class MapProps {
+public class MapProperties {
 
   private String epsg;
   private BBox bounds;
@@ -38,7 +38,7 @@ public class MapProps {
    * @param centerY The center Y coordinate of the map
    * @param maxZoomLevel The maximum zoomLevel that can be zoomed in
    */
-  public MapProps(final String epsg, final BBox bounds, final double centerX, final double centerY, final int maxZoomLevel) {
+  public MapProperties(final String epsg, final BBox bounds, final double centerX, final double centerY, final int maxZoomLevel) {
     this.epsg = epsg;
     this.bounds = bounds;
     this.centerX = centerX;
