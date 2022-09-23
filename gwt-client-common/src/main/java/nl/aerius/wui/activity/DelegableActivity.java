@@ -29,4 +29,8 @@ public interface DelegableActivity {
   default boolean isDelegable(final Place place) {
     return false;
   }
+
+  default String mayStop() {
+    return null;
+  }
 }
