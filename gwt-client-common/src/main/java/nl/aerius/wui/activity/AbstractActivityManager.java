@@ -63,6 +63,13 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
       return;
     }
 
+    if (!mayDelegateToActivity(currentActivity)) {
+      GWTProd.log("ActivityManager", "Cancelling because delegated activity won't stop.");
+      c.silence();
+      c.cancel();
+      return;
+    }
+
     final boolean delegateSuccess = delegateToActivity(currentActivity, activityEventBus, c);
     if (delegateSuccess) {
       GWTProd.log("ActivityManager", "Delegated to current activity.");
@@ -109,6 +116,19 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
         act.delegate(activityEventBus, c);
       }
     }
+  }
+
+  private boolean mayDelegateToActivity(final Activity<?, ?> activity) {
+    if (activity instanceof DelegableActivity) {
+      final DelegableActivity delegated = (DelegableActivity) activity;
+
+      final String stop = delegated.mayStop();
+      if (stop != null) {
+        return Window.confirm(stop);
+      }
+    }
+
+    return true;
   }
 
   private boolean delegateToActivity(final Activity<?, ?> activity, final ResettableEventBus eventBus, final PlaceChangeCommand c) {
