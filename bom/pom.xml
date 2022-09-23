@@ -34,49 +34,43 @@
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-client-common</artifactId>
-        <version>${gwt-client-common.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-client-common-json</artifactId>
-        <version>${gwt-client-common.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-client-common-geo</artifactId>
-        <version>${gwt-client-common-json.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-client-geo-ol3</artifactId>
-        <version>${gwt-client-common.version}</version>
-        <type>gwt-lib</type>
-      </dependency>
-      <dependency>
-        <groupId>nl.aerius</groupId>
-        <artifactId>gwt-client-geo-ol3-vue</artifactId>
-        <version>${gwt-client-common.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-client-vue</artifactId>
-        <version>${gwt-client-common.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-client-vuelidate</artifactId>
-        <version>${gwt-client-common.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
       <dependency>
         <groupId>nl.aerius</groupId>
         <artifactId>gwt-shared-geo-common</artifactId>
-        <version>${gwt-client-common.version}</version>
+        <version>${project.version}</version>
         <type>gwt-lib</type>
       </dependency>
     </dependencies>
