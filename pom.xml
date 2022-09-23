@@ -88,6 +88,16 @@
         <artifactId>eventbinder</artifactId>
         <version>1.1.0</version>
       </dependency>
+      <dependency>
+        <groupId>com.google.elemental2</groupId>
+        <artifactId>elemental2-core</artifactId>
+        <version>1.0.0-RC1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.elemental2</groupId>
+        <artifactId>elemental2-dom</artifactId>
+        <version>1.0.0-RC1</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -224,7 +234,9 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
+        <module>bom</module>
         <module>gwt-client-common</module>
+        <module>gwt-client-common-json</module>
         <module>gwt-client-vue</module>
         <module>gwt-client-vuelidate</module>
         <module>gwt-client-geo</module>
