@@ -124,14 +124,7 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
 
       final String stop = delegated.mayStop();
       if (stop != null) {
-        final boolean confirm = Window.confirm(stop);
-        if (confirm) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return true;
+        return Window.confirm(stop);
       }
     }
 
