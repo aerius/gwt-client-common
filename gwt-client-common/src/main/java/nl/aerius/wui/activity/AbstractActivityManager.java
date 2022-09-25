@@ -54,6 +54,11 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
     EVENT_BINDER.bindEventHandlers(this, globalEventBus);
   }
 
+  @Override
+  public Activity<?, ?> getCurrentActivity() {
+    return currentActivity;
+  }
+
   @EventHandler
   public void onPlaceChangeCommand(final PlaceChangeCommand c) {
     final Place previousPlace = placeController.getPreviousPlace();
