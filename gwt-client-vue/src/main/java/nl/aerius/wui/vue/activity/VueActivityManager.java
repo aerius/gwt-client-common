@@ -20,13 +20,15 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
 import nl.aerius.wui.activity.AbstractActivityManager;
+import nl.aerius.wui.activity.ActivityContext;
 import nl.aerius.wui.activity.ActivityMapper;
 import nl.aerius.wui.place.PlaceController;
 import nl.aerius.wui.vue.AcceptsOneComponent;
 
 public class VueActivityManager extends AbstractActivityManager<AcceptsOneComponent> {
   @Inject
-  public VueActivityManager(final EventBus globalEventBus, final PlaceController placeController, final ActivityMapper<AcceptsOneComponent> mapper) {
-    super(globalEventBus, placeController, mapper);
+  public VueActivityManager(final EventBus globalEventBus, final PlaceController placeController, final ActivityMapper<AcceptsOneComponent> mapper,
+      final ActivityContext activityContext) {
+    super(globalEventBus, placeController, mapper, activityContext);
   }
 }

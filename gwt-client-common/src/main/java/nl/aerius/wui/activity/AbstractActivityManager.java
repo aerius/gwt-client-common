@@ -40,23 +40,19 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
   private final PlaceController placeController;
 
   private C panel;
+  private final ActivityContext activityContext;
 
   private final ResettableEventBus activityEventBus;
 
-  private Activity<?, ?> currentActivity;
-
-  public AbstractActivityManager(final EventBus globalEventBus, final PlaceController placeController, final ActivityMapper<C> mapper) {
+  public AbstractActivityManager(final EventBus globalEventBus, final PlaceController placeController, final ActivityMapper<C> mapper,
+      final ActivityContext activityContext) {
     this.placeController = placeController;
     this.mapper = mapper;
+    this.activityContext = activityContext;
 
     activityEventBus = new ResettableEventBus(globalEventBus);
 
     EVENT_BINDER.bindEventHandlers(this, globalEventBus);
-  }
-
-  @Override
-  public Activity<?, ?> getCurrentActivity() {
-    return currentActivity;
   }
 
   @EventHandler
@@ -68,6 +64,7 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
       return;
     }
 
+    final Activity<?, ?> currentActivity = activityContext.getActivity();
     if (!mayDelegateToActivity(currentActivity)) {
       GWTProd.log("ActivityManager", "Cancelling because delegated activity won't stop.");
       c.silence();
@@ -105,9 +102,9 @@ public abstract class AbstractActivityManager<C> implements ActivityManager<C> {
       ((HasEventBus) activity).setEventBus(activityEventBus);
     }
 
-    currentActivity = activity;
+    activityContext.setActivity(activity);
 
-    GWTProd.log("ActivityManager", "Starting activity: " + currentActivity.getClass().getSimpleName());
+    GWTProd.log("ActivityManager", "Starting activity: " + activity.getClass().getSimpleName());
 
     // Start and delegate
     activity.onStart(panel);

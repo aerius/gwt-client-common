@@ -16,16 +16,17 @@
  */
 package nl.aerius.wui.activity;
 
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.inject.Inject;
-import com.google.web.bindery.event.shared.EventBus;
+import javax.inject.Singleton;
 
-import nl.aerius.wui.place.PlaceController;
+@Singleton
+public class ActivityContext {
+  private Activity<?, ?> activity;
 
-public class WidgetActivityManager extends AbstractActivityManager<AcceptsOneWidget> {
-  @Inject
-  public WidgetActivityManager(final EventBus globalEventBus, final PlaceController placeController, final ActivityMapper<AcceptsOneWidget> mapper,
-      final ActivityContext activityContext) {
-    super(globalEventBus, placeController, mapper, activityContext);
+  public void setActivity(final Activity<?, ?> activity) {
+    this.activity = activity;
+  }
+
+  public Activity<?, ?> getActivity() {
+    return activity;
   }
 }
