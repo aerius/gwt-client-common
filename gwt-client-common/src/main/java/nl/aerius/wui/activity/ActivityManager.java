@@ -21,8 +21,4 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(WidgetActivityManager.class)
 public interface ActivityManager<C> {
   void setPanel(C panel);
-
-  default Activity<?, ?> getCurrentActivity() {
-    return null;
-  }
 }
