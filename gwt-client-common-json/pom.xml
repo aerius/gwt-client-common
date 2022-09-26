@@ -24,8 +24,6 @@
     <version>1.5.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>nl.aerius</groupId>
-
   <artifactId>gwt-client-common-json</artifactId>
   <name>AERIUS :: Common GWT Client JSON</name>
   <description>GWT Client Common JSON code</description>
@@ -49,14 +47,6 @@
       <artifactId>elemental2-dom</artifactId>
     </dependency>
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>aerius-nexus-public</id>
-      <name>AERIUS Nexus repository</name>
-      <url>https://nexus.aerius.nl/repository/maven-public/</url>
-    </repository>
-  </repositories>
 
   <build>
     <resources>
