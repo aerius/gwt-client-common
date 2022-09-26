@@ -249,7 +249,7 @@
         <module>gwt-client-common</module>
         <module>gwt-client-common-json</module>
         <module>gwt-client-vue</module>
-        <module>gwt-client-vuelidate</module>
+        <module>gwt-vuelidate</module>
         <module>gwt-client-geo</module>
         <module>gwt-client-geo-ol3</module>
         <module>gwt-shared-geo-common</module>
