@@ -81,4 +81,40 @@ public final class ValidationUtil {
     } catch (final NumberFormatException e) {
     }
   }
+
+  /**
+   * Sets the String input safely on a (optional) Double field in a complex object.
+   *
+   * Note: while an Integer version of this method might be expected, this does not work well with GWT.
+   * In javascript, the Integer will not be treated as a 'number', and subsequent serialization to json will mean a object wrapping the actual integer.
+   * So while a Double optional field works, a Integer optional field does not.
+   * A (suboptimal) way to work around this is to use a Double field in the vue-gwt context,
+   * and have proper validation in place to ensure it's actually an integer.
+   *
+   * Example usage:
+   *
+   * <code>
+   * @Computed
+   * protected void setSomeData(final String someData) {
+   *   ValidationUtil.setSafeDoubleOptionalValue(copmlexObject::someData, someData);
+   *   someDataV = someData;
+   * }
+   * </code>
+   * @param consumer method to set the new value on
+   * @param value value to set.
+   * If the value is null or an empty string, null will be used as a value supplied to the consumer.
+   */
+  public static void setSafeDoubleOptionalValue(final Consumer<Double> consumer, final String value) {
+    try {
+      if (value == null || value.isEmpty()) {
+        consumer.accept(null);
+      } else {
+        final double doubleValue = Double.parseDouble(value);
+        if (!Double.isNaN(doubleValue)) {
+          consumer.accept(doubleValue);
+        }
+      }
+    } catch (final NumberFormatException e) {
+    }
+  }
 }
