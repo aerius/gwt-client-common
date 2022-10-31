@@ -61,7 +61,7 @@ public class VectorDirective extends VueDirective {
           final Attr attr = Js.cast(el.attributes.get(v).cloneNode(true));
 
           final Node node = el.childNodes.getAt(0);
-          if (node.hasAttributes()) {
+          if (node != null && node.hasAttributes()) {
             node.attributes.setNamedItem(attr);
 
             final Element elem = Js.uncheckedCast(node);
