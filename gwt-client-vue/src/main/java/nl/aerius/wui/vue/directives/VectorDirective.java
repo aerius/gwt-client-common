@@ -16,6 +16,7 @@
  */
 package nl.aerius.wui.vue.directives;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.axellience.vuegwt.core.annotations.directive.Directive;
@@ -60,8 +61,12 @@ public class VectorDirective extends VueDirective {
         .forEach(v -> {
           final Attr attr = Js.cast(el.attributes.get(v).cloneNode(true));
 
-          final Node node = el.childNodes.getAt(0);
-          if (node != null && node.hasAttributes()) {
+          final Optional<Node> firstNode = el.childNodes.asList().stream()
+              .filter(node -> node.nodeType == (int) Node.ELEMENT_NODE)
+              .findFirst();
+
+          if (firstNode.isPresent() && firstNode.get().hasAttributes()) {
+            final Node node = firstNode.get();
             node.attributes.setNamedItem(attr);
 
             final Element elem = Js.uncheckedCast(node);
