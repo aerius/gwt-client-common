@@ -16,7 +16,9 @@
  */
 package nl.aerius.wui.vue.directives;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.axellience.vuegwt.core.annotations.directive.Directive;
@@ -25,7 +27,6 @@ import com.axellience.vuegwt.core.client.vnode.VNode;
 import com.axellience.vuegwt.core.client.vnode.VNodeDirective;
 import com.google.gwt.resources.client.DataResource;
 
-import elemental2.dom.Attr;
 import elemental2.dom.Element;
 import elemental2.dom.Node;
 
@@ -56,26 +57,24 @@ public class VectorDirective extends VueDirective {
     el.innerHTML = str;
 
     // Clone the data elements if any
-    Stream.of(el.getAttributeNames())
+    final List<Node> dataAttributes = Stream.of(el.getAttributeNames())
         .filter(v -> v.startsWith("data-"))
-        .forEach(v -> {
-          final Attr attr = Js.cast(el.attributes.get(v).cloneNode(true));
+        .map(v -> (Node) Js.cast(el.attributes.get(v).cloneNode(true)))
+        .collect(Collectors.toList());
+    final Optional<Node> firstNode = el.childNodes.asList().stream()
+        .filter(node -> node.nodeType == (int) Node.ELEMENT_NODE)
+        .findFirst();
 
-          final Optional<Node> firstNode = el.childNodes.asList().stream()
-              .filter(node -> node.nodeType == (int) Node.ELEMENT_NODE)
-              .findFirst();
+    if (firstNode.isPresent()) {
+      final Node node = firstNode.get();
+      dataAttributes.forEach(attr -> node.attributes.setNamedItem(attr));
 
-          if (firstNode.isPresent() && firstNode.get().hasAttributes()) {
-            final Node node = firstNode.get();
-            node.attributes.setNamedItem(attr);
-
-            final Element elem = Js.uncheckedCast(node);
-            elem.setAttribute("aria-hidden", true);
-            elem.setAttribute("focusable", false);
-          } else {
-            GWTProd.warn("VectorDirective", "Could not set attribute of node:");
-            GWTProd.log(el);
-          }
-        });
+      final Element elem = Js.uncheckedCast(node);
+      elem.setAttribute("aria-hidden", true);
+      elem.setAttribute("focusable", false);
+    } else {
+      GWTProd.warn("VectorDirective", "Could not set attribute of node:");
+      GWTProd.log(el);
+    }
   }
 }
