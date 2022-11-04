@@ -17,7 +17,6 @@
 package nl.aerius.wui.vue.directives;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,7 +31,6 @@ import elemental2.dom.Node;
 
 import jsinterop.base.Js;
 
-import nl.aerius.wui.dev.GWTProd;
 import nl.aerius.wui.util.Base64Util;
 
 /**
@@ -61,20 +59,14 @@ public class VectorDirective extends VueDirective {
         .filter(v -> v.startsWith("data-"))
         .map(v -> (Node) Js.cast(el.attributes.get(v).cloneNode(true)))
         .collect(Collectors.toList());
-    final Optional<Node> firstNode = el.childNodes.asList().stream()
+    el.childNodes.asList().stream()
         .filter(node -> node.nodeType == (int) Node.ELEMENT_NODE)
-        .findFirst();
+        .forEach(node -> {
+          dataAttributes.forEach(attr -> node.attributes.setNamedItem(attr));
 
-    if (firstNode.isPresent()) {
-      final Node node = firstNode.get();
-      dataAttributes.forEach(attr -> node.attributes.setNamedItem(attr));
-
-      final Element elem = Js.uncheckedCast(node);
-      elem.setAttribute("aria-hidden", true);
-      elem.setAttribute("focusable", false);
-    } else {
-      GWTProd.warn("VectorDirective", "Could not set attribute of node:");
-      GWTProd.log(el);
-    }
+          final Element elem = Js.uncheckedCast(node);
+          elem.setAttribute("aria-hidden", true);
+          elem.setAttribute("focusable", false);
+        });
   }
 }
