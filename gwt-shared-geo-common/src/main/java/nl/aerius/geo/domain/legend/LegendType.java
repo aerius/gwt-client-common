@@ -19,7 +19,7 @@ package nl.aerius.geo.domain.legend;
 public enum LegendType {
 
   CIRCLE(true),
-  CIRCLE_IN_HEXAGON(true),
+  CIRCLE_OUTLINE(true),
   HEXAGON(true),
   LINE(true),
   LINEDASH(true),
