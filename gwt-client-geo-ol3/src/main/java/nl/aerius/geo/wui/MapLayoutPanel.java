@@ -77,7 +77,6 @@ import nl.aerius.geo.wui.util.OL3MapUtil;
 import nl.aerius.wui.command.Command;
 import nl.aerius.wui.event.HasEventBus;
 import nl.aerius.wui.util.SchedulerUtil;
-import nl.overheid.aerius.geo.shared.EPSG;
 
 /**
  * Manages the events to a OpenLayers map.
@@ -96,21 +95,6 @@ public class MapLayoutPanel implements HasEventBus {
 
   private boolean deferredZoomScheduled;
   private HandlerRegistration handlers;
-
-  /**
-   * Constructs the map for the given projection.
-   *
-   * This method should be called once and would have done in the constructor if
-   * epsg would not be dynamic. If epsg will be made static, as in available at
-   * startup, this code could be moved to a constructor.
-   *
-   * @param epsg projection.
-   * @deprecated use {@link #init(MapProperties)} to avoid using the deprecated EPSG class
-   */
-  @Deprecated
-  public void init(final EPSG epsg) {
-    init(new MapProperties(epsg.getEpsgCode(), epsg.getBounds(), epsg.getCenter().getX(), epsg.getCenter().getY(), epsg.getZoomLevel()));
-  }
 
   /**
    * Constructs the map for the given projection.
