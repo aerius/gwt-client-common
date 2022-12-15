@@ -21,7 +21,7 @@
   <parent>
     <groupId>nl.aerius</groupId>
     <artifactId>gwt-client-common-parent</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>gwt-client-geo-ol3</artifactId>
@@ -43,7 +43,7 @@
     <dependency>
       <groupId>com.github.tdesjardins</groupId>
       <artifactId>gwt-ol3</artifactId>
-      <version>8.2.0</version>
+      <version>8.0.0</version>
       <type>gwt-lib</type>
     </dependency>
     <dependency>
