@@ -21,7 +21,7 @@
   <parent>
     <groupId>nl.aerius</groupId>
     <artifactId>gwt-client-common-parent</artifactId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.1</version>
   </parent>
 
   <artifactId>gwt-client-vue</artifactId>

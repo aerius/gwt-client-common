@@ -23,7 +23,7 @@
   <parent>
     <groupId>nl.aerius</groupId>
     <artifactId>gwt-client-common-parent</artifactId>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.1</version>
   </parent>
 
   <artifactId>gwt-shared-geo-common</artifactId>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>nl.aerius</groupId>
       <artifactId>shared-geo</artifactId>
-      <version>5.1.0-2-SNAPSHOT</version>
+      <version>5.1.0-2</version>
     </dependency>
   </dependencies>
 
