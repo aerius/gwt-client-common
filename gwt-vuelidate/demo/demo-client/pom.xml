@@ -22,7 +22,7 @@
   <parent>
     <groupId>nl.aerius</groupId>
     <artifactId>gwt-vuelidate-demo</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.1</version>
   </parent>
 
   <artifactId>gwt-vuelidate-demo-client</artifactId>
