@@ -34,7 +34,8 @@ public class DefaultValidators {
   public static JsObject integer;
   public static JsObject ipAddress;
   public static JsObject macAddress;
-  public static JsObject maxLength;
+
+  public static native JsObject maxLength(int num);
 
   @JsOverlay
   public static JsObject maxValue() {
