@@ -21,8 +21,15 @@ import elemental2.core.JsObject;
 import jsinterop.base.JsPropertyMap;
 
 public class ValidatorBuilder implements JsPropertyMap<Object> {
+  public static final int SANITY_INPUT_LENGTH_LIMIT = 35;
+
   public static ValidatorBuilder create() {
     return new ValidatorBuilder();
+  }
+
+  public static ValidatorBuilder sane() {
+    return create()
+        .maxLength(SANITY_INPUT_LENGTH_LIMIT);
   }
 
   public ValidatorBuilder alpha() {
@@ -65,8 +72,8 @@ public class ValidatorBuilder implements JsPropertyMap<Object> {
     return set("macAddress", DefaultValidators.macAddress);
   }
 
-  public ValidatorBuilder maxLength() {
-    return set("maxLength", DefaultValidators.maxLength);
+  public ValidatorBuilder maxLength(final int num) {
+    return set("maxLength", DefaultValidators.maxLength(num));
   }
 
   public ValidatorBuilder maxValue() {

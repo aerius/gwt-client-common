@@ -37,7 +37,7 @@ public class Validations implements JsPropertyMap<Object> {
   @JsProperty(name = "$anyError") public boolean anyError;
   @JsProperty(name = "$pending") public boolean pending;
 
-  @JsProperty(name = "$params") public JsObject params;
+  @JsProperty(name = "$params") public ValidationParams params;
   @JsProperty(name = "$each") public JsObject each;
   @JsProperty(name = "$iter") public JsObject iter;
 
