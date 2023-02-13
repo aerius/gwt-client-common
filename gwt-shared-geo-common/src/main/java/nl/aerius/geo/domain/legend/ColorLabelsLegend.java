@@ -25,24 +25,38 @@ import java.util.Arrays;
 public class ColorLabelsLegend implements Legend {
   private static final long serialVersionUID = 1L;
 
+  private static final String DEFAULT_SHADOW_COLOR = "white";
+
   private String unit;
   private String[] labels;
   private String[] colors;
+  private String shadowColor;
   private Integer[] iconSizes;
   private LegendType icon;
 
   // Needed for GWT.
-  public ColorLabelsLegend() {}
+  public ColorLabelsLegend() {
+  }
 
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final String unit) {
-    this(labels, colors, icon, new Integer[labels.length], unit);
+    this(labels, colors, icon, new Integer[labels.length], unit, DEFAULT_SHADOW_COLOR);
   }
 
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon) {
-    this(labels, colors, icon, new Integer[labels.length], null);
+    this(labels, colors, icon, new Integer[labels.length], null, DEFAULT_SHADOW_COLOR);
+  }
+
+  public ColorLabelsLegend(final String[] labels, final String[] colors, final String shadowColor, final LegendType icon) {
+    this(labels, colors, icon, new Integer[labels.length], null, shadowColor);
   }
 
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit) {
+    this(labels, colors, icon, iconSizes, unit, DEFAULT_SHADOW_COLOR);
+  }
+
+  public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit,
+      final String shadowColor) {
+
     this.unit = unit;
     this.icon = icon;
     assert labels.length == colors.length : "Legend names list different size as colors list for " + this;
@@ -50,6 +64,7 @@ public class ColorLabelsLegend implements Legend {
     this.labels = labels;
     this.colors = colors;
     this.iconSizes = iconSizes;
+    this.shadowColor = shadowColor;
   }
 
   public String[] getColors() {
@@ -92,8 +107,17 @@ public class ColorLabelsLegend implements Legend {
     this.iconSizes = iconSizes;
   }
 
+  public String getShadowColor() {
+    return shadowColor;
+  }
+
+  public void setShadowColor(final String shadowColor) {
+    this.shadowColor = shadowColor;
+  }
+
   /**
    * Get the amount of legend items.
+   *
    * @return size
    */
   public int size() {
@@ -103,9 +127,10 @@ public class ColorLabelsLegend implements Legend {
   @Override
   public String toString() {
     return "ColorLabelsLegend[" +
-            "labels=" + Arrays.toString(labels) +
-            ", colors=" + Arrays.toString(colors) +
-            ", icon=" + icon +
-            ']';
+        "labels=" + Arrays.toString(labels) +
+        ", colors=" + Arrays.toString(colors) +
+        ", icon=" + icon +
+        ", shadowColor=" + shadowColor +
+        ']';
   }
 }
