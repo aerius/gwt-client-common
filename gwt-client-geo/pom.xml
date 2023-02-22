@@ -21,7 +21,7 @@
   <parent>
     <groupId>nl.aerius</groupId>
     <artifactId>gwt-client-common-parent</artifactId>
-    <version>1.7.0-SNAPSHOT</version>
+    <version>1.6.2</version>
   </parent>
   <artifactId>gwt-client-geo</artifactId>
   <name>AERIUS :: geo GWT client</name>
