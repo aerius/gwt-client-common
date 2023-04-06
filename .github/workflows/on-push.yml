@@ -13,7 +13,7 @@ jobs:
         with:
           repository: aerius/github-actions
           path: aerius-github-actions
-          ref: v1
+          ref: v1.0.2
 
       - uses: aerius/github-actions/events/push-event-action@v1
         with:
