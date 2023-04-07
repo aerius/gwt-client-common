@@ -23,7 +23,22 @@ import java.util.Date;
  */
 public class Notification {
   public enum Type {
-    MESSAGE, WARNING, ERROR;
+    /**
+     * Normal message.
+     */
+    MESSAGE,
+    /**
+     * Normal Message that can't be removed by the user.
+     */
+    PERSISTENT_MESSAGE,
+    /**
+     * Waring message.
+     */
+    WARNING,
+    /**
+     * Error message.
+     */
+    ERROR;
   }
 
   private final String title;
@@ -112,6 +127,10 @@ public class Notification {
 
   public boolean isMessage() {
     return type == Type.MESSAGE;
+  }
+
+  public boolean isPersistentMessage() {
+    return type == Type.PERSISTENT_MESSAGE;
   }
 
   public boolean hasMessage() {
