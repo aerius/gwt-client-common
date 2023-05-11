@@ -15,7 +15,7 @@ jobs:
           path: aerius-github-actions
           ref: v1.0.2
 
-      - uses: aerius/github-actions/events/push-event-action@v1
+      - uses: aerius/github-actions/events/push-event-action@v1.0.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
