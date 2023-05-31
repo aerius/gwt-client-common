@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import ol.Collection;
 import ol.Coordinate;
 import ol.Extent;
+import ol.GenericFunction;
 import ol.Map;
 import ol.MapOptions;
 import ol.OLFactory;
@@ -72,18 +73,20 @@ public final class OL3MapUtil {
     mapOptions.setControls(new Collection<Control>());
     final ol.Map map = new ol.Map(mapOptions);
 
-    prepareControls(map);
+    prepareControls(map, mapProps);
     return map;
   }
 
-  private static void prepareControls(final Map map) {
+  private static void prepareControls(final Map map, final MapProperties mapProps) {
     // add some controls
     map.addControl(new Zoom());
     map.addControl(new ZoomSlider());
     map.addControl(new ScaleLine());
 
     final MousePosition mousePosition = new MousePosition();
-    mousePosition.setCoordinateFormat(Coordinate.createStringXY(0));
+
+    final GenericFunction<Coordinate, String> coordinatesFormat = s -> mapProps.getCoordinatesPrefix() + Coordinate.createStringXY(0).call(s);
+    mousePosition.setCoordinateFormat(coordinatesFormat);
     map.addControl(mousePosition);
   }
 
