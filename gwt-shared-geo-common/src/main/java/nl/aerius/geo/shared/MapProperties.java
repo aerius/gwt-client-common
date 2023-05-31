@@ -23,11 +23,12 @@ import nl.overheid.aerius.geo.shared.BBox;
  */
 public class MapProperties {
 
-  private String epsg;
-  private BBox bounds;
-  private double centerX;
-  private double centerY;
-  private int maxZoomLevel;
+  private final String epsg;
+  private final BBox bounds;
+  private final double centerX;
+  private final double centerY;
+  private final int maxZoomLevel;
+  private final String coordinatesPrefix;
 
   /**
    * Construct a new MapProps.
@@ -37,13 +38,15 @@ public class MapProperties {
    * @param centerX The center X coordinate of the map
    * @param centerY The center Y coordinate of the map
    * @param maxZoomLevel The maximum zoomLevel that can be zoomed in
+   * @param textPreceedingCoordinates The text before the coordinates shown on mouse hover
    */
-  public MapProperties(final String epsg, final BBox bounds, final double centerX, final double centerY, final int maxZoomLevel) {
+  public MapProperties(final String epsg, final BBox bounds, final double centerX, final double centerY, final int maxZoomLevel, final String coordinatesPrefix) {
     this.epsg = epsg;
     this.bounds = bounds;
     this.centerX = centerX;
     this.centerY = centerY;
     this.maxZoomLevel = maxZoomLevel;
+    this.coordinatesPrefix = coordinatesPrefix;
   }
 
   public String getEpsg() {
@@ -64,5 +67,9 @@ public class MapProperties {
 
   public int getMaxZoomLevel() {
     return maxZoomLevel;
+  }
+
+  public String getCoordinatesPrefix() {
+    return coordinatesPrefix;
   }
 }
