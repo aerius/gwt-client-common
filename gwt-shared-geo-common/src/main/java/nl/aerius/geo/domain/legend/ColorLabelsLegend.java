@@ -17,6 +17,7 @@
 package nl.aerius.geo.domain.legend;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * Data class for legend with a list of legend names with for each name
@@ -122,6 +123,18 @@ public class ColorLabelsLegend implements Legend {
    */
   public int size() {
     return labels.length;
+  }
+
+  /**
+   * Adds a single item to the legend
+   * @param label string label
+   * @param color string color
+   * @param iconSize optional iconSize
+   */
+  public void addItem(final String label, final String color, final Integer iconSize) {
+    this.labels = Stream.concat(Arrays.stream(this.labels), Stream.of(label)).toArray(String[]::new);
+    this.colors = Stream.concat(Arrays.stream(this.colors), Stream.of(color)).toArray(String[]::new);
+    this.iconSizes = Stream.concat(Arrays.stream(this.iconSizes), Stream.of(iconSize)).toArray(Integer[]::new);
   }
 
   @Override
