@@ -20,12 +20,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import ol.Coordinate;
+import ol.Extent;
 import ol.proj.Projection;
 import ol.tilegrid.WmtsTileGrid;
 
 public final class RDNewWmtsTileGrid {
 
-  private static final List<Double> RESOLUTIONS = Arrays.asList(
+  private static final List<Double> SCALES = Arrays.asList(
       12288000.0,
       6144000.0,
       3072000.0,
@@ -46,10 +47,12 @@ public final class RDNewWmtsTileGrid {
 
   public static final List<String> PROJECTIONS = Arrays.asList("EPSG:28992");
 
+  private static final Extent EXTENT = Extent.create(482.06, 306602.42, 284182.97, 637049.52);
+
   private RDNewWmtsTileGrid() {
   }
 
   public static WmtsTileGrid getTileGrid() {
-    return OL3WmtsTileGridUtil.createWmtsTileGrid(RESOLUTIONS, ORIGIN, Projection.get(PROJECTIONS.get(0)));
+    return OL3WmtsTileGridUtil.createWmtsTileGrid(SCALES, ORIGIN, Projection.get(PROJECTIONS.get(0)), EXTENT);
   }
 }

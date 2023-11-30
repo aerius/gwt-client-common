@@ -31,12 +31,18 @@ import ol.geom.Geometry;
 import ol.geom.LineString;
 import ol.geom.Point;
 import ol.geom.Polygon;
+import ol.proj.Projection;
 
 import nl.overheid.aerius.geo.shared.BBox;
 
 public final class OL3GeometryUtil {
 
   public static final int WKT_DECIMALS = 2;
+
+  /**
+   * Magic constant extracted from the OpenLayers source code
+   */
+  private static final double PIXEL_SIZE_IN_METERS = 0.28e-3;
 
   private static final Wkt WKT = new Wkt();
 
@@ -162,4 +168,13 @@ public final class OL3GeometryUtil {
         -Math.cos(direction) * distance + original.getY());
   }
 
+  /**
+   * Convert a number denoting the scale to the resolution number used by OL3
+   * @param scale scale to convert
+   * @param projection projecten to return meters per unit
+   * @return resolution
+   */
+  public static double scaleToResolution(final double scale, final Projection projection) {
+    return (scale * OL3GeometryUtil.PIXEL_SIZE_IN_METERS) / projection.getMetersPerUnit();
+  }
 }
