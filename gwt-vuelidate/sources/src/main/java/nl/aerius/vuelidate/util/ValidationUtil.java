@@ -47,7 +47,8 @@ public final class ValidationUtil {
       if (value == null || value.isEmpty()) {
         consumer.accept(_default);
       } else {
-        final double doubleValue = Double.valueOf(value);
+        final double doubleValue = Double.parseDouble(value);
+
         if (!Double.isNaN(doubleValue)) {
           consumer.accept(doubleValue);
         }

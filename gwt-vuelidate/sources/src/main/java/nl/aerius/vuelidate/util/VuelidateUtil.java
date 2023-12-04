@@ -20,12 +20,15 @@ import java.util.Map;
 
 import com.axellience.vuegwt.core.client.component.IsVueComponent;
 
-import elemental2.core.JsObject;
-
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
-public class VuelidateUtil {
+public final class VuelidateUtil {
+
+  private VuelidateUtil() {
+    // Util class.
+  }
+
   /**
    * Proxy a given field with the contents of another field
    */
@@ -33,12 +36,7 @@ public class VuelidateUtil {
     final JsPropertyMap<Object> options = Js.cast(instance);
     final JsPropertyMap<Object> validations = Js.cast(options.get("$v"));
 
-    final JsPropertyMap<Object> obj = JsPropertyMap.of();
-    final JsObject receive = Js.cast(validations.get(runtime));
-    JsObject.assign(obj, receive);
-    final Object finall = obj.get("0");
-
-    validations.set(field, finall);
+    validations.set(field, Js.cast(validations.get(runtime)));
   }
 
   /**
