@@ -55,7 +55,7 @@ public class VectorDirective extends VueDirective {
     el.innerHTML = str;
 
     // Clone the data elements if any
-    final List<Node> dataAttributes = Stream.of(el.getAttributeNames())
+    final List<Node> dataAttributes = Stream.of(el.getAttributeNames().asArray(new String[0]))
         .filter(v -> v.startsWith("data-"))
         .map(v -> (Node) Js.cast(el.attributes.get(v).cloneNode(true)))
         .collect(Collectors.toList());

@@ -24,6 +24,7 @@ import com.axellience.vuegwt.core.client.directive.VueDirective;
 import com.axellience.vuegwt.core.client.vnode.VNode;
 import com.axellience.vuegwt.core.client.vnode.VNodeDirective;
 
+import elemental2.core.JsArray;
 import elemental2.core.JsObject;
 import elemental2.dom.Element;
 
@@ -42,11 +43,11 @@ public class ValidateDirective extends VueDirective {
 
     @SuppressWarnings("unchecked")
     final Validations vals = Js.uncheckedCast(((JsPropertyMap<Object>) jsContext.get("$v")).get(runtimeProperty));
-    final String[] modifiers = JsObject.getOwnPropertyNames(binding.getModifiers());
+    final JsArray<String> modifiers = JsObject.getOwnPropertyNames(binding.getModifiers());
 
     // Touch the validation on blur (to update it)
     // This circumvents binding to the validation model
-    el.addEventListener(modifiers.length > 0 ? modifiers[0] : "blur", e -> {
+    el.addEventListener(modifiers.length > 0 ? modifiers.getAt(0) : "blur", e -> {
       vals.$touch();
     });
   }
