@@ -59,10 +59,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>11</java.version>
-
-    <vue.version>1.0.1</vue.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
 
     <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+
+    <vue.version>1.0.1</vue.version>
+    <aerius.vue.version>1.1.0-AERIUS-SNAPSHOT</aerius.vue.version>
+
     <org.gwtproject.version>2.10.0</org.gwtproject.version>
     <elemental2.verion>1.1.0</elemental2.verion>
 
@@ -122,7 +126,7 @@
       <dependency>
         <groupId>com.axellience</groupId>
         <artifactId>vue-gwt-processors</artifactId>
-        <version>${vue.version}</version>
+        <version>${aerius.vue.version}</version>
         <optional>true</optional>
       </dependency>
       </dependencies>
