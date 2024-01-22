@@ -35,16 +35,16 @@ public class LayerProps implements Serializable {
   private String name;
 
   /**
-   * The minimum scale at which data will be visible. If scale becomes larger nothing will be shown. If the value is < 0 it means there is no min
+   * The minimum scale at which data will be visible. If scale becomes larger nothing will be shown. If the value is null it means there is no min
    * scale.
    */
-  private float minScale;
+  private Double minScale;
 
   /**
-   * The maximum scale for which data is available. If scale comes below this value nothing will be shown. If the value is < 0 it means there is no
+   * The maximum scale for which data is available. If scale comes below this value nothing will be shown. If the value is null it means there is no
    * max scale.
    */
-  private float maxScale;
+  private Double maxScale;
 
   /**
    * The begin year at which data starts becoming visible. If not set, but end year is, everything &lt;= end year is allowed.
@@ -110,11 +110,11 @@ public class LayerProps implements Serializable {
     return name;
   }
 
-  public float getMinScale() {
+  public Double getMinScale() {
     return minScale;
   }
 
-  public float getMaxScale() {
+  public Double getMaxScale() {
     return maxScale;
   }
 
@@ -162,11 +162,11 @@ public class LayerProps implements Serializable {
     this.name = name;
   }
 
-  public void setMinScale(final float minScale) {
+  public void setMinScale(final Double minScale) {
     this.minScale = minScale;
   }
 
-  public void setMaxScale(final float maxScale) {
+  public void setMaxScale(final Double maxScale) {
     this.maxScale = maxScale;
   }
 

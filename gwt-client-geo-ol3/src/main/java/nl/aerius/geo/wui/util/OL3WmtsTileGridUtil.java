@@ -19,6 +19,7 @@ package nl.aerius.geo.wui.util;
 import java.util.List;
 
 import ol.Coordinate;
+import ol.Extent;
 import ol.OLFactory;
 import ol.proj.Projection;
 import ol.tilegrid.WmtsTileGrid;
@@ -26,37 +27,34 @@ import ol.tilegrid.WmtsTileGridOptions;
 
 public final class OL3WmtsTileGridUtil {
 
-  /**
-   * Magic constant extracted from the OpenLayers source code
-   */
-  private static final double PIXEL_SIZE_IN_METERS = 0.28e-3;
-
   private OL3WmtsTileGridUtil() {
   }
 
   /**
-   * Constructs a WmtsTileGrid from a resolutions list, origin and projection
+   * Constructs a WmtsTileGrid from a scale list, origin and projection
    *
-   * @param resolutionList resolutions list (size determines number of zoomlevels)
+   * @param scaleList scale list (size determines number of zoomlevels)
    * @param origin origin of the tile grid
    * @param projection projection of the tile grid
+   * @param extent extent of the tile grid
    * @return constructed WmtsTileGrid
    */
-  public static WmtsTileGrid createWmtsTileGrid(final List<Double> resolutionList, final Coordinate origin,
-      final Projection projection) {
+  public static WmtsTileGrid createWmtsTileGrid(final List<Double> scaleList, final Coordinate origin,
+      final Projection projection, final Extent extent) {
     final WmtsTileGridOptions wmtsTileGridOptions = OLFactory.createOptions();
 
-    final double[] resolutions = new double[resolutionList.size()];
-    final String[] matrixIds = new String[resolutionList.size()];
+    final double[] resolutions = new double[scaleList.size()];
+    final String[] matrixIds = new String[scaleList.size()];
 
-    for (int i = 0; i < resolutionList.size(); i++) {
+    for (int i = 0; i < scaleList.size(); i++) {
       matrixIds[i] = String.valueOf(i);
-      resolutions[i] = (resolutionList.get(i) * PIXEL_SIZE_IN_METERS) / projection.getMetersPerUnit();
+      resolutions[i] = OL3GeometryUtil.scaleToResolution(scaleList.get(i), projection);
     }
 
     wmtsTileGridOptions.setOrigin(origin);
     wmtsTileGridOptions.setResolutions(resolutions);
     wmtsTileGridOptions.setMatrixIds(matrixIds);
+    wmtsTileGridOptions.setExtent(extent);
 
     return new WmtsTileGrid(wmtsTileGridOptions);
   }
