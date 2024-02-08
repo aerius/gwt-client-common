@@ -82,7 +82,10 @@ public final class OL3MapLayerFactory implements MapLayerFactory<Layer> {
     layer.getInfo().setTitle(c.getTitle());
     layer.getInfo().setName(c.getName());
     layer.getInfo().setBundle(c.getBundleName());
-
+    final String attribution = c.getAttribution();
+    if (attribution != null) {
+      layer.asLayer().getSource().setAttributions(attribution);
+    }
     final Projection projection = layer.asLayer().getSource().getProjection();
     if (c.getMinScale() != null && projection != null) {
       layer.asLayer().setMinResolution(OL3GeometryUtil.scaleToResolution(c.getMinScale(), projection));
