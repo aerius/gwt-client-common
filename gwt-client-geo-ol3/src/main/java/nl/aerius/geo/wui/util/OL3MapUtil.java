@@ -30,6 +30,8 @@ import ol.MapOptions;
 import ol.OLFactory;
 import ol.View;
 import ol.ViewOptions;
+import ol.control.Attribution;
+import ol.control.AttributionOptions;
 import ol.control.Control;
 import ol.control.MousePosition;
 import ol.control.ScaleLine;
@@ -82,6 +84,10 @@ public final class OL3MapUtil {
     map.addControl(new Zoom());
     map.addControl(new ZoomSlider());
     map.addControl(new ScaleLine());
+    final AttributionOptions attributionOptions = new AttributionOptions();
+    attributionOptions.setCollapsible(false);
+    attributionOptions.setCollapsed(false);
+    map.addControl(new Attribution(attributionOptions));
 
     final MousePosition mousePosition = new MousePosition();
 
