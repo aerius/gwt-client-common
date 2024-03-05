@@ -34,7 +34,7 @@ public class ColorLabelsLegend implements Legend {
   private String outlineColor;
   private Integer[] iconSizes;
   private LegendType icon;
-  private Object[] filterables;
+  private String[] filterables;
 
   // Needed for GWT.
   public ColorLabelsLegend() {
@@ -117,11 +117,11 @@ public class ColorLabelsLegend implements Legend {
     this.outlineColor = outlineColor;
   }
 
-  public Object[] getFilterables() {
+  public String[] getFilterables() {
     return filterables;
   }
 
-  public void setFilterables(final Object[] filterables) {
+  public void setFilterables(final String[] filterables) {
     this.filterables = filterables;
   }
 
@@ -153,11 +153,11 @@ public class ColorLabelsLegend implements Legend {
    * @param iconSize optional iconSize
    * @param filterable Filterable to use for this item.
    */
-  public void addItem(final String label, final String color, final Integer iconSize, final Object filterable) {
+  public void addItem(final String label, final String color, final Integer iconSize, final String filterable) {
     addItem(label, color, iconSize);
     this.filterables = filterables == null
-        ? new Object[] {filterable}
-        : Stream.concat(Arrays.stream(this.filterables), Stream.of(filterable)).toArray(Object[]::new);
+        ? new String[] {filterable}
+        : Stream.concat(Arrays.stream(this.filterables), Stream.of(filterable)).toArray(String[]::new);
   }
 
   @Override
