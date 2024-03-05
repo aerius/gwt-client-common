@@ -34,6 +34,7 @@ public class ColorLabelsLegend implements Legend {
   private String outlineColor;
   private Integer[] iconSizes;
   private LegendType icon;
+  private Object[] filterables;
 
   // Needed for GWT.
   public ColorLabelsLegend() {
@@ -116,6 +117,14 @@ public class ColorLabelsLegend implements Legend {
     this.outlineColor = outlineColor;
   }
 
+  public Object[] getFilterables() {
+    return filterables;
+  }
+
+  public void setFilterables(final Object[] filterables) {
+    this.filterables = filterables;
+  }
+
   /**
    * Get the amount of legend items.
    *
@@ -135,6 +144,20 @@ public class ColorLabelsLegend implements Legend {
     this.labels = Stream.concat(Arrays.stream(this.labels), Stream.of(label)).toArray(String[]::new);
     this.colors = Stream.concat(Arrays.stream(this.colors), Stream.of(color)).toArray(String[]::new);
     this.iconSizes = Stream.concat(Arrays.stream(this.iconSizes), Stream.of(iconSize)).toArray(Integer[]::new);
+  }
+
+  /**
+   * Adds a single item to the legend
+   * @param label string label
+   * @param color string color
+   * @param iconSize optional iconSize
+   * @param filterable Filterable to use for this item.
+   */
+  public void addItem(final String label, final String color, final Integer iconSize, final Object filterable) {
+    addItem(label, color, iconSize);
+    this.filterables = filterables == null
+        ? new Object[] {filterable}
+        : Stream.concat(Arrays.stream(this.filterables), Stream.of(filterable)).toArray(Object[]::new);
   }
 
   @Override
