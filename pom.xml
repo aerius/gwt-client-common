@@ -65,7 +65,7 @@
     <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
 
     <vue.version>1.0.1</vue.version>
-    <aerius.vue.version>1.1.0-AERIUS-SNAPSHOT</aerius.vue.version>
+    <aerius.vue.version>1.1.0-AERIUS</aerius.vue.version>
 
     <org.gwtproject.version>2.10.0</org.gwtproject.version>
     <elemental2.verion>1.1.0</elemental2.verion>
