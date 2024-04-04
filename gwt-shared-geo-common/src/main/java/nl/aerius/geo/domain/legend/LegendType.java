@@ -24,6 +24,7 @@ public enum LegendType {
   LINE(true),
   LINEDASH(true),
   ROAD(true),
+  SQUARE(true),
   TEXT(false);
 
   private final boolean colorLegend;
