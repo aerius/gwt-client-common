@@ -10,13 +10,14 @@ jobs:
 
     steps:
       - name: Check out github-actions repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: aerius/github-actions
           path: aerius-github-actions
-          ref: v1.0.2
+          ref: v1.1
 
-      - uses: aerius/github-actions/events/pull_request-event-action@v1.0.2
+      - uses: aerius/github-actions/events/pull_request-event-action@v1.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JDK_VERSION: 11
 
