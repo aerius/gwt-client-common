@@ -19,5 +19,3 @@ jobs:
       - uses: aerius/github-actions/events/pull_request-event-action@v1.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JDK_VERSION: 11
-
