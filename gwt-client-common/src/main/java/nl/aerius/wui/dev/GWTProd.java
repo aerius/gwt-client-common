@@ -16,12 +16,16 @@
  */
 package nl.aerius.wui.dev;
 
+import java.util.logging.Logger;
+
 import elemental2.dom.DomGlobal;
 
 /**
  * Apparently varargs don't work swimmingly, so implement a bunch of overloads instead.
  */
 public final class GWTProd {
+  private static final Logger LOGGER = Logger.getLogger("GWTProd");
+
   private static boolean dev = true;
 
   private GWTProd() {}
@@ -71,21 +75,37 @@ public final class GWTProd {
   }
 
   public static void error(final Object msg) {
-    DomGlobal.console.warn(msg);
+    if (dev) {
+      DomGlobal.console.error(msg);
+    } else {
+      LOGGER.severe(safeObjecString(msg));
+    }
     tryReport(msg);
   }
 
   public static void error(final Object a, final Object b) {
-    DomGlobal.console.error(a, b);
+    if (dev) {
+      DomGlobal.console.error(a, b);
+    } else {
+      LOGGER.severe(safeObjecString(a) + "-" + safeObjecString(b));
+    }
     tryReport(a);
     tryReport(b);
   }
 
   public static void error(final Object a, final Object b, final Object c) {
-    DomGlobal.console.error(a, b, c);
+    if (dev) {
+      DomGlobal.console.error(a, b, c);
+    } else {
+      LOGGER.severe(safeObjecString(a) + "-" + safeObjecString(b) + "-" + safeObjecString(c));
+    }
     tryReport(a);
     tryReport(b);
     tryReport(c);
+  }
+
+  private static String safeObjecString(final Object msg) {
+    return msg == null ? "null" : msg.toString();
   }
 
   private static void tryReport(final Object ex) {
