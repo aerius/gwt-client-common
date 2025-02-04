@@ -16,81 +16,61 @@
  */
 package nl.aerius.wui.dev;
 
+import java.util.stream.Stream;
+
 import elemental2.dom.DomGlobal;
 
 /**
- * Apparently varargs don't work swimmingly, so implement a bunch of overloads instead.
+ * Conditional log in the browser console.
  */
 public final class GWTProd {
+  private static boolean debug = false;
   private static boolean dev = true;
 
   private GWTProd() {}
 
+  public static void setDebug(final boolean debug) {
+    GWTProd.debug = debug;
+  }
+
   public static void setIsDev(final boolean dev) {
     GWTProd.dev = dev;
+  }
+
+  public static boolean isDebug() {
+    return debug;
   }
 
   public static boolean isDev() {
     return dev;
   }
 
-  public static void log(final Object msg) {
-    DomGlobal.console.log(msg);
+  public static void log(final Object... msg) {
+    logIfDebug(() -> DomGlobal.console.log(msg));
   }
 
-  public static void log(final Object a, final Object b) {
-    DomGlobal.console.log(a, b);
+  public static void info(final Object... msg) {
+    logIfDebug(() -> DomGlobal.console.info(msg));
   }
 
-  public static void log(final Object a, final Object b, final Object c) {
-    DomGlobal.console.log(a, b, c);
+  public static void warn(final Object... msg) {
+    logIfDebug(() -> DomGlobal.console.warn(msg));
   }
 
-  public static void info(final Object msg) {
-    DomGlobal.console.info(msg);
+  public static void error(final Object... msg) {
+    logIfDebug(() -> {
+      DomGlobal.console.error(msg);
+      tryReport(msg);
+    });
   }
 
-  public static void info(final Object a, final Object b) {
-    DomGlobal.console.info(a, b);
+  private static void tryReport(final Object... ex) {
+    Stream.of(ex).filter(e -> e instanceof Throwable).forEach(e -> ((Throwable) e).printStackTrace());
   }
 
-  public static void info(final Object a, final Object b, final Object c) {
-    DomGlobal.console.info(a, b, c);
-  }
-
-  public static void warn(final Object msg) {
-    DomGlobal.console.warn(msg);
-  }
-
-  public static void warn(final Object a, final Object b) {
-    DomGlobal.console.warn(a, b);
-  }
-
-  public static void warn(final Object a, final Object b, final Object c) {
-    DomGlobal.console.warn(a, b, c);
-  }
-
-  public static void error(final Object msg) {
-    DomGlobal.console.warn(msg);
-    tryReport(msg);
-  }
-
-  public static void error(final Object a, final Object b) {
-    DomGlobal.console.error(a, b);
-    tryReport(a);
-    tryReport(b);
-  }
-
-  public static void error(final Object a, final Object b, final Object c) {
-    DomGlobal.console.error(a, b, c);
-    tryReport(a);
-    tryReport(b);
-    tryReport(c);
-  }
-
-  private static void tryReport(final Object ex) {
-    if (ex instanceof Throwable) {
-      ((Throwable) ex).printStackTrace();
+  private static void logIfDebug(final Runnable log) {
+    if (debug) {
+      log.run();
     }
   }
 }
