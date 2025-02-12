@@ -71,7 +71,8 @@
     <org.gwtproject.version>2.12.1</org.gwtproject.version>
     <elemental2.verion>1.2.3</elemental2.verion>
     <guava.version>33.4.0-jre</guava.version>
-    <guice.version>7.0.0</guice.version>
+    <!-- Keep guice on 6.0.0, 7.0.0 doesn't seem to work with GWT gin -->
+    <guice.version>6.0.0</guice.version>
     <gwt.gin.version>2.1.2</gwt.gin.version>
     <gwt.eventbinder.version>1.1.0</gwt.eventbinder.version>
     <gwt-ol3.version>8.5.0</gwt-ol3.version>
