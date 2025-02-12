@@ -19,7 +19,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>nl.aerius</groupId>
+  <parent>
+    <groupId>nl.aerius</groupId>
+    <artifactId>aerius-root-pom</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
+
   <artifactId>gwt-client-common-parent</artifactId>
   <version>1.9.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -58,24 +64,28 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>11</java.version>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-
-    <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-
     <vue.version>1.0.1</vue.version>
     <aerius.vue.version>1.1.0-AERIUS</aerius.vue.version>
+    <aerius.shared-geo.version>6.0.0-5-SNAPSHOT</aerius.shared-geo.version>
 
-    <org.gwtproject.version>2.10.0</org.gwtproject.version>
-    <elemental2.verion>1.1.0</elemental2.verion>
-
-    <aerius-tools.version>1.1.1</aerius-tools.version>
-    <spotless.version>2.5.0</spotless.version>
+    <org.gwtproject.version>2.12.1</org.gwtproject.version>
+    <elemental2.verion>1.2.3</elemental2.verion>
+    <guava.version>33.4.0-jre</guava.version>
+    <guice.version>7.0.0</guice.version>
+    <gwt.gin.version>2.1.2</gwt.gin.version>
+    <gwt.eventbinder.version>1.1.0</gwt.eventbinder.version>
+    <gwt-ol3.version>8.5.0</gwt-ol3.version>
+    
+    <gwt-maven-plugin.version>1.1.0</gwt-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>nl.aerius</groupId>
+        <artifactId>shared-geo</artifactId>
+        <version>${aerius.shared-geo.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.gwtproject</groupId>
         <artifactId>gwt</artifactId>
@@ -86,27 +96,27 @@
       <dependency>
         <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
-        <version>6.0.0</version>
+        <version>${guice.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.inject.extensions</groupId>
         <artifactId>guice-assistedinject</artifactId>
-        <version>6.0.0</version>
+        <version>${guice.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>32.1.3-jre</version>
+        <version>${guava.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.gwt.inject</groupId>
         <artifactId>gin</artifactId>
-        <version>2.1.2</version>
+        <version>${gwt.gin.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.gwt.eventbinder</groupId>
         <artifactId>eventbinder</artifactId>
-        <version>1.1.0</version>
+        <version>${gwt.eventbinder.version}</version>
       </dependency>
       <dependency>
         <groupId>com.google.elemental2</groupId>
@@ -129,7 +139,13 @@
         <version>${aerius.vue.version}</version>
         <optional>true</optional>
       </dependency>
-      </dependencies>
+      <dependency>
+        <groupId>com.github.tdesjardins</groupId>
+        <artifactId>gwt-ol3</artifactId>
+        <version>${gwt-ol3.version}</version>
+        <type>gwt-lib</type>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
 
   <repositories>
@@ -156,25 +172,9 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.4</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${maven.compiler.plugin.version}</version>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-          </configuration>
-        </plugin>
-        <plugin>
           <groupId>net.ltgt.gwt.maven</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
-          <version>1.0.1</version>
+          <version>${gwt-maven-plugin.version}</version>
           <extensions>true</extensions>
           <configuration>
             <sourceLevel>${java.version}</sourceLevel>
@@ -188,8 +188,8 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.1</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -198,54 +198,6 @@
               </goals>
             </execution>
           </executions>
-        </plugin>
-        <plugin>
-          <groupId>com.diffplug.spotless</groupId>
-          <artifactId>spotless-maven-plugin</artifactId>
-          <version>${spotless.version}</version>
-          <configuration>
-            <formats>
-              <format>
-                <includes>
-                  <include>pom.xml</include>
-                </includes>
-                <licenseHeader>
-                  <file>pom-xml-header.txt</file>
-                  <delimiter>&lt;project</delimiter>
-                </licenseHeader>
-                <trimTrailingWhitespace />
-                <endWithNewline />
-                <eclipseWtp>
-                  <type>XML</type>
-                  <files>
-                    <file>pom-xml.prefs</file>
-                  </files>
-                </eclipseWtp>
-              </format>
-            </formats>
-            <java>
-              <includes>
-                <include>src/*/java/nl/aerius/**/*.java</include>
-              </includes>
-              <licenseHeader>
-                <file>checkstyle-header.txt</file>
-              </licenseHeader>
-              <eclipse>
-                <file>eclipse_code_formatter_profile.xml</file>
-              </eclipse>
-              <importOrder>
-                <file>eclipse.importorder</file>
-              </importOrder>
-            </java>
-          </configuration>
-
-          <dependencies>
-            <dependency>
-              <groupId>nl.aerius</groupId>
-              <artifactId>tools</artifactId>
-              <version>${aerius-tools.version}</version>
-            </dependency>
-          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
