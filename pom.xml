@@ -63,6 +63,9 @@
   </distributionManagement>
 
   <properties>
+    <!-- For GWT, keep target java version on 17 to avoid using unusable language features -->
+    <java.version>17</java.version>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <vue.version>1.0.1</vue.version>
     <aerius.vue.version>1.1.0-AERIUS</aerius.vue.version>
