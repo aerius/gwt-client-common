@@ -43,7 +43,6 @@
     <dependency>
       <groupId>com.github.tdesjardins</groupId>
       <artifactId>gwt-ol3</artifactId>
-      <version>8.4.1</version>
       <type>gwt-lib</type>
     </dependency>
     <dependency>
