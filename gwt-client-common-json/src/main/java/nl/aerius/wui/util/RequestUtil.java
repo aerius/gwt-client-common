@@ -29,7 +29,7 @@ import elemental2.dom.XMLHttpRequest;
 
 import nl.aerius.wui.exception.HttpRequestException;
 
-public class RequestUtil {
+public final class RequestUtil {
 
   private RequestUtil() {
     // Util class
