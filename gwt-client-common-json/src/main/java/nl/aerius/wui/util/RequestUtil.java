@@ -31,8 +31,6 @@ import nl.aerius.wui.exception.HttpRequestException;
 
 public final class RequestUtil {
 
-  private static final int XML_HTTP_REQUEST_TIMEOUT_MS = 10_000;
-
   private RequestUtil() {
     // Util class
   }
@@ -142,7 +140,6 @@ public final class RequestUtil {
     addEventListeners(req, callback);
 
     req.open(method, url);
-    req.timeout = XML_HTTP_REQUEST_TIMEOUT_MS;
     additionalHeaders.forEach(req::setRequestHeader);
     return req;
   }

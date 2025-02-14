@@ -16,7 +16,9 @@
  */
 package nl.aerius.wui.dev;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import elemental2.dom.DomGlobal;
 
@@ -75,18 +77,16 @@ public final class GWTProd {
   }
 
   public static void error(final Object msg) {
-    if (dev) {
-      DomGlobal.console.error(msg);
-    } else {
+    DomGlobal.console.error(msg);
+    if (!dev) {
       LOGGER.severe(safeObjecString(msg));
     }
     tryReport(msg);
   }
 
   public static void error(final Object a, final Object b) {
-    if (dev) {
-      DomGlobal.console.error(a, b);
-    } else {
+    DomGlobal.console.error(a, b);
+    if (!dev) {
       LOGGER.severe(safeObjecString(a) + "-" + safeObjecString(b));
     }
     tryReport(a);
@@ -94,9 +94,8 @@ public final class GWTProd {
   }
 
   public static void error(final Object a, final Object b, final Object c) {
-    if (dev) {
-      DomGlobal.console.error(a, b, c);
-    } else {
+    DomGlobal.console.error(a, b, c);
+    if (!dev) {
       LOGGER.severe(safeObjecString(a) + "-" + safeObjecString(b) + "-" + safeObjecString(c));
     }
     tryReport(a);
@@ -105,11 +104,14 @@ public final class GWTProd {
   }
 
   private static String safeObjecString(final Object msg) {
-    return msg == null ? "null" : msg.toString();
+    return (msg == null ? "null" : msg.toString())
+        + (msg instanceof Throwable
+            ? (" " + Arrays.asList(((Throwable) msg).getStackTrace()).stream().map(StackTraceElement::toString).collect(Collectors.joining("|")))
+            : "");
   }
 
   private static void tryReport(final Object ex) {
-    if (ex instanceof Throwable) {
+    if (dev && ex instanceof Throwable) {
       ((Throwable) ex).printStackTrace();
     }
   }
