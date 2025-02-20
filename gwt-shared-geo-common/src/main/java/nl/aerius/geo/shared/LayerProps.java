@@ -118,6 +118,14 @@ public class LayerProps implements Serializable {
     return maxScale;
   }
 
+  public Integer getBeginYear() {
+    return beginYear;
+  }
+
+  public Integer getEndYear() {
+    return endYear;
+  }
+
   public Legend getLegend() {
     return legend;
   }
