@@ -43,9 +43,7 @@ public abstract class LayerProps implements Serializable {
   public static final String TYPE_WMS = "WMS";
   public static final String TYPE_WMTS = "WMTS";
   public static final String TYPE_BING = "BING";
-  public static final String TYPE_WMS_AERIUS = "WMS_AERIUS";
   public static final String TYPE_MULTI_WMS = "MULTI_WMS";
-  public static final String TYPE_MULTI_WMS_AERIUS = "MULTI_WMS_AERIUS";
 
   private int id;
 
