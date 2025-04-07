@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
@@ -118,12 +117,17 @@ public class JSONObjectHandle {
   }
 
   public Double getNumber(final String key) {
-    final JSONNumber number = getValue(key).isNumber();
-    if (number == null) {
-      throw new IllegalStateException("Wrongly assumed json value to be Number while it was not: [" + key + "] in " + inner);
+    final JSONValue value = getValue(key);
+    try {
+      return JsonNumericParser.parseAsNumber(value);
+    } catch (final IllegalArgumentException e) {
+      throw new IllegalStateException(
+          "Value for key cannot be parsed as number (incl. special strings): ["
+              + key
+              + "] in "
+              + inner,
+          e);
     }
-
-    return number.doubleValue();
   }
 
   public int getInteger(final String key) {
@@ -178,19 +182,21 @@ public class JSONObjectHandle {
   }
 
   public Optional<Double> getNumberOptional(final String key) {
-    if (has(key) && get(key).isNumber()) {
-      return Optional.of(getNumber(key));
-    } else {
-      return Optional.empty();
+    if (has(key)) {
+      final JSONValue value = getValue(key);
+      if (JsonNumericParser.isRepresentingNumber(value)) {
+        try {
+          return Optional.of(JsonNumericParser.parseAsNumber(value));
+        } catch (final IllegalArgumentException e) {
+          return Optional.empty();
+        }
+      }
     }
+    return Optional.empty();
   }
 
   public Optional<Integer> getIntegerOptional(final String key) {
-    if (has(key) && get(key).isNumber()) {
-      return Optional.of(getInteger(key));
-    } else {
-      return Optional.empty();
-    }
+    return getNumberOptional(key).map(Double::intValue);
   }
 
   public static JSONObjectHandle fromJson(final JSONValue json) {
