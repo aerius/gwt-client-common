@@ -19,18 +19,18 @@ package nl.aerius.geo.shared;
 import java.util.LinkedHashMap;
 
 public class LayerMultiWMSProps<T> extends LayerWMSProps {
-  private static final long serialVersionUID = -5981232816812071542L;
+  private static final long serialVersionUID = 1L;
 
   // key = type, value = title
-  private LinkedHashMap<? extends Object, T> types;
+  private LinkedHashMap<String, String> types;
 
   private boolean useRangeFilter;
 
-  public LinkedHashMap<? extends Object, T> getTypes() {
+  public LinkedHashMap<String, String> getTypes() {
     return types;
   }
 
-  public void setTypes(final LinkedHashMap<? extends Object, T> types) {
+  public void setTypes(final LinkedHashMap<String, String> types) {
     this.types = types;
   }
 

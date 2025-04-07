@@ -23,31 +23,31 @@ import java.util.HashMap;
  * Layer properties for WMS layers.
  */
 public class LayerWMSProps extends LayerProps implements Serializable {
-  private static final long serialVersionUID = 4407417224031235525L;
+  private static final long serialVersionUID = 1L;
 
   /**
    * Viewparam filter. Basic version of simpleFilter; limited to params explicitly configured in the geoserver.
    *
    * Params provided will be encoded as <pre>[key]:[value]</pre> and joined with <pre>;</pre>
    */
-  private HashMap<String, Object> paramFilters;
+  private HashMap<String, String> paramFilters;
 
   /**
    * If the wms is tiled this sets the size of the tile. If the value is 0 no tiling is used.
    */
   private int tileSize;
 
-  public HashMap<String, Object> getParamFilters() {
+  public HashMap<String, String> getParamFilters() {
     return paramFilters;
   }
 
-  public void setParamFilters(final HashMap<String, Object> paramFilters) {
+  public void setParamFilters(final HashMap<String, String> paramFilters) {
     this.paramFilters = paramFilters;
   }
 
-  public void setParamFilter(final String key, final Object value) {
+  public void setParamFilter(final String key, final String value) {
     if (paramFilters == null) {
-      paramFilters = new HashMap<String, Object>();
+      paramFilters = new HashMap<>();
     }
 
     paramFilters.put(key, value);
