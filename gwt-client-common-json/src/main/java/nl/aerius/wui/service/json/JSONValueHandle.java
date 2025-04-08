@@ -30,46 +30,109 @@ public class JSONValueHandle {
   }
 
   public boolean isString() {
-    return inner.isString() != null;
+    return inner != null && inner.isString() != null;
   }
 
   public String asString() {
+    if (inner == null || inner.isString() == null) {
+      throw new IllegalStateException("Value is not a String");
+    }
     return inner.isString().stringValue();
   }
 
+  /**
+   * Returns the integer value of this JSONValue.
+   * Delegates to asNumber() and casts the result to int.
+   * 
+   * @return The integer value.
+   * @throws IllegalStateException if the value cannot be converted to a number.
+   */
   public Integer asInteger() {
-    return (int) inner.isNumber().doubleValue();
+    // Rely on asNumber for parsing logic (including strings like "Infinity")
+    // Note: Casting Infinity/NaN to int results in Integer.MAX_VALUE/MIN_VALUE/0
+    // respectively.
+    return asNumber().intValue();
   }
 
+  /**
+   * Returns the double value of this JSONValue.
+   * Uses JsonNumericParser to handle JSONNumber and special strings ("Infinity",
+   * etc.).
+   *
+   * @return The double value.
+   * @throws IllegalStateException if the value cannot be converted to a number.
+   */
   public Double asNumber() {
-    return inner.isNumber().doubleValue();
+    try {
+      return JsonNumericParser.parseAsNumber(this.inner);
+    } catch (final IllegalArgumentException e) {
+      // Convert to IllegalStateException for consistency with other 'as' methods
+      throw new IllegalStateException(
+          "Cannot convert value to number: " + (this.inner != null ? this.inner.toString() : "null"), e);
+    }
   }
+
+  /**
+   * Returns the long value of this JSONValue.
+   * Delegates to asNumber() and casts the result to long.
+   * 
+   * @return The long value.
+   * @throws IllegalStateException if the value cannot be converted to a number.
+   */
+  public Long asLong() {
+    // Rely on asNumber for parsing logic (including strings like "Infinity")
+    // Note: Casting Infinity/NaN to long results in Long.MAX_VALUE/MIN_VALUE/0
+    // respectively.
+    return asNumber().longValue();
+  }
+
 
   public boolean isObject() {
-    return inner.isObject() != null;
+    return inner != null && inner.isObject() != null;
   }
 
   public JSONObjectHandle asObjectHandle() {
+    if (inner == null || inner.isObject() == null) {
+      throw new IllegalStateException("Value is not an Object");
+    }
     return new JSONObjectHandle(inner.isObject());
   }
 
   public boolean isArray() {
-    return inner.isArray() != null;
+    return inner != null && inner.isArray() != null;
   }
 
   public JSONArrayHandle asArray() {
+    if (inner == null || inner.isArray() == null) {
+      throw new IllegalStateException("Value is not an Array");
+    }
     return new JSONArrayHandle(inner.isArray());
   }
 
+  /**
+   * Checks if this JSONValue represents a number.
+   * Delegates to JsonNumericParser.isRepresentingNumber.
+   *
+   * @return true if the value is a JSONNumber or a special FP string, false
+   *         otherwise.
+   */
   public boolean isNumber() {
-    return inner.isNumber() != null;
+    return JsonNumericParser.isRepresentingNumber(this.inner);
   }
 
   public boolean isBoolean() {
-    return inner.isBoolean() != null;
+    return inner != null && inner.isBoolean() != null;
+  }
+
+  public boolean asBoolean() {
+    if (inner == null || inner.isBoolean() == null) {
+      throw new IllegalStateException("Value is not a Boolean");
+    }
+    return inner.isBoolean().booleanValue();
   }
 
   public boolean isNull() {
-    return inner.isNull() != null;
+    return inner == null || inner.isNull() != null;
   }
+
 }
