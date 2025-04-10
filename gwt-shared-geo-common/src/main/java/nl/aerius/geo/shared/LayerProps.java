@@ -18,14 +18,32 @@ package nl.aerius.geo.shared;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 import nl.aerius.geo.domain.legend.Legend;
 
 /**
  * Properties for a specific Layer. The properties contain additional configuration settings not available in other data.
  */
-public class LayerProps implements Serializable {
+@JsonTypeInfo(property = LayerProps.TYPE_PROPERTY, use = Id.NAME)
+@JsonSubTypes({
+    @Type(value = LayerWMSProps.class, name = LayerProps.TYPE_WMS),
+    @Type(value = LayerWMTSProps.class, name = LayerProps.TYPE_WMTS),
+    @Type(value = LayerBingProps.class, name = LayerProps.TYPE_BING),
+    @Type(value = LayerMultiWMSProps.class, name = LayerProps.TYPE_MULTI_WMS),
+})
+public abstract class LayerProps implements Serializable {
 
   private static final long serialVersionUID = 2L;
+
+  public static final String TYPE_PROPERTY = "layerPropsType";
+  public static final String TYPE_WMS = "WMS";
+  public static final String TYPE_WMTS = "WMTS";
+  public static final String TYPE_BING = "BING";
+  public static final String TYPE_MULTI_WMS = "MULTI_WMS";
 
   private int id;
 
