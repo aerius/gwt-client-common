@@ -18,7 +18,25 @@ package nl.aerius.geo.domain.legend;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+
 /**
  * Data class for properties of a layer legend with only a name.
  */
-public interface Legend extends Serializable {}
+@JsonTypeInfo(property = Legend.LEGEND_TYPE_PROPERTY, use = Id.NAME)
+@JsonSubTypes({
+    @Type(value = MarkerLabelsLegend.class, name = Legend.TYPE_MARKER_LABELS),
+    @Type(value = TextLegend.class, name = Legend.TYPE_TEXT),
+    @Type(value = ColorLabelsLegend.class, name = Legend.TYPE_COLOR_LABELS),
+    @Type(value = ColorRangesLegend.class, name = Legend.TYPE_COLOR_RANGES),
+})
+public interface Legend extends Serializable {
+  public static final String LEGEND_TYPE_PROPERTY = "legendType";
+  public static final String TYPE_MARKER_LABELS = "MARKER_LABELS";
+  public static final String TYPE_TEXT = "TEXT";
+  public static final String TYPE_COLOR_LABELS = "COLOR_LABELS";
+  public static final String TYPE_COLOR_RANGES = "COLOR_RANGES";
+}
