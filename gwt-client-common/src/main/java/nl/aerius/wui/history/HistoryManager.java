@@ -24,7 +24,7 @@ import nl.aerius.wui.place.TokenizedPlace;
 public interface HistoryManager {
 
   /**
-   * Reads the current place, and runs goto that place.
+   * Determines current place based on history and goes to that place.
    */
   void handleCurrentHistory();
 
@@ -33,7 +33,7 @@ public interface HistoryManager {
    *
    * @return place or null if no place present
    */
-  TokenizedPlace getPlace();
+  TokenizedPlace getCurrentPlace();
 
   /**
    * Returns the place give the place token if the token could be matched.
