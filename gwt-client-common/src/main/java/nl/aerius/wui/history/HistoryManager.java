@@ -22,7 +22,24 @@ import nl.aerius.wui.place.TokenizedPlace;
 
 @ImplementedBy(HistoryManagerImpl.class)
 public interface HistoryManager {
+
+  /**
+   * Reads the current place, and runs goto that place.
+   */
   void handleCurrentHistory();
 
+  /**
+   * Returns the current place, can be null if no place present.
+   *
+   * @return place or null if no place present
+   */
+  TokenizedPlace getPlace();
+
+  /**
+   * Returns the place give the place token if the token could be matched.
+   *
+   * @param token Place token.
+   * @return place or null if place could be matched with the token
+   */
   TokenizedPlace getPlace(String token);
 }
