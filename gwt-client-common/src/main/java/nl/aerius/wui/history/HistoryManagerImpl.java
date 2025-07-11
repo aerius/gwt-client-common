@@ -77,6 +77,13 @@ public class HistoryManagerImpl implements HistoryManager {
   }
 
   @Override
+  public TokenizedPlace getCurrentPlace() {
+    final String token = historian.getToken();
+
+    return token == null || token.isEmpty() ? null : mapper.getPlace(token);
+  }
+
+  @Override
   public TokenizedPlace getPlace(final String token) {
     return mapper.getPlace(token);
   }
