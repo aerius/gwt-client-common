@@ -36,10 +36,10 @@ public interface HistoryManager {
   TokenizedPlace getCurrentPlace();
 
   /**
-   * Returns the place give the place token if the token could be matched.
+   * Returns the place given the place token if the token could be matched or null otherwise.
    *
    * @param token Place token.
-   * @return place or null if place could be matched with the token
+   * @return Place or null if place could not be matched with the token
    */
   TokenizedPlace getPlace(String token);
 }
