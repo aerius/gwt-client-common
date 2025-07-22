@@ -41,30 +41,16 @@ public class JSONValueHandle {
   }
 
   /**
-   * Returns the integer value of this JSONValue.
-   * Delegates to asNumber() and casts the result to int.
-   * 
-   * @return The integer value.
-   * @throws IllegalStateException if the value cannot be converted to a number.
-   */
-  public Integer asInteger() {
-    // Rely on asNumber for parsing logic (including strings like "Infinity")
-    // Note: Casting Infinity/NaN to int results in Integer.MAX_VALUE/MIN_VALUE/0
-    // respectively.
-    return asNumber().intValue();
-  }
-
-  /**
    * Returns the double value of this JSONValue.
-   * Uses JsonNumericParser to handle JSONNumber and special strings ("Infinity",
-   * etc.).
+   * Uses JSONNumericParser to handle JSONNumber and special strings ("Infinity",
+       * etc.).
    *
    * @return The double value.
    * @throws IllegalStateException if the value cannot be converted to a number.
    */
   public Double asNumber() {
     try {
-      return JsonNumericParser.parseAsNumber(this.inner);
+      return JSONNumericParser.parseAsNumber(this.inner);
     } catch (final IllegalArgumentException e) {
       // Convert to IllegalStateException for consistency with other 'as' methods
       throw new IllegalStateException(
@@ -73,17 +59,27 @@ public class JSONValueHandle {
   }
 
   /**
+   * Returns the integer value of this JSONValue.
+   * Delegates to asNumber() and casts the result to int.
+   * 
+   * @return The integer value, or null if the json value is null.
+   * @throws IllegalStateException if the value cannot be converted to a number.
+   */
+  public Integer asInteger() {
+    final Double number = asNumber();
+    return number == null ? null : number.intValue();
+  }
+
+  /**
    * Returns the long value of this JSONValue.
    * Delegates to asNumber() and casts the result to long.
    * 
-   * @return The long value.
+   * @return The long value, or null if the json value is null.
    * @throws IllegalStateException if the value cannot be converted to a number.
    */
   public Long asLong() {
-    // Rely on asNumber for parsing logic (including strings like "Infinity")
-    // Note: Casting Infinity/NaN to long results in Long.MAX_VALUE/MIN_VALUE/0
-    // respectively.
-    return asNumber().longValue();
+    final Double number = asNumber();
+    return number == null ? null : number.longValue();
   }
 
 
@@ -111,13 +107,13 @@ public class JSONValueHandle {
 
   /**
    * Checks if this JSONValue represents a number.
-   * Delegates to JsonNumericParser.isRepresentingNumber.
+   * Delegates to JSONNumericParser.isRepresentingNumber.
    *
    * @return true if the value is a JSONNumber or a special FP string, false
    *         otherwise.
    */
   public boolean isNumber() {
-    return JsonNumericParser.isRepresentingNumber(this.inner);
+    return JSONNumericParser.isRepresentingNumber(this.inner);
   }
 
   public boolean isBoolean() {
