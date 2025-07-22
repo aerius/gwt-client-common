@@ -119,7 +119,7 @@ public class JSONObjectHandle {
   public Double getNumber(final String key) {
     final JSONValue value = getValue(key);
     try {
-      return JsonNumericParser.parseAsNumber(value);
+      return JSONNumericParser.parseAsNumber(value);
     } catch (final IllegalArgumentException e) {
       throw new IllegalStateException(
           "Value for key cannot be parsed as number (incl. special strings): ["
@@ -184,9 +184,9 @@ public class JSONObjectHandle {
   public Optional<Double> getNumberOptional(final String key) {
     if (has(key)) {
       final JSONValue value = getValue(key);
-      if (JsonNumericParser.isRepresentingNumber(value)) {
+      if (JSONNumericParser.isRepresentingNumber(value)) {
         try {
-          return Optional.of(JsonNumericParser.parseAsNumber(value));
+          return Optional.of(JSONNumericParser.parseAsNumber(value));
         } catch (final IllegalArgumentException e) {
           return Optional.empty();
         }

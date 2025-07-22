@@ -24,7 +24,7 @@ import com.google.gwt.json.client.JSONValue;
  * Helper for parsing JSONValues that might represent numbers,
  * including special string cases ("Infinity", "-Infinity", "NaN").
  */
-class JsonNumericParser {
+class JSONNumericParser {
 
   /**
    * Checks if the value is a JSONNumber or a special FP string ("Infinity",
@@ -54,6 +54,7 @@ class JsonNumericParser {
   /**
    * Parses the JSONValue as a Double, handling JSONNumber and JSONString.
    * Supports special strings "Infinity", "-Infinity", "NaN".
+   * Also supports null values (JSONNull).
    *
    * @param value The JSONValue to parse.
    * @throws IllegalArgumentException if parsing is not possible.
@@ -61,6 +62,9 @@ class JsonNumericParser {
   static Double parseAsNumber(final JSONValue value) throws IllegalArgumentException {
     if (value == null) {
       throw new IllegalArgumentException("Cannot parse null JSONValue as number");
+    }
+    if (value.isNull() != null) {
+      return null;
     }
     final JSONNumber num = value.isNumber();
     if (num != null) {
