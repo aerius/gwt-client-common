@@ -40,25 +40,59 @@ public class ColorLabelsLegend implements Legend {
   public ColorLabelsLegend() {
   }
 
+  /**
+   * Constructor.
+   *
+   * @deprecated Use the builder class to construct this class.
+   */
+  @Deprecated
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final String unit) {
     this(labels, colors, icon, new Integer[labels.length], unit, DEFAULT_OUTLINE_COLOR);
   }
 
+  /**
+   * Constructor.
+   *
+   * @deprecated Use the builder class to construct this class.
+   */
+  @Deprecated
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon) {
     this(labels, colors, icon, new Integer[labels.length], null, DEFAULT_OUTLINE_COLOR);
   }
 
+  /**
+   * Constructor.
+   *
+   * @deprecated Use the builder class to construct this class.
+   */
+  @Deprecated
   public ColorLabelsLegend(final String[] labels, final String[] colors, final String outlineColor, final LegendType icon) {
     this(labels, colors, icon, new Integer[labels.length], null, outlineColor);
   }
 
+  /**
+   * Constructor.
+   *
+   * @deprecated Use the builder class to construct this class.
+   */
+  @Deprecated
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit) {
     this(labels, colors, icon, iconSizes, unit, DEFAULT_OUTLINE_COLOR);
   }
 
+  /**
+   * Constructor.
+   *
+   * @deprecated Use the builder class to construct this class.
+   */
+  @Deprecated
   public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit,
       final String outlineColor) {
+    this(labels, colors, icon, iconSizes, unit, outlineColor, null);
+  }
 
+  private ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit,
+      final String outlineColor, final String[] filterables) {
     this.unit = unit;
     this.icon = icon;
     assert labels.length == colors.length : "Legend names list different size as colors list for " + this;
@@ -67,24 +101,69 @@ public class ColorLabelsLegend implements Legend {
     this.colors = colors;
     this.iconSizes = iconSizes;
     this.outlineColor = outlineColor;
+    this.filterables = filterables;
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public String[] colors() {
+    return colors;
+  }
+
+  /**
+   * @deprecated Use the {@link #colors()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public String[] getColors() {
     return colors;
   }
 
+  public String[] labels() {
+    return labels;
+  }
+
+  /**
+   * @deprecated Use the {@link #labels()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public String[] getLabels() {
     return labels;
   }
 
+  public LegendType icon() {
+    return icon;
+  }
+
+  /**
+   * @deprecated Use the {@link #icon()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public LegendType getIcon() {
     return icon;
   }
 
+  public String unit() {
+    return unit;
+  }
+
+  /**
+   * @deprecated Use the {@link #unit()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public String getUnit() {
     return unit;
   }
 
+  public Integer[] iconSizes() {
+    return iconSizes;
+  }
+
+  /**
+   * @deprecated Use the {@link #iconSizes()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public Integer[] getIconSizes() {
     return iconSizes;
   }
@@ -109,6 +188,14 @@ public class ColorLabelsLegend implements Legend {
     this.iconSizes = iconSizes;
   }
 
+  public String outlineColor() {
+    return outlineColor;
+  }
+
+  /**
+   * @deprecated Use the {@link #outlineColor()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public String getOutlineColor() {
     return outlineColor;
   }
@@ -117,6 +204,14 @@ public class ColorLabelsLegend implements Legend {
     this.outlineColor = outlineColor;
   }
 
+  public String[] filterables() {
+    return filterables;
+  }
+
+  /**
+   * @deprecated Use the {@link #filterables()} method to be ready for this class to be converted to a record.
+   */
+  @Deprecated
   public String[] getFilterables() {
     return filterables;
   }
@@ -166,7 +261,60 @@ public class ColorLabelsLegend implements Legend {
         "labels=" + Arrays.toString(labels) +
         ", colors=" + Arrays.toString(colors) +
         ", icon=" + icon +
+        ", iconSizes=" + Arrays.toString(iconSizes) +
+        ", unit=" + unit +
         ", outlineColor=" + outlineColor +
+        ", filterables=" + Arrays.toString(filterables) +
         ']';
   }
+
+  public static class Builder {
+    private String unit;
+    private String[] labels;
+    private String[] colors;
+    private String outlineColor = DEFAULT_OUTLINE_COLOR;
+    private Integer[] iconSizes;
+    private LegendType icon;
+    private String[] filterables = new String[0];
+
+    public Builder unit(final String unit) {
+      this.unit = unit;
+      return this;
+    }
+
+    public Builder labels(final String[] labels) {
+      this.labels = labels;
+      return this;
+    }
+
+    public Builder colors(final String[] colors) {
+      this.colors = colors;
+      return this;
+    }
+
+    public Builder outlineColor(final String outlineColor) {
+      this.outlineColor = outlineColor;
+      return this;
+    }
+
+    public Builder iconSizes(final Integer[] iconSizes) {
+      this.iconSizes = iconSizes;
+      return this;
+    }
+
+    public Builder icon(final LegendType icon) {
+      this.icon = icon;
+      return this;
+    }
+
+    public Builder filterables(final String[] filterables) {
+      this.filterables = filterables;
+      return this;
+    }
+
+    public ColorLabelsLegend build() {
+      return new ColorLabelsLegend(labels, colors, icon, iconSizes, unit, outlineColor, filterables);
+    }
+  }
+
 }
