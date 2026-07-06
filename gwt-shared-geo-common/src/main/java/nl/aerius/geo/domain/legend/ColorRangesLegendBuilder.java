@@ -19,10 +19,12 @@ package nl.aerius.geo.domain.legend;
 import java.util.List;
 import java.util.function.Function;
 
+import nl.aerius.geo.domain.legend.ColorLabelsLegend.Builder;
+
 /**
  * Builder class to create a {@link ColorLabelsLegend} with a range labels.
  */
-public class ColorRangesLegendBuilder {
+public class ColorRangesLegendBuilder extends ColorLabelsLegend.Builder {
 
   private static final String LOWER_THAN = "< ";
   private static final String EQUALS_OR_HIGHER_THAN = "≥ ";
@@ -32,11 +34,6 @@ public class ColorRangesLegendBuilder {
   private Function<Double, String> labelDeducer = v -> v.toString();
   private String rangeText;
   private String postfix = "";
-  private LegendType icon;
-  private String unit;
-
-  private ColorRangesLegendBuilder() {
-  }
 
   public static ColorRangesLegendBuilder builder() {
     return new ColorRangesLegendBuilder();
@@ -47,6 +44,15 @@ public class ColorRangesLegendBuilder {
     return this;
   }
 
+  @Override
+  public Builder colors(final String[] colors) {
+    throw new IllegalArgumentException("colors methods should not be called diractly as it will be overriden.");
+  }
+
+  @Override
+  public Builder labels(final String[] labels) {
+    throw new IllegalArgumentException("labels methods should not be called diractly as it will be overriden.");
+  }
   /**
    * Function that is used to convert a range value to a label. If not set the toString method will be set.
    *
@@ -67,23 +73,11 @@ public class ColorRangesLegendBuilder {
     return this;
   }
 
-  public ColorRangesLegendBuilder icon(final LegendType icon) {
-    this.icon = icon;
-    return this;
-  }
-
-  public ColorRangesLegendBuilder unit(final String unit) {
-    this.unit = unit;
-    return this;
-  }
-
+  @Override
   public ColorLabelsLegend build() {
-    return ColorLabelsLegend.builder()
-        .labels(getLabels(colorRanges, labelDeducer, rangeText, postfix))
-        .colors(getColors(colorRanges))
-        .icon(icon)
-        .unit(unit)
-        .build();
+    super.labels(getLabels(colorRanges, labelDeducer, rangeText, postfix));
+    super.colors(getColors(colorRanges));
+    return super.build();
   }
 
   static String[] getLabels(final List<ColorRange> colorRanges, final Function<Double, String> labelDeducer,

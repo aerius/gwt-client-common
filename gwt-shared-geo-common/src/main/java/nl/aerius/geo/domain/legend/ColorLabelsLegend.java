@@ -23,201 +23,11 @@ import java.util.stream.Stream;
  * Data class for legend with a list of legend names with for each name
  * a color.
  */
-public class ColorLabelsLegend implements Legend {
-  private static final long serialVersionUID = 1L;
-
-  private static final String DEFAULT_OUTLINE_COLOR = "white";
-
-  private String unit;
-  private String[] labels;
-  private String[] colors;
-  private String outlineColor;
-  private Integer[] iconSizes;
-  private LegendType icon;
-  private String[] filterables;
-
-  // Needed for GWT.
-  public ColorLabelsLegend() {
-  }
-
-  /**
-   * Constructor.
-   *
-   * @deprecated Use the builder class to construct this class.
-   */
-  @Deprecated
-  public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final String unit) {
-    this(labels, colors, icon, new Integer[labels.length], unit, DEFAULT_OUTLINE_COLOR);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @deprecated Use the builder class to construct this class.
-   */
-  @Deprecated
-  public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon) {
-    this(labels, colors, icon, new Integer[labels.length], null, DEFAULT_OUTLINE_COLOR);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @deprecated Use the builder class to construct this class.
-   */
-  @Deprecated
-  public ColorLabelsLegend(final String[] labels, final String[] colors, final String outlineColor, final LegendType icon) {
-    this(labels, colors, icon, new Integer[labels.length], null, outlineColor);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @deprecated Use the builder class to construct this class.
-   */
-  @Deprecated
-  public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit) {
-    this(labels, colors, icon, iconSizes, unit, DEFAULT_OUTLINE_COLOR);
-  }
-
-  /**
-   * Constructor.
-   *
-   * @deprecated Use the builder class to construct this class.
-   */
-  @Deprecated
-  public ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit,
-      final String outlineColor) {
-    this(labels, colors, icon, iconSizes, unit, outlineColor, null);
-  }
-
-  private ColorLabelsLegend(final String[] labels, final String[] colors, final LegendType icon, final Integer[] iconSizes, final String unit,
-      final String outlineColor, final String[] filterables) {
-    this.unit = unit;
-    this.icon = icon;
-    assert labels.length == colors.length : "Legend names list different size as colors list for " + this;
-    assert icon.hasColorLegend() : "Unsupported LegendType for ColorLabelsLegend: " + icon;
-    this.labels = labels;
-    this.colors = colors;
-    this.iconSizes = iconSizes;
-    this.outlineColor = outlineColor;
-    this.filterables = filterables;
-  }
+public record ColorLabelsLegend(String[] labels, String[] colors, LegendType icon, Integer[] iconSizes, String unit,
+    String outlineColor, String[] filterables) implements Legend {
 
   public static Builder builder() {
     return new Builder();
-  }
-
-  public String[] colors() {
-    return colors;
-  }
-
-  /**
-   * @deprecated Use the {@link #colors()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public String[] getColors() {
-    return colors;
-  }
-
-  public String[] labels() {
-    return labels;
-  }
-
-  /**
-   * @deprecated Use the {@link #labels()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public String[] getLabels() {
-    return labels;
-  }
-
-  public LegendType icon() {
-    return icon;
-  }
-
-  /**
-   * @deprecated Use the {@link #icon()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public LegendType getIcon() {
-    return icon;
-  }
-
-  public String unit() {
-    return unit;
-  }
-
-  /**
-   * @deprecated Use the {@link #unit()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public String getUnit() {
-    return unit;
-  }
-
-  public Integer[] iconSizes() {
-    return iconSizes;
-  }
-
-  /**
-   * @deprecated Use the {@link #iconSizes()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public Integer[] getIconSizes() {
-    return iconSizes;
-  }
-
-  public void setColors(final String[] colors) {
-    this.colors = colors;
-  }
-
-  public void setLabels(final String[] labels) {
-    this.labels = labels;
-  }
-
-  public void setIcon(final LegendType icon) {
-    this.icon = icon;
-  }
-
-  public void setUnit(final String unit) {
-    this.unit = unit;
-  }
-
-  public void setIconSizes(final Integer[] iconSizes) {
-    this.iconSizes = iconSizes;
-  }
-
-  public String outlineColor() {
-    return outlineColor;
-  }
-
-  /**
-   * @deprecated Use the {@link #outlineColor()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public String getOutlineColor() {
-    return outlineColor;
-  }
-
-  public void setOutlineColor(final String outlineColor) {
-    this.outlineColor = outlineColor;
-  }
-
-  public String[] filterables() {
-    return filterables;
-  }
-
-  /**
-   * @deprecated Use the {@link #filterables()} method to be ready for this class to be converted to a record.
-   */
-  @Deprecated
-  public String[] getFilterables() {
-    return filterables;
-  }
-
-  public void setFilterables(final String[] filterables) {
-    this.filterables = filterables;
   }
 
   /**
@@ -227,32 +37,6 @@ public class ColorLabelsLegend implements Legend {
    */
   public int size() {
     return labels.length;
-  }
-
-  /**
-   * Adds a single item to the legend
-   * @param label string label
-   * @param color string color
-   * @param iconSize optional iconSize
-   */
-  public void addItem(final String label, final String color, final Integer iconSize) {
-    this.labels = Stream.concat(Arrays.stream(this.labels), Stream.of(label)).toArray(String[]::new);
-    this.colors = Stream.concat(Arrays.stream(this.colors), Stream.of(color)).toArray(String[]::new);
-    this.iconSizes = Stream.concat(Arrays.stream(this.iconSizes), Stream.of(iconSize)).toArray(Integer[]::new);
-  }
-
-  /**
-   * Adds a single item to the legend
-   * @param label string label
-   * @param color string color
-   * @param iconSize optional iconSize
-   * @param filterable Filterable to use for this item.
-   */
-  public void addItem(final String label, final String color, final Integer iconSize, final String filterable) {
-    addItem(label, color, iconSize);
-    this.filterables = filterables == null
-        ? new String[] {filterable}
-        : Stream.concat(Arrays.stream(this.filterables), Stream.of(filterable)).toArray(String[]::new);
   }
 
   @Override
@@ -269,13 +53,15 @@ public class ColorLabelsLegend implements Legend {
   }
 
   public static class Builder {
+    private static final String DEFAULT_OUTLINE_COLOR = "white";
+
     private String unit;
     private String[] labels;
     private String[] colors;
     private String outlineColor = DEFAULT_OUTLINE_COLOR;
     private Integer[] iconSizes;
     private LegendType icon;
-    private String[] filterables = new String[0];
+    private String[] filterables;
 
     public Builder unit(final String unit) {
       this.unit = unit;
@@ -284,6 +70,9 @@ public class ColorLabelsLegend implements Legend {
 
     public Builder labels(final String[] labels) {
       this.labels = labels;
+      if (iconSizes == null) {
+        iconSizes = new Integer[labels.length];
+      }
       return this;
     }
 
@@ -312,7 +101,40 @@ public class ColorLabelsLegend implements Legend {
       return this;
     }
 
+    /**
+     * Adds a single item to the legend.
+     *
+     * @param label string label
+     * @param color string color
+     * @param iconSize optional iconSize
+     */
+    public void addItem(final String label, final String color, final Integer iconSize) {
+      labels = (labels == null ? Stream.of(label) : Stream.concat(Arrays.stream(labels), Stream.of(label))).toArray(String[]::new);
+      colors = (colors == null ? Stream.of(color) : Stream.concat(Arrays.stream(colors), Stream.of(color))).toArray(String[]::new);
+      if (iconSize != null) {
+        iconSizes = (iconSizes == null ? Stream.of(iconSize) : Stream.concat(Arrays.stream(this.iconSizes), Stream.of(iconSize)))
+            .toArray(Integer[]::new);
+      }
+    }
+
+    /**
+     * Adds a single item to the legend
+     * @param label string label
+     * @param color string color
+     * @param iconSize optional iconSize
+     * @param filterable Filterable to use for this item.
+     */
+    public void addItem(final String label, final String color, final Integer iconSize, final String filterable) {
+      addItem(label, color, iconSize);
+      this.filterables = filterables == null
+          ? new String[] {filterable}
+          : Stream.concat(Arrays.stream(this.filterables), Stream.of(filterable)).toArray(String[]::new);
+    }
+
     public ColorLabelsLegend build() {
+      assert labels.length == colors.length : "Legend names list different size as colors list for " + this;
+      assert icon.hasColorLegend() : "Unsupported LegendType for ColorLabelsLegend: " + icon;
+
       return new ColorLabelsLegend(labels, colors, icon, iconSizes, unit, outlineColor, filterables);
     }
   }
