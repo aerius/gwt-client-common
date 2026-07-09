@@ -46,12 +46,12 @@ public class ColorRangesLegendBuilder extends ColorLabelsLegend.Builder {
 
   @Override
   public Builder colors(final String[] colors) {
-    throw new IllegalArgumentException("colors methods should not be called diractly as it will be overriden.");
+    throw new IllegalArgumentException("colors methods should not be called directly as it will be overriden.");
   }
 
   @Override
   public Builder labels(final String[] labels) {
-    throw new IllegalArgumentException("labels methods should not be called diractly as it will be overriden.");
+    throw new IllegalArgumentException("labels methods should not be called directly as it will be overriden.");
   }
   /**
    * Function that is used to convert a range value to a label. If not set the toString method will be set.

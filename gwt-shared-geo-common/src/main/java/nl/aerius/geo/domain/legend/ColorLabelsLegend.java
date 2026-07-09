@@ -26,6 +26,11 @@ import java.util.stream.Stream;
 public record ColorLabelsLegend(String[] labels, String[] colors, LegendType icon, Integer[] iconSizes, String unit,
     String outlineColor, String[] filterables) implements Legend {
 
+  public ColorLabelsLegend {
+    assert labels.length == colors.length : "Legend names list different size as colors list for " + this;
+    assert icon.hasColorLegend() : "Unsupported LegendType for ColorLabelsLegend: " + icon;
+  }
+
   public static Builder builder() {
     return new Builder();
   }
@@ -132,9 +137,6 @@ public record ColorLabelsLegend(String[] labels, String[] colors, LegendType ico
     }
 
     public ColorLabelsLegend build() {
-      assert labels.length == colors.length : "Legend names list different size as colors list for " + this;
-      assert icon.hasColorLegend() : "Unsupported LegendType for ColorLabelsLegend: " + icon;
-
       return new ColorLabelsLegend(labels, colors, icon, iconSizes, unit, outlineColor, filterables);
     }
   }
