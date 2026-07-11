@@ -78,8 +78,6 @@
     <gwt.gin.version>2.1.2</gwt.gin.version>
     <gwt.eventbinder.version>1.1.0</gwt.eventbinder.version>
     <gwt-ol3.version>8.5.0</gwt-ol3.version>
-    
-    <gwt-maven-plugin.version>1.1.0</gwt-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
