@@ -64,7 +64,6 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
     final Map<String, String> mappings = new HashMap<>();
 
     constructValidators(instance, (name, marker, validator) -> {
-      log("Installing validator: " + name);
       final String fieldName = VueGWTTools.getFieldName(instance, marker);
       validations.set(fieldName, validator);
       mappings.put(name, fieldName);
@@ -73,10 +72,6 @@ public abstract class ValidationOptions<T extends IsVueComponent> implements Cus
     options.set("validations", validations);
     options.set("mappings", mappings);
   }
-
-  public static native void log(Object message) /*-{
-    console.info(message);
-  }-*/;
 
   /**
    * <p>
