@@ -9,13 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out github-actions repo
-        uses: actions/checkout@v4
-        with:
-          repository: aerius/github-actions
-          path: aerius-github-actions
-          ref: v1.1
+      - name: Init the github-actions repo
+        uses: aerius/github-actions/init@v1.1
 
-      - uses: aerius/github-actions/events/pull_request-event-action@v1.1
+      - uses: ./aerius-github-actions/events/pull_request-event-action
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
