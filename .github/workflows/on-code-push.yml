@@ -1,8 +1,10 @@
-name: release-published-event
+name: code-push
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - 'main'
+      - '**_fixes'
 
 jobs:
   job:
@@ -12,10 +14,8 @@ jobs:
       - name: Init the github-actions repo
         uses: aerius/github-actions/init@v1.1
 
-      - uses: ./aerius-github-actions/events/release-event-action
+      - uses: ./aerius-github-actions/events/push-event-action
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-

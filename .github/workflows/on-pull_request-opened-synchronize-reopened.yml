@@ -1,4 +1,4 @@
-name: pull_request-opened-synchronize-reopened-event
+name: pull_request-opened-synchronize-reopened
 
 on:
   pull_request:
@@ -13,5 +13,3 @@ jobs:
         uses: aerius/github-actions/init@v1.1
 
       - uses: ./aerius-github-actions/events/pull_request-event-action
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

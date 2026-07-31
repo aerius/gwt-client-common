@@ -1,0 +1,27 @@
+name: create-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      RELEASE_VERSION:
+        description: 'Release version (e.g. 1.0.0)'
+        required: true
+      NEXT_DEV_VERSION:
+        description: 'Next development version (e.g. 1.0.1-SNAPSHOT)'
+        required: true
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Init the github-actions repo
+        uses: aerius/github-actions/init@v1.1
+
+      - uses: ./aerius-github-actions/extras/maven-release-action
+        with:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          RELEASE_VERSION: ${{ github.event.inputs.RELEASE_VERSION }}
+          NEXT_DEV_VERSION: ${{ github.event.inputs.NEXT_DEV_VERSION }}
