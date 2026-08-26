@@ -8,6 +8,7 @@ on:
 
 jobs:
   job:
+    if: github.repository == 'aerius/gwt-client-common'
     runs-on: ubuntu-latest
 
     steps:
