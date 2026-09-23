@@ -74,7 +74,7 @@ public class JSONObjectHandle {
 
   public String getStringOrDefault(final String key, final String devault) {
     try {
-      return new JSONObjectHandle(inner).getString(key);
+      return getString(key);
     } catch (final IllegalStateException e) {
       return devault;
     }
@@ -162,7 +162,7 @@ public class JSONObjectHandle {
   }
 
   public boolean has(final String key) {
-    return getInner() != null && keySet() != null && keySet().contains(key);
+    return inner != null && key != null && inner.containsKey(key);
   }
 
   public Optional<JSONArrayHandle> getArrayOptional(final String key) {
