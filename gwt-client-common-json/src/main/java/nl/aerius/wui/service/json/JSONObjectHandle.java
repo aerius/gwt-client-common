@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
@@ -153,12 +154,12 @@ public class JSONObjectHandle {
   }
 
   public boolean getBoolean(final String key) {
-    final JSONValue bool = inner.get(key);
+    final JSONBoolean bool = getValue(key).isBoolean();
     if (bool == null) {
-      throw new IllegalStateException("Wrongly assumed json value to be Number while it was not: [" + key + "] in " + inner);
+      throw new IllegalStateException("Wrongly assumed json value to be Boolean while it was not: [" + key + "] in " + inner);
     }
 
-    return bool.isBoolean().booleanValue();
+    return bool.booleanValue();
   }
 
   public boolean has(final String key) {
