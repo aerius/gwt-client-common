@@ -26,13 +26,15 @@ import java.util.Map.Entry;
  * @param <P> specific place this works on
  */
 public abstract class CompositeTokenizer<P extends TokenizedPlace> extends ParameteredTokenizer<P> implements PlaceTokenizer<P> {
+  private static final String QUERY_MARK = "?";
   private static final String ARGUMENT_DIVIDER = "&";
   private static final String VALUE_DIVIDER = "=";
 
   @Override
   public final P getPlace(final String token) {
     final Map<String, String> values = new HashMap<String, String>();
-    final String[] args = token.split(ARGUMENT_DIVIDER);
+    final String query = token.startsWith(QUERY_MARK) ? token.substring(QUERY_MARK.length()) : token;
+    final String[] args = query.split(ARGUMENT_DIVIDER);
 
     for (final String arg : args) {
       final String[] value = arg.split(VALUE_DIVIDER);
