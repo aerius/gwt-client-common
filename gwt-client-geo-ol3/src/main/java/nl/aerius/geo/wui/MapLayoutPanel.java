@@ -16,15 +16,15 @@
  */
 package nl.aerius.geo.wui;
 
-import java.util.stream.IntStream;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.ResizeObserver;
 
 import ol.Coordinate;
 import ol.Extent;
@@ -54,8 +54,6 @@ import nl.aerius.geo.command.MapPanDownCommand;
 import nl.aerius.geo.command.MapPanLeftCommand;
 import nl.aerius.geo.command.MapPanRightCommand;
 import nl.aerius.geo.command.MapPanUpCommand;
-import nl.aerius.geo.command.MapResizeCommand;
-import nl.aerius.geo.command.MapResizeSequenceCommand;
 import nl.aerius.geo.command.MapSetExtentCommand;
 import nl.aerius.geo.command.MapZoomInCommand;
 import nl.aerius.geo.command.MapZoomOutCommand;
@@ -96,6 +94,11 @@ public class MapLayoutPanel implements HasEventBus {
   private boolean deferredZoomScheduled;
   private HandlerRegistration handlers;
 
+  private final ResizeObserver resizeObserver = new ResizeObserver((entries, observer) -> {
+    updateSize();
+    return null;
+  });
+
   /**
    * Constructs the map for the given projection.
    *
@@ -107,7 +110,6 @@ public class MapLayoutPanel implements HasEventBus {
    */
   public void init(final MapProperties mapProps) {
     map = OL3MapUtil.prepareMap(mapProps);
-    Window.addResizeHandler(v -> updateSize());
     map.on("precompose", event -> eventBus.fireEvent(new MapChangeEvent()));
     map.on("rendercomplete", event -> eventBus.fireEvent(new MapRenderCompleteEvent()));
   }
@@ -126,6 +128,8 @@ public class MapLayoutPanel implements HasEventBus {
   void onMapAttachCommand(final MapAttachCommand c) {
     map.setTarget(c.getValue());
     updateSize();
+    resizeObserver.disconnect();
+    resizeObserver.observe(DomGlobal.document.getElementById(c.getValue()));
 
     SchedulerUtil.delay(() -> {
       final Coordinate center = map.getView().getCenter();
@@ -136,6 +140,7 @@ public class MapLayoutPanel implements HasEventBus {
 
   @EventHandler
   void onMapDetachCommand(final MapDetachCommand c) {
+    resizeObserver.disconnect();
     map.setTarget((String) null);
   }
 
@@ -145,20 +150,6 @@ public class MapLayoutPanel implements HasEventBus {
     if (e.getZoomLevel() > 0) {
       map.getView().setZoom(e.getZoomLevel());
     }
-  }
-
-  @EventHandler
-  void onMapResizeSequenceCommand(final MapResizeSequenceCommand c) {
-    updateSize();
-    final int totalTime = 500;
-    final int interval = 5;
-    IntStream.range(0, totalTime / interval)
-        .forEach(i -> SchedulerUtil.delay(() -> updateSize(), i * interval));
-  }
-
-  @EventHandler
-  void onMapResizeCommand(final MapResizeCommand c) {
-    updateSize();
   }
 
   @EventHandler
