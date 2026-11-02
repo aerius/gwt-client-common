@@ -29,6 +29,7 @@ import nl.aerius.wui.place.ApplicationPlace;
 import nl.aerius.wui.place.DefaultPlace;
 import nl.aerius.wui.place.Place;
 import nl.aerius.wui.place.PlaceController;
+import nl.aerius.wui.place.PlaceResolver;
 import nl.aerius.wui.place.TokenizedPlace;
 
 @Singleton
@@ -41,55 +42,44 @@ public class HistoryManagerImpl implements HistoryManager {
 
   private final PlaceController placeController;
 
+  private final PlaceResolver resolver;
+
   private final EventBus eventBus;
 
   private final HTML5Historian historian;
 
   private final PlaceHistoryMapper mapper;
 
-  /**
-   * True while the place for the browser's current entry is being entered, so that place replaces the entry.
-   */
-  private boolean arriving;
-
   @Inject
-  public HistoryManagerImpl(@DefaultPlace final ApplicationPlace defaultPlace, final PlaceController placeController, final EventBus eventBus,
-      final HTML5Historian historian, final PlaceHistoryMapper mapper) {
+  public HistoryManagerImpl(@DefaultPlace final ApplicationPlace defaultPlace, final PlaceController placeController, final PlaceResolver resolver,
+      final EventBus eventBus, final HTML5Historian historian, final PlaceHistoryMapper mapper) {
     this.defaultPlace = defaultPlace;
     this.placeController = placeController;
+    this.resolver = resolver;
     this.historian = historian;
     this.mapper = mapper;
     this.eventBus = eventBus;
 
     EVENT_BINDER.bindEventHandlers(this, eventBus);
 
-    historian.addValueChangeHandler(event -> {
-      if (!handleHistoryToken(event.getValue())) {
-        historian.revert();
-      }
-    });
+    historian.addValueChangeHandler(event -> followBrowser(event.getValue()));
   }
 
+  /**
+   * The app moved, so the browser follows. Adds nothing if the browser is already on this place.
+   */
   @EventHandler
   public void onPlaceChangeEvent(final PlaceChangeEvent e) {
     final Place value = e.getValue();
 
     if (value instanceof TokenizedPlace) {
-      final String token = mapper.getToken((TokenizedPlace) value);
-
-      if (arriving) {
-        historian.replaceItem(token);
-      } else {
-        historian.newItem(token, false);
-      }
+      historian.newItem(mapper.getToken((TokenizedPlace) value), false);
     }
-
-    arriving = false;
   }
 
   @Override
   public void handleCurrentHistory() {
-    handleHistoryToken(historian.getToken());
+    followBrowser(historian.getToken());
   }
 
   @Override
@@ -105,29 +95,29 @@ public class HistoryManagerImpl implements HistoryManager {
   }
 
   /**
-   * Goes to the place for the token, and returns false if the place change was cancelled.
+   * The browser moved, so the app follows. The entry is corrected first, so the place change adds nothing to the history.
    */
-  private boolean handleHistoryToken(final String token) {
-    TokenizedPlace newPlace = null;
+  private void followBrowser(final String token) {
+    final TokenizedPlace requested = placeFor(token);
+    final Place place = resolver.resolve(requested);
+    final Place before = placeController.getPlace();
 
-    if (token == null || token.isEmpty()) {
-      newPlace = defaultPlace;
+    if (place instanceof TokenizedPlace) {
+      historian.replaceItem(mapper.getToken((TokenizedPlace) place));
     }
 
-    if (newPlace == null) {
-      newPlace = getPlace(token);
+    placeController.goTo(place, false);
+
+    if (place != before && placeController.getPlace() == before) {
+      historian.revert();
     }
 
-    if (newPlace == null) {
-      newPlace = defaultPlace;
-    }
+    eventBus.fireEvent(new NotifyHistoryEvent(requested));
+  }
 
-    arriving = true;
-    placeController.goTo(newPlace, false);
-    final boolean entered = !arriving;
-    arriving = false;
+  private TokenizedPlace placeFor(final String token) {
+    final TokenizedPlace place = token == null || token.isEmpty() ? null : getPlace(token);
 
-    eventBus.fireEvent(new NotifyHistoryEvent(newPlace));
-    return entered;
+    return place == null ? defaultPlace : place;
   }
 }
