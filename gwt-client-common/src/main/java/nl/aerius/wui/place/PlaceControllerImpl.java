@@ -34,13 +34,15 @@ public class PlaceControllerImpl implements PlaceController {
   interface PlaceControllerImplEventBinder extends EventBinder<PlaceControllerImpl> {}
 
   private final EventBus eventBus;
+  private final PlaceResolver resolver;
 
   private Place previousPlace;
   private Place where;
 
   @Inject
-  public PlaceControllerImpl(final EventBus eventBus) {
+  public PlaceControllerImpl(final EventBus eventBus, final PlaceResolver resolver) {
     this.eventBus = eventBus;
+    this.resolver = resolver;
 
     EVENT_BINDER.bindEventHandlers(this, eventBus);
   }
@@ -69,7 +71,8 @@ public class PlaceControllerImpl implements PlaceController {
   }
 
   @Override
-  public void goTo(final Place place, final boolean silent) {
+  public void goTo(final Place requested, final boolean silent) {
+    final Place place = resolver.resolve(requested);
     previousPlace = getPlace();
     final Place futureWhere = place;
 
