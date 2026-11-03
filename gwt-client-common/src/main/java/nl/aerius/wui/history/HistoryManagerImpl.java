@@ -108,11 +108,18 @@ public class HistoryManagerImpl implements HistoryManager {
 
     placeController.goTo(place, false);
 
-    if (place != before && placeController.getPlace() == before) {
+    if (isCancelled(place, before)) {
       historian.revert();
     }
 
     eventBus.fireEvent(new NotifyHistoryEvent(requested));
+  }
+
+  /**
+   * A place change was cancelled when the controller still holds the same place object it held before.
+   */
+  private boolean isCancelled(final Place place, final Place before) {
+    return place != before && placeController.getPlace() == before;
   }
 
   private TokenizedPlace placeFor(final String token) {
