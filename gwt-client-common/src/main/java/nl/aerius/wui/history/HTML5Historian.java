@@ -31,11 +31,22 @@ import nl.aerius.wui.util.WebUtil;
 
 @Singleton
 public class HTML5Historian implements Historian, HasValueChangeHandlers<String> {
+  private static final int UNKNOWN_INDEX = -1;
+
   private final EventBus eventBus;
+
+  /**
+   * Position of the current entry, kept in each entry's history state.
+   */
+  private int index;
+  private int lastStep;
+  private int revertIndex = UNKNOWN_INDEX;
 
   @Inject
   public HTML5Historian(final EventBus eventBus) {
     this.eventBus = eventBus;
+    index = Math.max(readIndex(), 0);
+    replaceState(index, Window.Location.getHref());
     initEvent();
   }
 
@@ -59,11 +70,35 @@ public class HTML5Historian implements Historian, HasValueChangeHandlers<String>
       return;
     }
 
-    pushState(WebUtil.getAbsoluteRoot() + token);
+    index++;
+    pushState(index, WebUtil.getAbsoluteRoot() + token);
 
     if (issueEvent) {
       ValueChangeEvent.fire(this, getToken());
     }
+  }
+
+  /**
+   * Replaces the current entry instead of adding one.
+   */
+  public void replaceItem(final String token) {
+    if (getToken().equals(token)) {
+      return;
+    }
+
+    replaceState(index, WebUtil.getAbsoluteRoot() + token);
+  }
+
+  /**
+   * Moves the browser back to the entry it left on the last Back or Forward.
+   */
+  public void revert() {
+    if (lastStep == 0) {
+      return;
+    }
+
+    revertIndex = index - lastStep;
+    go(-lastStep);
   }
 
   @Override
@@ -75,18 +110,40 @@ public class HTML5Historian implements Historian, HasValueChangeHandlers<String>
                                   var that = this;
                                   var oldHandler = $wnd.onpopstate;
                                   $wnd.onpopstate = $entry(function(e) {
-                                  that.@nl.aerius.wui.history.HTML5Historian::onPopState()();
+                                  var index = typeof e.state === 'number' ? e.state : @nl.aerius.wui.history.HTML5Historian::UNKNOWN_INDEX;
+                                  that.@nl.aerius.wui.history.HTML5Historian::onPopState(I)(index);
                                   if (oldHandler) {
                                   oldHandler();
                                   }
                                   });
                                   }-*/;
 
-  private void onPopState() {
-    ValueChangeEvent.fire(this, getToken());
+  private void onPopState(final int newIndex) {
+    final boolean known = newIndex != UNKNOWN_INDEX;
+    final boolean reverted = known && newIndex == revertIndex;
+    lastStep = known ? newIndex - index : 0;
+    index = known ? newIndex : index;
+    revertIndex = UNKNOWN_INDEX;
+
+    if (!reverted) {
+      ValueChangeEvent.fire(this, getToken());
+    }
   }
 
-  private native void pushState(String url) /*-{
-                                            $wnd.history.pushState(null, $doc.title, url);
-                                            }-*/;
+  private native int readIndex() /*-{
+                                 var state = $wnd.history.state;
+                                 return typeof state === 'number' ? state : @nl.aerius.wui.history.HTML5Historian::UNKNOWN_INDEX;
+                                 }-*/;
+
+  private native void pushState(int index, String url) /*-{
+                                                       $wnd.history.pushState(index, $doc.title, url);
+                                                       }-*/;
+
+  private native void replaceState(int index, String url) /*-{
+                                                          $wnd.history.replaceState(index, $doc.title, url);
+                                                          }-*/;
+
+  private native void go(int step) /*-{
+                                   $wnd.history.go(step);
+                                   }-*/;
 }
