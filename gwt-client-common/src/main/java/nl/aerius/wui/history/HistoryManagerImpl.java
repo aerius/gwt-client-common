@@ -116,7 +116,7 @@ public class HistoryManagerImpl implements HistoryManager {
   }
 
   /**
-   * A place change was cancelled when the controller still holds the same place object it held before.
+   * Compares place objects on purpose: a cancelled change leaves the controller on the same object, and asking for the current object is no change.
    */
   private boolean isCancelled(final Place place, final Place before) {
     return place != before && placeController.getPlace() == before;
