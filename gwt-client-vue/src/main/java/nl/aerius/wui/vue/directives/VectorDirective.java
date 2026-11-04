@@ -69,4 +69,11 @@ public class VectorDirective extends VueDirective {
           elem.setAttribute("focusable", false);
         });
   }
+
+  @Override
+  public void unbind(final Element el, final VNodeDirective binding, final VNode vnode) {
+    super.unbind(el, binding, vnode);
+
+    el.innerHTML = "";
+  }
 }
