@@ -31,17 +31,6 @@
 
   <name>AERIUS :: Commons :: gwt-vuelidate :: demo</name>
 
-  <contributors>
-    <contributor>
-      <organization>Ministerie van Landbouw, Visserij, Voedselzekerheid en Natuur</organization>
-      <organizationUrl>https://www.rijksoverheid.nl/ministeries/ministerie-van-landbouw-visserij-voedselzekerheid-en-natuur</organizationUrl>
-    </contributor>
-    <contributor>
-      <organization>UK Government</organization>
-      <organizationUrl>https://www.gov.uk</organizationUrl>
-    </contributor>
-  </contributors>
-
   <profiles>
     <profile>
       <id>all</id>
