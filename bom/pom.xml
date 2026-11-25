@@ -18,16 +18,32 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>nl.aerius</groupId>
-    <artifactId>gwt-client-common-parent</artifactId>
-    <version>1.13.0-SNAPSHOT</version>
-  </parent>
+  <!-- Explicitly no parent, don't want to drag the whole aerius-root-pom dependencymanagement along when importing this. -->
+  <groupId>nl.aerius</groupId>
+  <version>1.13.0-SNAPSHOT</version>
 
   <artifactId>gwt-client-common-bom</artifactId>
   <name>AERIUS :: Common GWT Client BOM</name>
 
   <packaging>pom</packaging>
+
+  <licenses>
+    <license>
+      <name>GNU Affero General Public License</name>
+      <url>https://www.gnu.org/licenses/agpl-3.0.txt</url>
+    </license>
+  </licenses>
+
+  <contributors>
+    <contributor>
+      <organization>Ministerie van Landbouw, Visserij, Voedselzekerheid en Natuur</organization>
+      <organizationUrl>https://www.rijksoverheid.nl/ministeries/ministerie-van-landbouw-visserij-voedselzekerheid-en-natuur</organizationUrl>
+    </contributor>
+    <contributor>
+      <organization>UK Government</organization>
+      <organizationUrl>https://www.gov.uk</organizationUrl>
+    </contributor>
+  </contributors>
 
   <dependencyManagement>
     <dependencies>
