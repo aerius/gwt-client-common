@@ -69,8 +69,8 @@
   </distributionManagement>
 
   <properties>
-    <!-- For GWT, keep target java version on 17 to avoid using unusable language features -->
-    <java.version>17</java.version>
+    <!-- For GWT, keep to specific java version to avoid using unusable language features -->
+    <java.version>${gwt.java.version}</java.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
