@@ -22,7 +22,7 @@
   <parent>
     <groupId>nl.aerius</groupId>
     <artifactId>aerius-root-pom</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0-SNAPSHOT</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
 
@@ -69,88 +69,20 @@
   </distributionManagement>
 
   <properties>
-    <!-- For GWT, keep target java version on 17 to avoid using unusable language features -->
-    <java.version>17</java.version>
+    <!-- For GWT, keep to specific java version to avoid using unusable language features -->
+    <java.version>${gwt.java.version}</java.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <vue.version>1.0.1</vue.version>
-    <aerius.vue.version>1.1.0-AERIUS-1</aerius.vue.version>
-    <aerius.shared-geo.version>6.0.1-2</aerius.shared-geo.version>
-
-    <elemental2.verion>1.2.3</elemental2.verion>
-    <guava.version>33.4.0-jre</guava.version>
-    <!-- Keep guice on 6.0.0, 7.0.0 doesn't seem to work with GWT gin -->
-    <guice.version>6.0.0</guice.version>
-    <gwt.gin.version>2.1.2</gwt.gin.version>
-    <gwt.eventbinder.version>1.1.0</gwt.eventbinder.version>
-    <gwt-ol3.version>8.5.0</gwt-ol3.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>nl.aerius</groupId>
-        <artifactId>shared-geo</artifactId>
-        <version>${aerius.shared-geo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.gwtproject</groupId>
-        <artifactId>gwt</artifactId>
-        <version>${org.gwtproject.version}</version>
+        <artifactId>gwt-client-common-bom</artifactId>
+        <version>${project.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.inject</groupId>
-        <artifactId>guice</artifactId>
-        <version>${guice.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.inject.extensions</groupId>
-        <artifactId>guice-assistedinject</artifactId>
-        <version>${guice.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>${guava.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt.inject</groupId>
-        <artifactId>gin</artifactId>
-        <version>${gwt.gin.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.gwt.eventbinder</groupId>
-        <artifactId>eventbinder</artifactId>
-        <version>${gwt.eventbinder.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.elemental2</groupId>
-        <artifactId>elemental2-core</artifactId>
-        <version>${elemental2.verion}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.elemental2</groupId>
-        <artifactId>elemental2-dom</artifactId>
-        <version>${elemental2.verion}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.axellience</groupId>
-        <artifactId>vue-gwt</artifactId>
-        <version>${vue.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.axellience</groupId>
-        <artifactId>vue-gwt-processors</artifactId>
-        <version>${aerius.vue.version}</version>
-        <optional>true</optional>
-      </dependency>
-      <dependency>
-        <groupId>com.github.tdesjardins</groupId>
-        <artifactId>gwt-ol3</artifactId>
-        <version>${gwt-ol3.version}</version>
-        <type>gwt-lib</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
